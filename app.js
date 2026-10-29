@@ -24,7 +24,7 @@ const HERO_IMAGES = {
   "Floryn": "floryn.webp",
   "Carmilla": "carmilla.webp",
   "Atlas": "atlas.webp",
-  "Minotaur": "minotauro.webp",
+  "Minotaur": "minotaur.webp",
   "Hilda": "hilda.webp",
   "Angela": "angela.webp",
 
