@@ -11,9 +11,22 @@ let activeLane = 'Jungle';
 
 // Imágenes de héroes disponibles
 const HERO_IMAGES = {
+  // ROAM - SS
   "Belerick": "belerick.webp",
   "Gloo": "gloo.webp",
-  "Estes": "estes.webp"
+  "Estes": "estes.webp",
+
+  // ROAM - S
+  "Masha": "masha.webp",
+  "Sun": "sun.webp",
+  "Marcel": "marcel.webp",
+  "Rafaela": "rafaela.webp",
+  "Floryn": "floryn.webp",
+  "Carmilla": "carmilla.webp",
+  "Atlas": "atlas.webp",
+  "Minotaur": "minotaur.webp",
+  "Hilda": "hilda.webp",
+  "Angela": "angela.webp"
 };
 
 function renderTabs() {
