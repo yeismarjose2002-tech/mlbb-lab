@@ -19,7 +19,7 @@ const TIER_DATA = {
   "Jungle": {
     "SS": ["Hirara"],
     "S": ["Sun", "Aulus", "Saber", "Lukas", "Paquito"],
-    "A": ["Nolan", "Barats", "Ling", "Aamon","Hanzo", "Cyclops", "Gusion", "Guinevere"],
+    "A": ["Nolan", "Barats", "Ling", "Aamon", "Hanzo", "Cyclops", "Gusion", "Guinevere"],
     "B": ["Akai", "X.Borg", "Natalia", "Yi Sun-shin", "Suyou", "Aldous", "Dyrroth", "Karina", "Julian", "Bane", "Thamuz", "Fredrinn", "Helcurt", "Harley", "Hayabusa", "Alpha", "Yin"],
     "C": ["Leomord", "Uranus", "Alucard", "Roger"],
     "D": ["Balmond", "Martis", "Zilong", "Joy", "Baxia", "Lancelot", "Fanny"]
