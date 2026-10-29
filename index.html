@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="MLBB LAB: tier list de Mobile Legends por línea, basada en estadísticas de Mythic.">
+<title>MLBB LAB — Tier List</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#inicio"><span class="brand-mark">ML</span><span>MLBB <b>LAB</b><small>META INTELLIGENCE</small></span></a><nav><a href="#tierlist">Tier list</a><a href="#metodo">Metodología</a><a href="#fuente">Fuente</a></nav><span class="status"><i></i> BASE DE DATOS LOCAL</span></header>
+<main id="inicio">
+<section class="hero"><div class="eyebrow">MOBILE LEGENDS · META ANALYSIS</div><h1>Entiende el meta.<br><em>Decide mejor.</em></h1><p>Una lectura organizada del rendimiento de héroes por posición para tomar mejores decisiones en clasificatoria.</p><div class="hero-meta"><span>RANGO: MYTHIC</span><span>FUENTE: MLBB.GG</span><span>DATOS: 28–29 OCT 2026</span></div></section>
+<section id="tierlist" class="panel"><div class="section-head"><div><div class="eyebrow">EXPLORADOR DE HÉROES</div><h2>Tier list</h2><p>Selecciona una línea y consulta la clasificación de cada héroe.</p></div><div class="count" id="heroCount">— HÉROES</div></div>
+<div class="toolbar"><div class="lanes" id="laneTabs"></div><input id="search" type="search" placeholder="Buscar héroe…" autocomplete="off"></div>
+<div id="tierBoard" class="tier-board" aria-live="polite"></div><div id="empty" class="empty" hidden>No se encontraron héroes con ese nombre.</div>
+<div class="source-note">Clasificación automatizada de MLBB.GG · Estadísticas de Mythic de los últimos tres días. La fuente pondera principalmente la tasa de baneos, junto con victorias y selecciones.</div>
+</section>
+<section id="metodo" class="method"><div class="eyebrow">CRITERIO DE LECTURA</div><h2>Una tier no cuenta toda la historia.</h2><p>La clasificación es una referencia estadística, no una orden de selección. El valor de un héroe también depende de la composición aliada, los enfrentamientos, la ejecución y el contexto de la partida.</p><div class="method-grid"><article><b>01 / Datos</b><p>La fuente combina tasas de victoria, selección y baneo.</p></article><article><b>02 / Contexto</b><p>El rendimiento general no garantiza que un héroe sea adecuado para cada draft.</p></article><article><b>03 / Actualización</b><p>Los datos cambian. Comprueba la fecha antes de tomar decisiones.</p></article></div></section>
+<section id="fuente" class="footer-source"><div><div class="eyebrow">TRANSPARENCIA</div><h2>Fuente y actualización</h2><p>Los nombres y tiers de esta plantilla se transcribieron de las páginas de MLBB.GG enlazadas abajo. No es una clasificación oficial de Moonton.</p></div><a href="https://mlbb.gg/tierlist?lane=Jungle" target="_blank" rel="noopener">Consultar MLBB.GG ↗</a></section>
+</main><footer><span>MLBB LAB</span><span>PROYECTO INDEPENDIENTE · NO AFILIADO A MOONTON</span></footer>
+<script src="data.js"></script><script src="app.js"></script>
+</body></html>

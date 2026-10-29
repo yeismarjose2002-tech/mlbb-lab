@@ -1,0 +1,22 @@
+MLBB LAB — PLANTILLA COMPLETA
+
+1. Extrae el ZIP en una carpeta.
+2. Abre index.html con Chrome, Edge o Firefox.
+3. Para editar la tier list, abre data.js con un editor de texto o VS Code.
+4. Cada posición tiene seis grupos: SS, S, A, B, C y D. Agrega, elimina o mueve nombres entre corchetes.
+5. Guarda data.js y recarga index.html en el navegador.
+
+ARCHIVOS
+- index.html: estructura de la página.
+- styles.css: diseño y colores.
+- data.js: datos de héroes y fechas de fuente.
+- app.js: selector de líneas, búsqueda y renderizado.
+
+FUENTE
+https://mlbb.gg/tierlist?lane=Roam
+https://mlbb.gg/tierlist?lane=Exp+Lane
+https://mlbb.gg/tierlist?lane=Jungle
+https://mlbb.gg/tierlist?lane=Mid+Lane
+https://mlbb.gg/tierlist?lane=Gold+Lane
+
+Los datos son una captura de la fuente, no se actualizan automáticamente. MLBB.GG describe su clasificación como basada en estadísticas Mythic de los últimos tres días y combina baneos, victorias y selecciones, dando mayor peso a los baneos. No es una clasificación oficial de Moonton.
