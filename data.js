@@ -2,7 +2,7 @@
 const TIER_DATA = {
   "Roam": {
     "SS": ["Belerick", "Gloo", "Estes"],
-    "S": ["Masha", "Sun", "Marcel", "Rafaela", "Floryn", "Carmilla", "Atlas", "Minotauro", "Hilda", "Angela"],
+    "S": ["Masha", "Sun", "Marcel", "Rafaela", "Floryn", "Carmilla", "Atlas", "Minotaur", "Hilda", "Angela"],
     "A": ["Minsitthar", "Khufra", "Selena", "Silvanna", "Badang", "Lolita", "Diggie", "Kaja", "Tigreal", "Nana", "Guinevere", "Edith"],
     "B": ["Natalia", "Akai", "Helcurt", "Kalea", "Johnson", "Hylos"],
     "C": ["Chou", "Faramis", "Jawhead"],
