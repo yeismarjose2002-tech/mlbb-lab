@@ -40,7 +40,15 @@ const HERO_IMAGES = {
   "Tigreal": "tigreal.webp",
   "Nana": "nana.webp",
   "Guinevere": "guinevere.webp",
-  "Edith": "edith.webp"
+  "Edith": "edith.webp",
+
+  // ROAM - B
+  "Natalia": "natalia.webp",
+  "Akai": "akai.webp",
+  "Helcurt": "helcurt.webp",
+  "Kalea": "kalea.webp",
+  "Johnson": "johnson.webp",
+  "Hylos": "hylos.webp"
 };
 function renderTabs() {
   laneTabs.innerHTML = '';
