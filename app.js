@@ -11,8 +11,6 @@ let activeLane = 'Jungle';
 
 // Imágenes de héroes disponibles
 const HERO_IMAGES = {
-const HERO_IMAGES = {
-const HERO_IMAGES = {
   // ROAM - SS
   "Belerick": "belerick.webp",
   "Gloo": "gloo.webp",
