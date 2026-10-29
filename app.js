@@ -11,7 +11,10 @@ let activeLane = 'Jungle';
 
 // Imágenes de héroes disponibles
 const HERO_IMAGES = {
-  "Aamon": "aamon.jpg"
+  "Aamon": "aamon.jpg",
+  "Belerick": "belerick.jpg",
+  "Gloo": "gloo.jpg",
+  "Estes": "estes.jpg"
 };
 
 function renderTabs() {
