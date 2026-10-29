@@ -12,6 +12,7 @@ let activeLane = 'Jungle';
 // Imágenes de héroes disponibles
 const HERO_IMAGES = {
 const HERO_IMAGES = {
+const HERO_IMAGES = {
   // ROAM - SS
   "Belerick": "belerick.webp",
   "Gloo": "gloo.webp",
@@ -54,7 +55,16 @@ const HERO_IMAGES = {
   // ROAM - C
   "Chou": "chou.webp",
   "Faramis": "faramis.webp",
-  "Jawhead": "jawhead.webp"
+  "Jawhead": "jawhead.webp",
+
+  // ROAM - D
+  "Grock": "grock.webp",
+  "Arlott": "arlott.webp",
+  "Chip": "chip.webp",
+  "Gatotkaca": "gatotkaca.webp",
+  "Franco": "franco.webp",
+  "Mathilda": "mathilda.webp",
+  "Baxia": "baxia.webp"
 };
 function renderTabs() {
   laneTabs.innerHTML = '';
