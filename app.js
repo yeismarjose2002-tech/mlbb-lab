@@ -14,12 +14,10 @@ let activeLane = 'Jungle';
 
 
 const HERO_IMAGES = {
-  // ROAM - SS
+  // ROAM
   "Belerick": "belerick.webp",
   "Gloo": "gloo.webp",
   "Estes": "estes.webp",
-
-  // ROAM - S
   "Masha": "masha.webp",
   "Sun": "sun.webp",
   "Marcel": "marcel.webp",
@@ -30,8 +28,6 @@ const HERO_IMAGES = {
   "Minotaur": "minotaur.webp",
   "Hilda": "hilda.webp",
   "Angela": "angela.webp",
-
-  // ROAM - A
   "Minsitthar": "minsitthar.webp",
   "Khufra": "khufra.webp",
   "Selena": "selena.webp",
@@ -44,21 +40,15 @@ const HERO_IMAGES = {
   "Nana": "nana.webp",
   "Guinevere": "guinevere.webp",
   "Edith": "edith.webp",
-
-  // ROAM - B
   "Natalia": "natalia.webp",
   "Akai": "akai.webp",
   "Helcurt": "helcurt.webp",
   "Kalea": "kalea.webp",
   "Johnson": "johnson.webp",
   "Hylos": "hylos.webp",
-
-  // ROAM - C
   "Chou": "chou.webp",
   "Faramis": "faramis.webp",
   "Jawhead": "jawhead.webp",
-
-  // ROAM - D
   "Grock": "grock.webp",
   "Arlott": "arlott.webp",
   "Chip": "chip.webp",
@@ -67,19 +57,15 @@ const HERO_IMAGES = {
   "Mathilda": "mathilda.webp",
   "Baxia": "baxia.webp",
 
-  // EXP LANE - S
+  // EXP LANE
   "Aulus": "aulus.webp",
   "Lukas": "lukas.webp",
   "Paquito": "paquito.webp",
-  "Alice": "alice.webp",
   "Argus": "argus.webp",
-
-  // EXP LANE - A
+  "Alice": "alice.webp",
   "Barats": "barats.webp",
   "X.Borg": "xborg.webp",
   "Benedetta": "benedetta.webp",
-
-  // EXP LANE - B
   "Aldous": "aldous.webp",
   "Sora": "sora.webp",
   "Khaleed": "khaleed.webp",
@@ -91,32 +77,22 @@ const HERO_IMAGES = {
   "Esmeralda": "esmeralda.webp",
   "Uranus": "uranus.webp",
   "Leomord": "leomord.webp",
-
-  // EXP LANE - C
   "Ruby": "ruby.webp",
   "Lapu-Lapu": "lapulapu.webp",
-
-  // EXP LANE - D
   "Phoveus": "phoveus.webp",
   "Freya": "freya.webp",
   "Martis": "martis.webp",
   "Zilong": "zilong.webp",
   "Valentina": "valentina.webp",
 
-  // JUNGLE - SS
+  // JUNGLE
   "Hirara": "hirara.webp",
-
-  // JUNGLE - S
   "Saber": "saber.webp",
-
-  // JUNGLE - A
   "Nolan": "nolan.webp",
   "Ling": "ling.webp",
   "Hanzo": "hanzo.webp",
   "Cyclops": "cyclops.webp",
   "Gusion": "gusion.webp",
-
-  // JUNGLE - B
   "Aamon": "aamon.webp",
   "Yi Sun-shin": "yisunshin.webp",
   "Suyou": "suyou.webp",
@@ -128,50 +104,58 @@ const HERO_IMAGES = {
   "Hayabusa": "hayabusa.webp",
   "Alpha": "alpha.webp",
   "Yin": "yin.webp",
-
-  // JUNGLE - C
   "Alucard": "alucard.webp",
   "Roger": "roger.webp",
-
-  // JUNGLE - D
   "Balmond": "balmond.webp",
   "Joy": "joy.webp",
   "Lancelot": "lancelot.webp",
   "Fanny": "fanny.webp",
 
-  // MID LANE - SS
+  // MID LANE
   "Eudora": "eudora.webp",
-
-  // MID LANE - S
   "Valir": "valir.webp",
   "Zetian": "zetian.webp",
-
-  // MID LANE - A
   "Novaria": "novaria.webp",
   "Gord": "gord.webp",
   "Kadita": "kadita.webp",
   "Zhask": "zhask.webp",
   "Vexana": "vexana.webp",
   "Kagura": "kagura.webp",
-
-  // MID LANE - B
   "Cecilion": "cecilion.webp",
   "Vale": "vale.webp",
   "Lylia": "lylia.webp",
   "Kimmy": "kimmy.webp",
   "Yve": "yve.webp",
-
-  // MID LANE - C
   "Aurora": "aurora.webp",
   "Odette": "odette.webp",
   "Chang'e": "change.webp",
   "Xavier": "xavier.webp",
   "Zhuxin": "zhuxin.webp",
-
-  // MID LANE - D
   "Lunox": "lunox.webp",
   "Luo Yi": "luoyi.webp",
-  "Pharsa": "pharsa.webp"
+  "Pharsa": "pharsa.webp",
+
+  // GOLD LANE
+  "Obsidia": "obsidia.webp",
+  "Hanabi": "hanabi.webp",
+  "Miya": "miya.webp",
+  "Lesley": "lesley.webp",
+  "Popol and Kupa": "popol and kupa.webp",
+  "Layla": "layla.webp",
+  "Irithel": "irithel.webp",
+  "Bruno": "bruno.webp",
+  "Brody": "brody.webp",
+  "Clint": "clint.webp",
+  "Ixia": "ixia.webp",
+  "Moskov": "moskov.webp",
+  "Natan": "natan.webp",
+  "Claude": "claude.webp",
+  "Beatrix": "beatrix.webp",
+  "Karrie": "karrie.webp",
+  "Wanwan": "wanwan.webp",
+  "Melissa": "melissa.webp",
+  "Granger": "granger.webp",
+  "Harith": "harith.webp"
 };
 
 
