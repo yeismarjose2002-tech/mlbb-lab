@@ -10,7 +10,7 @@
   <style>
     .counter-hero { padding: 55px 0 35px; }
 
-    .counter-panel, .class-panel {
+    .counter-panel {
       background: #101925;
       border: 1px solid #263747;
       border-radius: 14px;
@@ -97,6 +97,7 @@
       border: 1px solid #263747;
       border-radius: 10px;
       margin-top: 12px;
+      text-align: left;
     }
 
     .counter-hero-card img {
@@ -106,15 +107,27 @@
     }
 
     .counter-hero-card h3 { margin: 0 0 5px; }
-    .counter-hero-card p { color: #a9b8c7; margin: 0; font-size: 13px; }
-
-    .class-panel h2 { color: #5ce1e6; }
-    .class-panel p, .class-panel li {
+    .counter-hero-card p {
       color: #a9b8c7;
-      line-height: 1.6;
+      margin: 0;
+      font-size: 13px;
     }
 
-    .class-panel ul { padding-left: 20px; }
+    .counter-rule {
+      margin-top: 10px;
+      padding: 12px;
+      background: #14202d;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .counter-rule strong { color: #5ce1e6; }
+    .counter-rule p {
+      color: #a9b8c7;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 6px 0 0;
+    }
 
     .counter-note {
       color: #a9b8c7;
@@ -124,7 +137,10 @@
     }
 
     @media (max-width: 650px) {
-      .counter-modes, .counter-form { grid-template-columns: 1fr; }
+      .counter-modes,
+      .counter-form {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -153,37 +169,8 @@
     <p class="eyebrow">INTELIGENCIA DE ENFRENTAMIENTOS</p>
     <h1>COUNTER LAB</h1>
     <p>
-      Aprende a reconocer las fortalezas, debilidades
-      y enfrentamientos entre héroes.
-    </p>
-  </section>
-
-  <section class="class-panel">
-    <p class="eyebrow">FORMACIÓN · JUNGLA</p>
-    <h2>JUNGLA ASESINO</h2>
-
-    <p>
-      Su función principal es eliminar objetivos vulnerables
-      mediante daño explosivo y oportunidades de entrada.
-    </p>
-
-    <h3>Características principales</h3>
-    <ul>
-      <li>Movilidad para acercarse o escapar.</li>
-      <li>Daño explosivo para eliminar objetivos rápidamente.</li>
-      <li>Capacidad de alcanzar la retaguardia enemiga.</li>
-      <li>Dependencia de una buena oportunidad de entrada.</li>
-    </ul>
-
-    <h3>Objetivo estratégico</h3>
-    <p>
-      Encontrar objetivos vulnerables, conseguir eliminaciones
-      y transformar esa ventaja en control del mapa y objetivos.
-    </p>
-
-    <p class="counter-note">
-      Ejemplos de este perfil: Ling, Aamon y Nolan.
-      Sus habilidades y condiciones de victoria son diferentes.
+      Analiza las características de los héroes y descubre
+      posibles ventajas en los enfrentamientos.
     </p>
   </section>
 
@@ -194,18 +181,20 @@
     <div class="counter-modes">
       <button class="counter-mode active" id="modeAdvantage" type="button">
         <h3>TENGO QUE ELEGIR</h3>
-        <p>Consulta qué héroes pueden tener ventaja contra el rival.</p>
+        <p>Busca héroes que puedan tener ventaja contra el rival.</p>
       </button>
 
       <button class="counter-mode" id="modeCounter" type="button">
         <h3>ME QUITARON MI HÉROE</h3>
-        <p>Busca qué héroes pueden enfrentar al enemigo que lo eligió.</p>
+        <p>Busca alternativas para enfrentar al héroe que eligió el rival.</p>
       </button>
     </div>
 
     <div class="counter-form">
       <div>
-        <label for="heroSelect" id="selectorLabel">Selecciona el héroe enemigo</label>
+        <label for="heroSelect" id="selectorLabel">
+          Selecciona el héroe enemigo
+        </label>
         <select id="heroSelect">
           <option value="">Cargando héroes...</option>
         </select>
@@ -218,14 +207,13 @@
 
     <div class="counter-results" id="counterResults">
       <div class="counter-empty">
-        Selecciona un héroe para comenzar el análisis.
+        Cargando información del sistema...
       </div>
     </div>
 
     <p class="counter-note">
-      Las recomendaciones serán orientativas.
-      Un enfrentamiento depende también de la línea, la composición,
-      la estrategia y la habilidad de cada jugador.
+      Las interacciones son orientativas. Un enfrentamiento también
+      depende de la composición, los objetos, los niveles y la ejecución.
     </p>
   </section>
 
@@ -247,7 +235,19 @@
   const modeCounter = document.getElementById('modeCounter');
 
   let currentMode = 'advantage';
-  let heroes = [];
+  let rankingsHeroes = [];
+  let taggedHeroes = [];
+  let counterRules = [];
+
+  function escapeHTML(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+  }
 
   function setMode(mode) {
     currentMode = mode;
@@ -269,43 +269,122 @@
   modeAdvantage.addEventListener('click', () => setMode('advantage'));
   modeCounter.addEventListener('click', () => setMode('counter'));
 
-  async function loadHeroes() {
+  async function loadData() {
     try {
-      const response = await fetch('rankings.json');
+      const [rankingsResponse, tagsResponse, rulesResponse] =
+        await Promise.all([
+          fetch('rankings.json'),
+          fetch('hero-tags.json'),
+          fetch('counters.json')
+        ]);
 
-      if (!response.ok) {
-        throw new Error('No se pudo cargar rankings.json');
+      if (!rankingsResponse.ok ||
+          !tagsResponse.ok ||
+          !rulesResponse.ok) {
+        throw new Error('No se pudieron cargar los archivos.');
       }
 
-      const data = await response.json();
-      heroes = data.data.heroes || [];
+      const rankingsData = await rankingsResponse.json();
+      const tagsData = await tagsResponse.json();
+      const rulesData = await rulesResponse.json();
 
-      heroes.sort((a, b) => a.name.localeCompare(b.name, 'es'));
+      rankingsHeroes = rankingsData.data?.heroes || [];
+      taggedHeroes = tagsData.heroes || [];
+      counterRules = rulesData.rules || [];
 
-      heroSelect.innerHTML = '<option value="">Selecciona un héroe</option>';
+      rankingsHeroes.sort((a, b) =>
+        a.name.localeCompare(b.name, 'es')
+      );
 
-      heroes.forEach(hero => {
+      heroSelect.innerHTML =
+        '<option value="">Selecciona un héroe</option>';
+
+      rankingsHeroes.forEach(hero => {
         const option = document.createElement('option');
         option.value = hero.name;
         option.textContent = hero.name;
         heroSelect.appendChild(option);
       });
 
+      if (taggedHeroes.length === 0) {
+        results.innerHTML = `
+          <div class="counter-empty">
+            <strong>BASE DE HÉROES PENDIENTE</strong>
+            <p>
+              La conexión con los archivos funciona,
+              pero todavía debemos agregar las características
+              verificadas de cada héroe.
+            </p>
+          </div>
+        `;
+      } else {
+        results.innerHTML = `
+          <div class="counter-empty">
+            Sistema conectado. Selecciona un héroe para analizarlo.
+          </div>
+        `;
+      }
+
     } catch (error) {
-      heroSelect.innerHTML = '<option value="">Error al cargar héroes</option>';
+      console.error('Error en Counter Lab:', error);
+
+      heroSelect.innerHTML =
+        '<option value="">Error al cargar héroes</option>';
+
       results.innerHTML = `
         <div class="counter-empty">
-          No se pudo cargar la lista de héroes.
-          Comprueba que rankings.json esté disponible.
+          No se pudieron cargar los datos.
+          Comprueba que rankings.json, hero-tags.json
+          y counters.json estén disponibles en el repositorio.
         </div>
       `;
     }
   }
 
-  function analyzeHero() {
-    const selectedHero = heroSelect.value;
+  function getHeroTags(hero) {
+    if (!hero) return [];
 
-    if (!selectedHero) {
+    return [
+      ...(hero.specialties || []),
+      ...(hero.abilityTags || [])
+    ].map(tag => String(tag).toLowerCase());
+  }
+
+  function findInteractions(candidate, target) {
+    const candidateTags = getHeroTags(candidate);
+    const targetTags = getHeroTags(target);
+
+    if (!candidateTags.length || !targetTags.length) {
+      return [];
+    }
+
+    return counterRules.filter(rule => {
+      const attackerTags = (rule.attacker_tags || [])
+        .map(tag => tag.toLowerCase());
+
+      const targetRequiredTags = (rule.target_tags || [])
+        .map(tag => tag.toLowerCase());
+
+      if (!attackerTags.length || !targetRequiredTags.length) {
+        return false;
+      }
+
+      const candidateMatches = attackerTags.some(tag =>
+        candidateTags.includes(tag)
+      );
+
+      const targetMatches = targetRequiredTags.some(tag =>
+        targetTags.includes(tag)
+      );
+
+      return candidateMatches && targetMatches;
+    });
+  }
+
+  function analyzeHero() {
+    const selectedName = heroSelect.value;
+
+    if (!selectedName) {
       results.innerHTML = `
         <div class="counter-empty">
           Primero debes seleccionar un héroe.
@@ -314,37 +393,128 @@
       return;
     }
 
-    const hero = heroes.find(item => item.name === selectedHero);
-    if (!hero) return;
+    const target = taggedHeroes.find(hero =>
+      hero.name === selectedName
+    );
 
-    const imagePath = window.HERO_IMAGES?.[hero.name];
+    const imagePath = window.HERO_IMAGES?.[selectedName];
 
-    results.innerHTML = `
+    if (!taggedHeroes.length) {
+      results.innerHTML = `
+        <div class="counter-empty">
+          <strong>CATÁLOGO PENDIENTE</strong>
+          <p>
+            La lista de héroes está disponible, pero todavía
+            no tenemos sus etiquetas verificadas.
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    if (!target) {
+      results.innerHTML = `
+        <div class="counter-empty">
+          Todavía no tenemos las características de
+          ${escapeHTML(selectedName)}.
+        </div>
+      `;
+      return;
+    }
+
+    const candidates = taggedHeroes
+      .filter(hero => hero.name !== selectedName)
+      .map(hero => ({
+        hero,
+        interactions: findInteractions(hero, target)
+      }))
+      .filter(item => item.interactions.length > 0)
+      .sort((a, b) =>
+        b.interactions.length - a.interactions.length
+      );
+
+    const title = currentMode === 'advantage'
+      ? 'ANÁLISIS DE VENTAJA'
+      : 'ALTERNATIVAS DE ENFRENTAMIENTO';
+
+    let html = `
       <div class="counter-empty">
-        <strong>${currentMode === 'advantage'
-          ? 'ANÁLISIS DE VENTAJA'
-          : 'ANÁLISIS DE CONTRACOUNTER'}</strong>
+        <strong>${title}</strong>
 
         <div class="counter-hero-card">
-          ${imagePath ? `<img src="${imagePath}" alt="${hero.name}">` : ''}
+          ${imagePath
+            ? `<img src="${escapeHTML(imagePath)}"
+                    alt="${escapeHTML(selectedName)}">`
+            : ''}
           <div>
-            <h3>${hero.name}</h3>
-            <p>Héroe seleccionado para el análisis.</p>
+            <h3>${escapeHTML(selectedName)}</h3>
+            <p>Héroe seleccionado como objetivo del análisis.</p>
           </div>
         </div>
-
-        <p>
-          La selección funciona. La base de enfrentamientos
-          todavía debe construirse con información verificada.
-        </p>
       </div>
     `;
+
+    if (!candidates.length) {
+      html += `
+        <div class="counter-empty">
+          No encontramos interacciones aplicables con
+          las etiquetas actuales.
+        </div>
+      `;
+    } else {
+      html += `<h3>POSIBLES INTERACCIONES</h3>`;
+
+      candidates.forEach(item => {
+        const hero = item.hero;
+        const heroImage = window.HERO_IMAGES?.[hero.name];
+
+        html += `
+          <div class="counter-hero-card">
+            ${heroImage
+              ? `<img src="${escapeHTML(heroImage)}"
+                      alt="${escapeHTML(hero.name)}">`
+              : ''}
+            <div>
+              <h3>${escapeHTML(hero.name)}</h3>
+              <p>${item.interactions.length} interacción(es) detectada(s)</p>
+            </div>
+          </div>
+        `;
+
+        item.interactions.forEach(rule => {
+          html += `
+            <div class="counter-rule">
+              <strong>${escapeHTML(rule.name)}</strong>
+              <p>${escapeHTML(rule.explanation)}</p>
+              <p>
+                Tipo de interacción:
+                ${escapeHTML(rule.interaction)}
+              </p>
+              <p>
+                Condiciones:
+                ${escapeHTML((rule.conditions || []).join(' '))}
+              </p>
+            </div>
+          `;
+        });
+      });
+    }
+
+    html += `
+      <p class="counter-note">
+        Estas coincidencias identifican interacciones entre
+        características. No representan counters confirmados
+        ni garantizan una ventaja en partida.
+      </p>
+    `;
+
+    results.innerHTML = html;
   }
 
   document.getElementById('searchButton')
     .addEventListener('click', analyzeHero);
 
-  loadHeroes();
+  loadData();
 </script>
 
 </body>
