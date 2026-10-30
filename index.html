@@ -4,95 +4,412 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="TUPA MLBB: análisis competitivo y tier list de Mobile Legends por línea.">
-<title>TUPA MLBB — Tier List</title>
+<meta name="description" content="TUPA MLBB: inteligencia competitiva, análisis y herramientas para Mobile Legends.">
+<title>TUPA MLBB — Inteligencia competitiva</title>
 <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
+
 <header class="topbar">
-<a class="brand" href="#inicio">
-<span class="brand-mark">TP</span>
-<span>TUPA <b>MLBB</b><small>COMPETITIVE INTELLIGENCE</small></span>
-</a>
-<nav>
-<a href="#tierlist">Tier list</a>
-<a href="#metodo">Metodología</a>
-<a href="#fuente">Fuente</a>
-</nav>
-<span class="status"><i></i> BASE DE DATOS LOCAL</span>
+  <a class="brand" href="#" data-page-target="inicio">
+    <span class="brand-mark">TP</span>
+    <span>TUPA <b>MLBB</b><small>COMPETITIVE INTELLIGENCE</small></span>
+  </a>
+
+  <nav>
+    <a href="#" data-page-target="inicio">Inicio</a>
+    <a href="#" data-page-target="herramientas">Herramientas</a>
+    <a href="#" data-page-target="filosofia">Nuestra filosofía</a>
+  </nav>
+
+  <span class="status"><i></i> PLATAFORMA INDEPENDIENTE</span>
 </header>
 
 <main id="inicio">
-<section class="hero">
-<div class="eyebrow">MOBILE LEGENDS · META ANALYSIS</div>
-<h1>Entiende el meta.<br><em>Decide mejor.</em></h1>
-<p>Una lectura organizada del rendimiento de héroes por posición para tomar mejores decisiones en clasificatoria.</p>
-<div class="hero-meta">
-<span>RANGO: MYTHIC</span>
-<span>FUENTE: MLBB.GG</span>
-<span>DATOS: 28–29 OCT 2026</span>
-</div>
-</section>
-<section id="tupa-tier" class="panel">
-  <div class="section-head">
-    <div>
+
+  <!-- INICIO / PRESENTACIÓN -->
+
+  <section class="page-view active" data-page="inicio">
+
+    <section class="hero">
+      <div class="eyebrow">MOBILE LEGENDS · COMPETITIVE INTELLIGENCE</div>
+
+      <h1>TU HISTORIA.<br><em>TUS DECISIONES.</em></h1>
+
+      <p>
+        La pasión te lleva a jugar. El conocimiento te ayuda a evolucionar.
+        Descubre una nueva forma de comprender el juego.
+      </p>
+
+      <div class="hero-meta">
+        <span>ANÁLISIS COMPETITIVO</span>
+        <span>INFORMACIÓN Y ESTRATEGIA</span>
+        <span>CRITERIO PROPIO</span>
+      </div>
+
+      <button class="lane-btn" type="button" data-page-target="herramientas">
+        EXPLORAR PLATAFORMA →
+      </button>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">NUESTRA HISTORIA</div>
+      <h2>Detrás de cada partida hay una historia.</h2>
+
+      <p>
+        Todo comienza con una selección. Un héroe, una estrategia y cinco
+        jugadores que comparten un mismo objetivo.
+      </p>
+
+      <p>
+        Algunos encuentran en un héroe una extensión de su personalidad;
+        otros descubren en él una forma de demostrar lo que son capaces
+        de hacer.
+      </p>
+
+      <p>
+        Está la emoción de una jugada imposible, la tensión de una partida
+        que se decide en el último instante y la satisfacción de superar
+        nuestros propios límites.
+      </p>
+
+      <p>
+        Pero detrás de cada victoria existen decisiones, conocimiento,
+        adaptación y aprendizaje. Y detrás de cada derrota existe una
+        oportunidad para comprender qué ocurrió.
+      </p>
+
+      <h3>TUPA nace para transformar la pasión por el juego en conocimiento.</h3>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">NUESTRA IDENTIDAD</div>
+      <h2>¿Por qué existimos?</h2>
+
+      <div class="method-grid">
+        <article>
+          <b>MISIÓN</b>
+          <p>
+            Democratizar el acceso a la información competitiva de
+            Mobile Legends, ofreciendo estadísticas y herramientas
+            que ayuden a los jugadores a tomar decisiones conscientes.
+          </p>
+        </article>
+
+        <article>
+          <b>VISIÓN</b>
+          <p>
+            Convertir a TUPA MLBB en un espacio de referencia para la
+            comunidad hispanohablante, reconocido por su análisis
+            independiente y transparencia.
+          </p>
+        </article>
+
+        <article>
+          <b>PROPÓSITO</b>
+          <p>
+            Transformar los datos en conocimiento útil y fomentar
+            jugadores capaces de analizar, cuestionar y aprender.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">NUESTROS OBJETIVOS</div>
+      <h2>Lo que buscamos construir.</h2>
+
+      <div class="method-grid">
+        <article>
+          <b>01 / COMPRENDER</b>
+          <p>Interpretar las estadísticas y el comportamiento de la meta.</p>
+        </article>
+
+        <article>
+          <b>02 / DECIDIR</b>
+          <p>Ofrecer información útil para estudiar selecciones y estrategias.</p>
+        </article>
+
+        <article>
+          <b>03 / APRENDER</b>
+          <p>Promover el análisis de errores, decisiones y experiencias.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">UNA REFLEXIÓN PARA QUIENES JUEGAN</div>
+
+      <h2>No siempre podrás controlar el resultado.</h2>
+
+      <p>
+        A veces pasamos horas intentando alcanzar una estrella más,
+        dominar un héroe o demostrar que podemos superar nuestro
+        propio límite.
+      </p>
+
+      <p>
+        Nos identificamos con héroes que representan nuestra manera
+        de luchar. Algunos avanzan solos, otros protegen a sus
+        compañeros y otros esperan el momento exacto para cambiar
+        el rumbo de una batalla.
+      </p>
+
+      <p>
+        Pero hay algo que todos compartimos: queremos sentir que
+        estamos progresando.
+      </p>
+
+      <h3>
+        Una derrota puede enseñarte más que diez victorias si tienes
+        la voluntad de analizarla.
+      </h3>
+
+      <p>
+        Tu historia dentro del juego la escribes tú. Nosotros queremos
+        darte mejores herramientas para hacerlo.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">UNA DECLARACIÓN IMPORTANTE</div>
+      <h2>TU RESULTADO TE PERTENECE.</h2>
+
+      <p>
+        TUPA es una plataforma que puedes consultar por decisión propia.
+        No jugamos por ti, no elegimos por ti y no garantizamos tus
+        victorias.
+      </p>
+
+      <p>
+        Ponemos información, estadísticas y herramientas a tu disposición.
+        La manera en que las utilizas depende exclusivamente de ti.
+      </p>
+
+      <p>
+        Tus resultados serán consecuencia de tus decisiones, tu práctica,
+        tu disciplina y tu capacidad de aprender. No son un mérito que
+        TUPA pueda atribuirse.
+      </p>
+
+      <h3>
+        La información es nuestra contribución. El camino y los resultados
+        son tuyos.
+      </h3>
+    </section>
+
+    <section class="hero">
+      <div class="eyebrow">TU SIGUIENTE PARTIDA COMIENZA AQUÍ</div>
+      <h2>EL CONOCIMIENTO<br><em>CAMBIA TU PERSPECTIVA.</em></h2>
+      <p>Explora las herramientas y construye tu propio criterio.</p>
+
+      <button class="lane-btn" type="button" data-page-target="herramientas">
+        DESCUBRIR HERRAMIENTAS →
+      </button>
+    </section>
+
+  </section>
+
+
+  <!-- HERRAMIENTAS -->
+
+  <section class="page-view" data-page="herramientas">
+
+    <section class="hero">
+      <div class="eyebrow">TUPA COMPETITIVE TOOLS</div>
+      <h1>EXPLORA.<br><em>ANALIZA.</em></h1>
+      <p>Selecciona la herramienta que deseas consultar.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">PLATAFORMA</div>
+          <h2>Nuestras herramientas</h2>
+          <p>Accede directamente al apartado que necesitas.</p>
+        </div>
+      </div>
+
+      <div class="method-grid">
+
+        <article>
+          <b>01 / CLASIFICACIÓN</b>
+          <h3>TUPA Tier List</h3>
+          <p>Consulta nuestra clasificación competitiva de héroes.</p>
+          <button class="lane-btn" data-page-target="tierlist">
+            EXPLORAR →
+          </button>
+        </article>
+
+        <article>
+          <b>02 / ESTADÍSTICAS</b>
+          <h3>Meta Radar</h3>
+          <p>Estudia las tasas de victoria, selección y baneo.</p>
+          <button class="lane-btn" data-page-target="tierlist">
+            CONSULTAR DATOS →
+          </button>
+        </article>
+
+        <article>
+          <b>03 / ESTRATEGIA</b>
+          <h3>Draft Lab</h3>
+          <p>Un espacio destinado al análisis de selecciones y composiciones.</p>
+          <span class="count">EN DESARROLLO</span>
+        </article>
+
+      </div>
+    </section>
+
+  </section>
+
+
+  <!-- TIER LIST Y EXPLORADOR -->
+
+  <section class="page-view" data-page="tierlist">
+
+    <section class="hero">
       <div class="eyebrow">TUPA COMPETITIVE ANALYSIS</div>
-      <h2>TUPA TIER LIST</h2>
-      <p>Clasificación propia basada en victorias, selecciones y baneos.</p>
-    </div>
-    <div class="count">META RADAR</div>
-  </div>
+      <h1>ANALIZA EL META.<br><em>DECIDE MEJOR.</em></h1>
+      <p>Consulta los datos y estudia el rendimiento de los héroes.</p>
+    </section>
 
-  <div id="tupaTierBoard" class="tier-board">
-    <p>Cargando clasificación...</p>
-  </div>
-</section>
+    <section id="tupa-tier" class="panel">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">TUPA COMPETITIVE ANALYSIS</div>
+          <h2>TUPA TIER LIST</h2>
+          <p>Clasificación propia basada en victorias, selecciones y baneos.</p>
+        </div>
+        <div class="count">META RADAR</div>
+      </div>
 
-<section id="tierlist" class="panel">
-<div class="section-head">
-<div>
-<div class="eyebrow">EXPLORADOR DE HÉROES</div>
-<h2>Tier list</h2>
-<p>Selecciona una línea y consulta la clasificación de cada héroe.</p>
-</div>
-<div class="count" id="heroCount">— HÉROES</div>
-</div>
-<div class="toolbar">
-<div class="lanes" id="laneTabs"></div>
-<input id="search" type="search" placeholder="Buscar héroe…" autocomplete="off">
-</div>
-<div id="tierBoard" class="tier-board" aria-live="polite"></div>
-<div id="empty" class="empty" hidden>No se encontraron héroes con ese nombre.</div>
-<div class="source-note">Clasificación automatizada de MLBB.GG · Estadísticas de Mythic de los últimos tres días. La fuente pondera principalmente la tasa de baneos, junto con victorias y selecciones.</div>
-</section>
+      <div id="tupaTierBoard" class="tier-board">
+        <p>Cargando clasificación...</p>
+      </div>
+    </section>
 
-<section id="metodo" class="method">
-<div class="eyebrow">CRITERIO DE LECTURA</div>
-<h2>Una tier no cuenta toda la historia.</h2>
-<p>La clasificación es una referencia estadística, no una orden de selección. El valor de un héroe también depende de la composición aliada, los enfrentamientos, la ejecución y el contexto de la partida.</p>
-<div class="method-grid">
-<article><b>01 / Datos</b><p>La fuente combina tasas de victoria, selección y baneo.</p></article>
-<article><b>02 / Contexto</b><p>El rendimiento general no garantiza que un héroe sea adecuado para cada draft.</p></article>
-<article><b>03 / Actualización</b><p>Los datos cambian. Comprueba la fecha antes de tomar decisiones.</p></article>
-</div>
-</section>
+    <section id="tierlist-original" class="panel">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">EXPLORADOR DE HÉROES</div>
+          <h2>Tier list de referencia</h2>
+          <p>Selecciona una línea y consulta la clasificación.</p>
+        </div>
+        <div class="count" id="heroCount">— HÉROES</div>
+      </div>
 
-<section id="fuente" class="footer-source">
-<div>
-<div class="eyebrow">TRANSPARENCIA</div>
-<h2>Fuente y actualización</h2>
-<p>Los nombres y tiers de esta plantilla se transcribieron de las páginas de MLBB.GG enlazadas abajo. No es una clasificación oficial de Moonton.</p>
-</div>
-<a href="https://mlbb.gg/tierlist?lane=Jungle" target="_blank" rel="noopener">Consultar MLBB.GG ↗</a>
-</section>
+      <div class="toolbar">
+        <div class="lanes" id="laneTabs"></div>
+        <input id="search" type="search"
+          placeholder="Buscar héroe…" autocomplete="off">
+      </div>
+
+      <div id="tierBoard" class="tier-board" aria-live="polite"></div>
+
+      <div id="empty" class="empty" hidden>
+        No se encontraron héroes con ese nombre.
+      </div>
+
+      <div class="source-note">
+        Clasificación de referencia de MLBB.GG. Consulta siempre la fecha
+        y el contexto de los datos antes de tomar decisiones.
+      </div>
+    </section>
+
+  </section>
+
+
+  <!-- FILOSOFÍA Y METODOLOGÍA -->
+
+  <section class="page-view" data-page="filosofia">
+
+    <section class="hero">
+      <div class="eyebrow">IDENTIDAD TUPA</div>
+      <h1>INFORMACIÓN.<br><em>CRITERIO PROPIO.</em></h1>
+      <p>Conoce nuestros principios, metodología y fuentes.</p>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">METODOLOGÍA</div>
+      <h2>Una estadística no cuenta toda la historia.</h2>
+
+      <p>
+        Una clasificación es una referencia estadística, no una orden
+        de selección. El valor de un héroe también depende de la
+        composición aliada, los enfrentamientos, la ejecución y el
+        contexto de la partida.
+      </p>
+
+      <div class="method-grid">
+        <article>
+          <b>01 / DATOS</b>
+          <p>Analizamos tasas de victoria, selección y baneo.</p>
+        </article>
+
+        <article>
+          <b>02 / CONTEXTO</b>
+          <p>El rendimiento general no garantiza resultados individuales.</p>
+        </article>
+
+        <article>
+          <b>03 / TRANSPARENCIA</b>
+          <p>Buscamos explicar de dónde provienen los datos y sus limitaciones.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="fuente" class="panel">
+      <div class="eyebrow">TRANSPARENCIA</div>
+      <h2>Fuente y actualización</h2>
+
+      <p>
+        TUPA es un proyecto independiente. Las estadísticas y referencias
+        utilizadas deben consultarse junto con sus fuentes y fechas
+        de actualización.
+      </p>
+
+      <a href="https://mlbb.gg/tierlist?lane=Jungle"
+        target="_blank" rel="noopener">
+        Consultar MLBB.GG ↗
+      </a>
+    </section>
+
+  </section>
+
 </main>
 
+
 <footer>
-<span>TUPA MLBB</span>
-<span>PROYECTO INDEPENDIENTE · NO AFILIADO A MOONTON</span>
+  <span>TUPA MLBB</span>
+  <span>PROYECTO INDEPENDIENTE · NO AFILIADO A MOONTON</span>
 </footer>
+
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+
+<script>
+  // Navegación entre apartados
+
+  const pageButtons = document.querySelectorAll("[data-page-target]");
+  const pages = document.querySelectorAll(".page-view");
+
+  function showPage(pageName) {
+    pages.forEach(page => {
+      page.classList.toggle("active", page.dataset.page === pageName);
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  pageButtons.forEach(button => {
+    button.addEventListener("click", event => {
+      event.preventDefault();
+      showPage(button.dataset.pageTarget);
+    });
+  });
+</script>
+
 </body>
 </html>
