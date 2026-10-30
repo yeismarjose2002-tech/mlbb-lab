@@ -289,8 +289,18 @@
       const rulesData = await rulesResponse.json();
 
       rankingsHeroes = rankingsData.data?.heroes || [];
-      taggedHeroes = tagsData.heroes || [];
-      counterRules = rulesData.rules || [];
+
+      // Acepta tanto la estructura de la API (data)
+      // como la estructura anterior (heroes).
+      taggedHeroes = Array.isArray(tagsData.data)
+        ? tagsData.data
+        : Array.isArray(tagsData.heroes)
+          ? tagsData.heroes
+          : [];
+
+      counterRules = Array.isArray(rulesData.rules)
+        ? rulesData.rules
+        : [];
 
       rankingsHeroes.sort((a, b) =>
         a.name.localeCompare(b.name, 'es')
@@ -320,7 +330,9 @@
       } else {
         results.innerHTML = `
           <div class="counter-empty">
-            Sistema conectado. Selecciona un héroe para analizarlo.
+            Sistema conectado. Se cargaron ${taggedHeroes.length}
+            registros del catálogo.
+            <p>Selecciona un héroe para analizarlo.</p>
           </div>
         `;
       }
@@ -345,8 +357,8 @@
     if (!hero) return [];
 
     return [
-      ...(hero.specialties || []),
-      ...(hero.abilityTags || [])
+      ...(Array.isArray(hero.specialties) ? hero.specialties : []),
+      ...(Array.isArray(hero.abilityTags) ? hero.abilityTags : [])
     ].map(tag => String(tag).toLowerCase());
   }
 
@@ -360,10 +372,10 @@
 
     return counterRules.filter(rule => {
       const attackerTags = (rule.attacker_tags || [])
-        .map(tag => tag.toLowerCase());
+        .map(tag => String(tag).toLowerCase());
 
       const targetRequiredTags = (rule.target_tags || [])
-        .map(tag => tag.toLowerCase());
+        .map(tag => String(tag).toLowerCase());
 
       if (!attackerTags.length || !targetRequiredTags.length) {
         return false;
@@ -416,7 +428,7 @@
       results.innerHTML = `
         <div class="counter-empty">
           Todavía no tenemos las características de
-          ${escapeHTML(selectedName)}.
+          ${escapeHTML(selectedName)} en el catálogo.
         </div>
       `;
       return;
@@ -519,3 +531,4 @@
 
 </body>
 </html>
+
