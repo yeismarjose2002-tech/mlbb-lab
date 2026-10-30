@@ -10,6 +10,7 @@ const empty = document.getElementById('empty');
 let activeLane = 'Jungle';
 
 // Imágenes de héroes disponibles
+
 const HERO_IMAGES = {
   // ROAM - SS
   "Belerick": "belerick.webp",
@@ -62,7 +63,43 @@ const HERO_IMAGES = {
   "Gatotkaca": "gatotkaca.webp",
   "Franco": "franco.webp",
   "Mathilda": "mathilda.webp",
-  "Baxia": "baxia.webp"
+  "Baxia": "baxia.webp",
+
+  // EXP LANE - S
+  "Aulus": "aulus.webp",
+  "Lukas": "lukas.webp",
+  "Paquito": "paquito.webp",
+  "Alice": "alice.webp",
+  "Argus": "argus.webp",
+
+  // EXP LANE - A
+  "Barats": "barats.webp",
+  "X.Borg": "xborg.webp",
+  "Benedetta": "benedetta.webp",
+
+  // EXP LANE - B
+  "Aldous": "aldous.webp",
+  "Sora": "sora.webp",
+  "Khaleed": "khaleed.webp",
+  "Thamuz": "thamuz.webp",
+  "Dyrroth": "dyrroth.webp",
+  "Terizla": "terizla.webp",
+  "Cici": "cici.webp",
+  "Yu Zhong": "yuzhong.webp",
+  "Esmeralda": "esmeralda.webp",
+  "Uranus": "uranus.webp",
+  "Leomord": "leomord.webp",
+
+  // EXP LANE - C
+  "Ruby": "ruby.webp",
+  "Lapu-Lapu": "lapulapu.webp",
+
+  // EXP LANE - D
+  "Phoveus": "phoveus.webp",
+  "Freya": "freya.webp",
+  "Martis": "martis.webp",
+  "Zilong": "zilong.webp",
+  "Valentina": "valentina.webp"
 };
 
 function renderTabs() {
