@@ -26,3 +26,12 @@
 .hero-chip span {
   font-size: 10px;
 }
+/* TUPA MLBB — tamaño uniforme de imágenes */
+.tupa-hero-card img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px;
+  flex-shrink: 0;
+}
