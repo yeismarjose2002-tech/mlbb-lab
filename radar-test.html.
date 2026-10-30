@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TUPA MLBB | Radar de prueba</title>
+  <style>
+    body {
+      background: #10131b;
+      color: #f1f3f8;
+      font-family: Arial, sans-serif;
+      padding: 25px;
+    }
+
+    h1 { color: #55d6be; }
+
+    .panel {
+      background: #1b2230;
+      padding: 18px;
+      margin: 15px 0;
+      border-radius: 10px;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #343c4b;
+      padding: 10px 0;
+      gap: 15px;
+    }
+
+    .muted { color: #aab3c2; }
+    .warning { color: #ffc66d; }
+  </style>
+</head>
+<body>
+
+  <h1>TUPA MLBB — META RADAR</h1>
+  <p class="muted">Prueba de lectura de estadísticas</p>
+
+  <div class="panel" id="status">
+    Cargando estadísticas...
+  </div>
+
+  <div class="panel">
+    <h2>Mayor tasa de victoria</h2>
+    <div id="win-rate"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Mayor tasa de selección</h2>
+    <div id="pick-rate"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Mayor tasa de prohibición</h2>
+    <div id="ban-rate"></div>
+  </div>
+
+  <script>
+    async function loadRankings() {
+      const status = document.getElementById('status');
+
+      try {
+        const response = await fetch('./rankings.json');
+
+        if (!response.ok) {
+          throw new Error('No se pudo leer rankings.json');
+        }
+
+        const result = await response.json();
+        const heroes = result?.data?.heroes;
+        const measuredAt = result?.data?.measuredAt;
+
+        if (!Array.isArray(heroes) || heroes.length === 0) {
+          throw new Error('No hay estadísticas disponibles');
+        }
+
+        const format = value =>
+          `${Number(value).toFixed(2)}%`;
+
+        function showTop(containerId, field) {
+          const sorted = [...heroes]
+            .filter(hero => Number.isFinite(Number(hero[field])))
+            .sort((a, b) => b[field] - a[field])
+            .slice(0, 5);
+
+          document.getElementById(containerId).innerHTML =
+            sorted.map((hero, index) => `
+              <div class="hero">
+                <span>${index + 1}. ${hero.name}
+                  ${hero.lowSample ? '<span class="warning"> • Muestra baja</span>' : ''}
+                </span>
+                <strong>${format(hero[field])}</strong>
+              </div>
+            `).join('');
+        }
+
+        status.innerHTML = `
+          <strong>Conexión exitosa</strong>
+          <p>Héroes recibidos: ${heroes.length}</p>
+          <p>Fecha de medición: ${new Date(measuredAt).toLocaleString('es-CO')}</p>
+          <p class="muted">Fuente: MLBBDex</p>
+        `;
+
+        showTop('win-rate', 'winRate');
+        showTop('pick-rate', 'pickRate');
+        showTop('ban-rate', 'banRate');
+
+      } catch (error) {
+        status.innerHTML =
+          `<span class="warning">Error: ${error.message}</span>`;
+      }
+    }
+
+    loadRankings();
+  </script>
+
+</body>
+</html>
