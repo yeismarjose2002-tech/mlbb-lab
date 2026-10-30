@@ -11,6 +11,7 @@ let activeLane = 'Jungle';
 
 // Imágenes de héroes disponibles
 
+
 const HERO_IMAGES = {
   // ROAM - SS
   "Belerick": "belerick.webp",
@@ -99,8 +100,45 @@ const HERO_IMAGES = {
   "Freya": "freya.webp",
   "Martis": "martis.webp",
   "Zilong": "zilong.webp",
-  "Valentina": "valentina.webp"
+  "Valentina": "valentina.webp",
+
+  // JUNGLE - SS
+  "Hirara": "hirara.webp",
+
+  // JUNGLE - S
+  "Saber": "saber.webp",
+
+  // JUNGLE - A
+  "Nolan": "nolan.webp",
+  "Ling": "ling.webp",
+  "Hanzo": "hanzo.webp",
+  "Cyclops": "cyclops.webp",
+  "Gusion": "gusion.webp",
+
+  // JUNGLE - B
+  "Aamon": "aamon.webp",
+  "Yi Sun-shin": "yisunshin.webp",
+  "Suyou": "suyou.webp",
+  "Karina": "karina.webp",
+  "Julian": "julian.webp",
+  "Bane": "bane.webp",
+  "Fredrinn": "fredrinn.webp",
+  "Harley": "harley.webp",
+  "Hayabusa": "hayabusa.webp",
+  "Alpha": "alpha.webp",
+  "Yin": "yin.webp",
+
+  // JUNGLE - C
+  "Alucard": "alucard.webp",
+  "Roger": "roger.webp",
+
+  // JUNGLE - D
+  "Balmond": "balmond.webp",
+  "Joy": "joy.webp",
+  "Lancelot": "lancelot.webp",
+  "Fanny": "fanny.webp"
 };
+
 
 function renderTabs() {
   laneTabs.innerHTML = '';
