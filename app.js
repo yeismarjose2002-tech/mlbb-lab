@@ -12,6 +12,7 @@ let activeLane = 'Jungle';
 // Imágenes de héroes disponibles
 
 
+
 const HERO_IMAGES = {
   // ROAM - SS
   "Belerick": "belerick.webp",
@@ -136,8 +137,43 @@ const HERO_IMAGES = {
   "Balmond": "balmond.webp",
   "Joy": "joy.webp",
   "Lancelot": "lancelot.webp",
-  "Fanny": "fanny.webp"
+  "Fanny": "fanny.webp",
+
+  // MID LANE - SS
+  "Eudora": "eudora.webp",
+
+  // MID LANE - S
+  "Valir": "valir.webp",
+  "Zetian": "zetian.webp",
+
+  // MID LANE - A
+  "Novaria": "novaria.webp",
+  "Gord": "gord.webp",
+  "Kadita": "kadita.webp",
+  "Zhask": "zhask.webp",
+  "Vexana": "vexana.webp",
+  "Kagura": "kagura.webp",
+
+  // MID LANE - B
+  "Cecilion": "cecilion.webp",
+  "Vale": "vale.webp",
+  "Lylia": "lylia.webp",
+  "Kimmy": "kimmy.webp",
+  "Yve": "yve.webp",
+
+  // MID LANE - C
+  "Aurora": "aurora.webp",
+  "Odette": "odette.webp",
+  "Chang'e": "change.webp",
+  "Xavier": "xavier.webp",
+  "Zhuxin": "zhuxin.webp",
+
+  // MID LANE - D
+  "Lunox": "lunox.webp",
+  "Luo Yi": "luoyi.webp",
+  "Pharsa": "pharsa.webp"
 };
+
 
 
 function renderTabs() {
