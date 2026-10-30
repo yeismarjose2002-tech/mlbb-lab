@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter Lab | TUPA MLBB</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .counter-hero {
+      padding: 55px 0 35px;
+    }
+
+    .counter-panel {
+      background: #101925;
+      border: 1px solid #263747;
+      border-radius: 14px;
+      padding: 24px;
+      margin: 22px 0;
+    }
+
+    .counter-modes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 25px 0;
+    }
+
+    .counter-mode {
+      background: #101925;
+      color: #eaf4fa;
+      border: 1px solid #263747;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: left;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .counter-mode.active {
+      border-color: #5ce1e6;
+      background: #142b36;
+    }
+
+    .counter-mode h3 {
+      margin: 0 0 8px;
+      color: #5ce1e6;
+    }
+
+    .counter-mode p {
+      margin: 0;
+      color: #a9b8c7;
+      font-size: 14px;
+    }
+
+    .counter-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .counter-form label {
+      display: block;
+      color: #a9b8c7;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .counter-form select,
+    .counter-form input {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #34495d;
+      background: #080d15;
+      color: #fff;
+      font: inherit;
+    }
+
+    .counter-button {
+      padding: 13px 22px;
+      border: 0;
+      border-radius: 8px;
+      background: #5ce1e6;
+      color: #071117;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .counter-button:hover {
+      filter: brightness(1.1);
+    }
+
+    .counter-results {
+      margin-top: 25px;
+    }
+
+    .counter-empty {
+      padding: 25px;
+      border: 1px dashed #34495d;
+      border-radius: 10px;
+      color: #a9b8c7;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .counter-hero-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 14px;
+      background: #0b131e;
+      border: 1px solid #263747;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+
+    .counter-hero-card img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+
+    .counter-hero-card h3 {
+      margin: 0 0 5px;
+    }
+
+    .counter-hero-card p {
+      color: #a9b8c7;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .counter-note {
+      color: #a9b8c7;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 650px) {
+      .counter-modes {
+        grid-template-columns: 1fr;
+      }
+
+      .counter-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span>TP</span>
+    <strong>TUPA MLBB</strong>
+  </a>
+
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="metaradar.html">Meta Radar</a>
+    <a href="counterlab.html">Counter Lab</a>
+    <a href="draftlab.html">Draft Lab</a>
+    <a href="metodologia.html">Metodología</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <section class="counter-hero">
+    <p class="eyebrow">INTELIGENCIA DE ENFRENTAMIENTOS</p>
+    <h1>COUNTER LAB</h1>
+    <p>
+      Cada héroe tiene fortalezas y debilidades.
+      Aprende a reconocerlas antes de elegir.
+    </p>
+  </section>
+
+  <section class="counter-panel">
+    <h2>¿Qué necesitas resolver?</h2>
+    <p>Selecciona la situación que estás enfrentando en la partida.</p>
+
+    <div class="counter-modes">
+      <button class="counter-mode active" id="modeAdvantage" type="button">
+        <h3>TENGO QUE ELEGIR</h3>
+        <p>Consulta qué héroes pueden tener ventaja contra el rival.</p>
+      </button>
+
+      <button class="counter-mode" id="modeCounter" type="button">
+        <h3>ME QUITARON MI HÉROE</h3>
+        <p>Busca qué héroes pueden enfrentar al enemigo que lo eligió.</p>
+      </button>
+    </div>
+
+    <div class="counter-form">
+      <div>
+        <label for="heroSelect" id="selectorLabel">Selecciona el héroe enemigo</label>
+        <select id="heroSelect">
+          <option value="">Cargando héroes...</option>
+        </select>
+      </div>
+
+      <button class="counter-button" id="searchButton" type="button">
+        ANALIZAR
+      </button>
+    </div>
+
+    <div class="counter-results" id="counterResults">
+      <div class="counter-empty">
+        Selecciona un héroe para comenzar el análisis.
+      </div>
+    </div>
+
+    <p class="counter-note">
+      Las recomendaciones de Counter Lab serán orientativas.
+      Un enfrentamiento depende también de la línea, la composición,
+      la estrategia y la habilidad de cada jugador.
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>TUPA MLBB — No juegues por intuición. Decide con información.</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+<script>
+  const heroSelect = document.getElementById('heroSelect');
+  const results = document.getElementById('counterResults');
+  const selectorLabel = document.getElementById('selectorLabel');
+
+  const modeAdvantage = document.getElementById('modeAdvantage');
+  const modeCounter = document.getElementById('modeCounter');
+
+  let currentMode = 'advantage';
+  let heroes = [];
+
+  function setMode(mode) {
+    currentMode = mode;
+
+    modeAdvantage.classList.toggle('active', mode === 'advantage');
+    modeCounter.classList.toggle('active', mode === 'counter');
+
+    selectorLabel.textContent = mode === 'advantage'
+      ? 'Selecciona el héroe enemigo'
+      : 'Selecciona el héroe que te quitaron';
+
+    results.innerHTML = `
+      <div class="counter-empty">
+        Selecciona un héroe y pulsa ANALIZAR.
+      </div>
+    `;
+  }
+
+  modeAdvantage.addEventListener('click', () => setMode('advantage'));
+  modeCounter.addEventListener('click', () => setMode('counter'));
+
+  async function loadHeroes() {
+    try {
+      const response = await fetch('rankings.json');
+
+      if (!response.ok) {
+        throw new Error('No se pudo cargar rankings.json');
+      }
+
+      const data = await response.json();
+      heroes = data.data.heroes || [];
+
+      heroes.sort((a, b) => a.name.localeCompare(b.name, 'es'));
+
+      heroSelect.innerHTML = '<option value="">Selecciona un héroe</option>';
+
+      heroes.forEach(hero => {
+        const option = document.createElement('option');
+        option.value = hero.name;
+        option.textContent = hero.name;
+        heroSelect.appendChild(option);
+      });
+
+    } catch (error) {
+      heroSelect.innerHTML = '<option value="">Error al cargar héroes</option>';
+      results.innerHTML = `
+        <div class="counter-empty">
+          No se pudo cargar la lista de héroes.
+          Comprueba que rankings.json esté disponible.
+        </div>
+      `;
+    }
+  }
+
+  function analyzeHero() {
+    const selectedHero = heroSelect.value;
+
+    if (!selectedHero) {
+      results.innerHTML = `
+        <div class="counter-empty">
+          Primero debes seleccionar un héroe.
+        </div>
+      `;
+      return;
+    }
+
+    const hero = heroes.find(item => item.name === selectedHero);
+
+    if (!hero) return;
+
+    const imagePath = window.HERO_IMAGES?.[hero.name];
+
+    results.innerHTML = `
+      <div class="counter-empty">
+        <strong>${currentMode === 'advantage'
+          ? 'ANÁLISIS DE VENTAJA'
+          : 'ANÁLISIS DE CONTRACOUNTER'}</strong>
+        <div class="counter-hero-card">
+          ${imagePath ? `<img src="${imagePath}" alt="${hero.name}">` : ''}
+          <div>
+            <h3>${hero.name}</h3>
+            <p>Héroe seleccionado para el análisis.</p>
+          </div>
+        </div>
+        <p>
+          La selección funciona. La base de enfrentamientos todavía
+          debe construirse para mostrar recomendaciones verificadas.
+        </p>
+      </div>
+    `;
+  }
+
+  document.getElementById('searchButton')
+    .addEventListener('click', analyzeHero);
+
+  loadHeroes();
+</script>
+
+</body>
+</html>
