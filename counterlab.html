@@ -88,6 +88,21 @@
       line-height: 1.6;
     }
 
+    .counter-section {
+      margin-top: 28px;
+    }
+
+    .counter-section h3 {
+      color: #5ce1e6;
+      margin-bottom: 12px;
+    }
+
+    .counter-section-description {
+      color: #a9b8c7;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
     .counter-hero-card {
       display: flex;
       align-items: center;
@@ -122,6 +137,7 @@
     }
 
     .counter-rule strong { color: #5ce1e6; }
+
     .counter-rule p {
       color: #a9b8c7;
       font-size: 13px;
@@ -134,6 +150,12 @@
       font-size: 13px;
       line-height: 1.6;
       margin-top: 20px;
+    }
+
+    .counter-tags {
+      color: #5ce1e6 !important;
+      font-size: 12px !important;
+      margin-top: 5px !important;
     }
 
     @media (max-width: 650px) {
@@ -249,6 +271,10 @@
     })[char]);
   }
 
+  function normalizeTag(tag) {
+    return String(tag ?? '').trim().toLowerCase();
+  }
+
   function setMode(mode) {
     currentMode = mode;
 
@@ -290,8 +316,6 @@
 
       rankingsHeroes = rankingsData.data?.heroes || [];
 
-      // Acepta tanto la estructura de la API (data)
-      // como la estructura anterior (heroes).
       taggedHeroes = Array.isArray(tagsData.data)
         ? tagsData.data
         : Array.isArray(tagsData.heroes)
@@ -316,23 +340,22 @@
         heroSelect.appendChild(option);
       });
 
-      if (taggedHeroes.length === 0) {
+      if (!taggedHeroes.length) {
         results.innerHTML = `
           <div class="counter-empty">
             <strong>BASE DE HÉROES PENDIENTE</strong>
             <p>
-              La conexión con los archivos funciona,
-              pero todavía debemos agregar las características
-              verificadas de cada héroe.
+              Todavía no hay características disponibles
+              para analizar los enfrentamientos.
             </p>
           </div>
         `;
       } else {
         results.innerHTML = `
           <div class="counter-empty">
-            Sistema conectado. Se cargaron ${taggedHeroes.length}
-            registros del catálogo.
-            <p>Selecciona un héroe para analizarlo.</p>
+            Sistema conectado.
+            <strong>${taggedHeroes.length} registros cargados.</strong>
+            <p>Selecciona un héroe para comenzar.</p>
           </div>
         `;
       }
@@ -347,7 +370,7 @@
         <div class="counter-empty">
           No se pudieron cargar los datos.
           Comprueba que rankings.json, hero-tags.json
-          y counters.json estén disponibles en el repositorio.
+          y counters.json estén disponibles.
         </div>
       `;
     }
@@ -356,41 +379,104 @@
   function getHeroTags(hero) {
     if (!hero) return [];
 
-    return [
-      ...(Array.isArray(hero.specialties) ? hero.specialties : []),
-      ...(Array.isArray(hero.abilityTags) ? hero.abilityTags : [])
-    ].map(tag => String(tag).toLowerCase());
+    const specialties = Array.isArray(hero.specialties)
+      ? hero.specialties
+      : [];
+
+    const abilityTags = Array.isArray(hero.abilityTags)
+      ? hero.abilityTags
+      : [];
+
+    return [...new Set(
+      [...specialties, ...abilityTags].map(normalizeTag)
+    )];
   }
 
   function findInteractions(candidate, target) {
     const candidateTags = getHeroTags(candidate);
     const targetTags = getHeroTags(target);
 
-    if (!candidateTags.length || !targetTags.length) {
-      return [];
-    }
+    const direct = [];
+    const strategic = [];
 
-    return counterRules.filter(rule => {
+    counterRules.forEach(rule => {
       const attackerTags = (rule.attacker_tags || [])
-        .map(tag => String(tag).toLowerCase());
+        .map(normalizeTag);
 
       const targetRequiredTags = (rule.target_tags || [])
-        .map(tag => String(tag).toLowerCase());
+        .map(normalizeTag);
 
-      if (!attackerTags.length || !targetRequiredTags.length) {
-        return false;
-      }
+      if (!attackerTags.length) return;
 
       const candidateMatches = attackerTags.some(tag =>
         candidateTags.includes(tag)
       );
 
+      if (!candidateMatches) return;
+
+      // Las reglas sin etiquetas de objetivo son estratégicas.
+      if (targetRequiredTags.length === 0) {
+        if (rule.interaction === 'strategic_advantage') {
+          strategic.push(rule);
+        }
+        return;
+      }
+
       const targetMatches = targetRequiredTags.some(tag =>
         targetTags.includes(tag)
       );
 
-      return candidateMatches && targetMatches;
+      if (targetMatches) {
+        direct.push(rule);
+      }
     });
+
+    return { direct, strategic };
+  }
+
+  function renderHeroCard(hero, interactions, type) {
+    const heroImage = window.HERO_IMAGES?.[hero.name];
+    const tags = getHeroTags(hero);
+
+    let html = `
+      <div class="counter-hero-card">
+        ${heroImage
+          ? `<img src="${escapeHTML(heroImage)}"
+                  alt="${escapeHTML(hero.name)}">`
+          : ''}
+        <div>
+          <h3>${escapeHTML(hero.name)}</h3>
+          <p>
+            ${interactions.length}
+            ${type === 'direct' ? 'interacción(es) directa(s)' : 'ventaja(s) estratégica(s)'}
+          </p>
+          <p class="counter-tags">
+            ${tags.length
+              ? escapeHTML(tags.join(' · '))
+              : 'Sin etiquetas disponibles'}
+          </p>
+        </div>
+      </div>
+    `;
+
+    interactions.forEach(rule => {
+      html += `
+        <div class="counter-rule">
+          <strong>${escapeHTML(rule.name)}</strong>
+          <p>${escapeHTML(rule.explanation)}</p>
+          <p>
+            Tipo de interacción:
+            ${escapeHTML(rule.interaction)}
+          </p>
+          <p>
+            Condiciones:
+            ${escapeHTML((rule.conditions || []).join(' '))}
+          </p>
+        </div>
+      `;
+    });
+
+    return html;
   }
 
   function analyzeHero() {
@@ -405,24 +491,19 @@
       return;
     }
 
-    const target = taggedHeroes.find(hero =>
-      hero.name === selectedName
-    );
-
-    const imagePath = window.HERO_IMAGES?.[selectedName];
-
     if (!taggedHeroes.length) {
       results.innerHTML = `
         <div class="counter-empty">
           <strong>CATÁLOGO PENDIENTE</strong>
-          <p>
-            La lista de héroes está disponible, pero todavía
-            no tenemos sus etiquetas verificadas.
-          </p>
+          <p>No hay características disponibles para el análisis.</p>
         </div>
       `;
       return;
     }
+
+    const target = taggedHeroes.find(hero =>
+      hero.name === selectedName
+    );
 
     if (!target) {
       results.innerHTML = `
@@ -439,15 +520,25 @@
       .map(hero => ({
         hero,
         interactions: findInteractions(hero, target)
-      }))
-      .filter(item => item.interactions.length > 0)
+      }));
+
+    const directCandidates = candidates
+      .filter(item => item.interactions.direct.length > 0)
       .sort((a, b) =>
-        b.interactions.length - a.interactions.length
+        b.interactions.direct.length - a.interactions.direct.length
+      );
+
+    const strategicCandidates = candidates
+      .filter(item => item.interactions.strategic.length > 0)
+      .sort((a, b) =>
+        b.interactions.strategic.length - a.interactions.strategic.length
       );
 
     const title = currentMode === 'advantage'
       ? 'ANÁLISIS DE VENTAJA'
       : 'ALTERNATIVAS DE ENFRENTAMIENTO';
+
+    const imagePath = window.HERO_IMAGES?.[selectedName];
 
     let html = `
       <div class="counter-empty">
@@ -466,56 +557,68 @@
       </div>
     `;
 
-    if (!candidates.length) {
+    // Sección de interacciones directas.
+    html += `
+      <section class="counter-section">
+        <h3>ENFRENTAMIENTOS DIRECTOS</h3>
+        <p class="counter-section-description">
+          Coincidencias entre las características del candidato
+          y las del héroe seleccionado.
+        </p>
+    `;
+
+    if (!directCandidates.length) {
       html += `
         <div class="counter-empty">
-          No encontramos interacciones aplicables con
-          las etiquetas actuales.
+          No encontramos interacciones directas
+          con las etiquetas disponibles.
         </div>
       `;
     } else {
-      html += `<h3>POSIBLES INTERACCIONES</h3>`;
-
-      candidates.forEach(item => {
-        const hero = item.hero;
-        const heroImage = window.HERO_IMAGES?.[hero.name];
-
-        html += `
-          <div class="counter-hero-card">
-            ${heroImage
-              ? `<img src="${escapeHTML(heroImage)}"
-                      alt="${escapeHTML(hero.name)}">`
-              : ''}
-            <div>
-              <h3>${escapeHTML(hero.name)}</h3>
-              <p>${item.interactions.length} interacción(es) detectada(s)</p>
-            </div>
-          </div>
-        `;
-
-        item.interactions.forEach(rule => {
-          html += `
-            <div class="counter-rule">
-              <strong>${escapeHTML(rule.name)}</strong>
-              <p>${escapeHTML(rule.explanation)}</p>
-              <p>
-                Tipo de interacción:
-                ${escapeHTML(rule.interaction)}
-              </p>
-              <p>
-                Condiciones:
-                ${escapeHTML((rule.conditions || []).join(' '))}
-              </p>
-            </div>
-          `;
-        });
+      directCandidates.forEach(item => {
+        html += renderHeroCard(
+          item.hero,
+          item.interactions.direct,
+          'direct'
+        );
       });
     }
 
+    html += `</section>`;
+
+    // Sección de ventajas estratégicas.
+    html += `
+      <section class="counter-section">
+        <h3>VENTAJAS ESTRATÉGICAS</h3>
+        <p class="counter-section-description">
+          Características que pueden generar ventajas en el mapa,
+          independientemente de las etiquetas del rival.
+        </p>
+    `;
+
+    if (!strategicCandidates.length) {
+      html += `
+        <div class="counter-empty">
+          No encontramos ventajas estratégicas aplicables
+          con las etiquetas disponibles.
+        </div>
+      `;
+    } else {
+      strategicCandidates.forEach(item => {
+        html += renderHeroCard(
+          item.hero,
+          item.interactions.strategic,
+          'strategic'
+        );
+      });
+    }
+
+    html += `</section>`;
+
     html += `
       <p class="counter-note">
-        Estas coincidencias identifican interacciones entre
-        características. No representan counters confirmados
+        Las coincidencias se basan en etiquetas y reglas
+        orientativas. No representan counters confirmados
         ni garantizan una ventaja en partida.
       </p>
     `;
@@ -531,4 +634,3 @@
 
 </body>
 </html>
-
