@@ -64,6 +64,7 @@ const HERO_IMAGES = {
   "Mathilda": "mathilda.webp",
   "Baxia": "baxia.webp"
 };
+
 function renderTabs() {
   laneTabs.innerHTML = '';
 
