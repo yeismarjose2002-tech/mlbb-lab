@@ -1,0 +1,79 @@
+
+name: Actualizar estadísticas de héroes
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-rankings:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Descargar y validar estadísticas
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+
+          const url = 'https://mlbbdex.com/api/v1/rankings';
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error(`Error de API: ${response.status}`);
+          }
+
+          const result = await response.json();
+          const heroes = result?.data?.heroes;
+
+          if (!Array.isArray(heroes) || heroes.length === 0) {
+            throw new Error('La API no devolvió estadísticas válidas.');
+          }
+
+          const required = [
+            'slug', 'name', 'winRate',
+            'banRate', 'pickRate', 'lowSample'
+          ];
+
+          for (const hero of heroes) {
+            for (const field of required) {
+              if (!(field in hero)) {
+                throw new Error(
+                  `Falta ${field} en ${hero.name ?? 'un héroe'}`
+                );
+              }
+            }
+          }
+
+          fs.writeFileSync(
+            'rankings.json',
+            JSON.stringify(result, null, 2) + '\n'
+          );
+
+          console.log(`Se guardaron ${heroes.length} héroes.`);
+          console.log(`Medición: ${result.data.measuredAt}`);
+          EOF
+
+      - name: Guardar actualización en GitHub
+        run: |
+          git config user.name "TUPA MLBB Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rankings.json
+
+          if git diff --cached --quiet; then
+            echo "No hay cambios en las estadísticas."
+          else
+            git commit -m "Actualizar estadísticas de héroes"
+            git push
+          fi
