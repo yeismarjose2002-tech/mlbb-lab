@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Descargar y validar estadísticas
+      - name: Descargar, validar y guardar historial
         run: |
           node --input-type=module <<'EOF'
           import fs from 'node:fs';
+          import path from 'node:path';
 
           const url = 'https://mlbbdex.com/api/v1/rankings';
           const response = await fetch(url);
@@ -36,9 +37,14 @@ jobs:
 
           const result = await response.json();
           const heroes = result?.data?.heroes;
+          const measuredAt = result?.data?.measuredAt;
 
           if (!Array.isArray(heroes) || heroes.length === 0) {
             throw new Error('La API no devolvió estadísticas válidas.');
+          }
+
+          if (!measuredAt || Number.isNaN(Date.parse(measuredAt))) {
+            throw new Error('La fecha de medición no es válida.');
           }
 
           const required = [
@@ -56,24 +62,66 @@ jobs:
             }
           }
 
+          const historyDir = 'history';
+          fs.mkdirSync(historyDir, { recursive: true });
+
+          const date = measuredAt.slice(0, 10);
+          const time = measuredAt.slice(11, 19).replaceAll(':', '-');
+
+          let historyFile = path.join(
+            historyDir,
+            `rankings-${date}.json`
+          );
+
+          const existingFiles = fs.readdirSync(historyDir);
+
+          const alreadySaved = existingFiles.some(file => {
+            if (!file.endsWith('.json')) return false;
+
+            const saved = JSON.parse(
+              fs.readFileSync(path.join(historyDir, file), 'utf8')
+            );
+
+            return saved?.data?.measuredAt === measuredAt;
+          });
+
+          if (!alreadySaved) {
+            if (fs.existsSync(historyFile)) {
+              historyFile = path.join(
+                historyDir,
+                `rankings-${date}-${time}.json`
+              );
+            }
+
+            fs.writeFileSync(
+              historyFile,
+              JSON.stringify(result, null, 2) + '\n'
+            );
+
+            console.log(`Nueva captura histórica: ${historyFile}`);
+          } else {
+            console.log('Esta medición ya existe en el historial.');
+          }
+
           fs.writeFileSync(
             'rankings.json',
             JSON.stringify(result, null, 2) + '\n'
           );
 
-          console.log(`Se guardaron ${heroes.length} héroes.`);
-          console.log(`Medición: ${result.data.measuredAt}`);
+          console.log(`Se actualizaron ${heroes.length} héroes.`);
+          console.log(`Medición: ${measuredAt}`);
           EOF
 
       - name: Guardar actualización en GitHub
         run: |
           git config user.name "TUPA MLBB Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add rankings.json
+
+          git add rankings.json history/
 
           if git diff --cached --quiet; then
-            echo "No hay cambios en las estadísticas."
+            echo "No hay cambios nuevos."
           else
-            git commit -m "Actualizar estadísticas de héroes"
+            git commit -m "Actualizar estadísticas e historial"
             git push
           fi
