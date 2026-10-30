@@ -1,59 +1,21 @@
 
 {
-  "version": 2,
+  "version": 3,
   "game": "Mobile Legends: Bang Bang",
-  "description": "Reglas orientativas de interacción entre características de héroes para Counter Lab",
+  "description": "Reglas provisionales de interacción entre características de héroes. Las coincidencias no representan counters confirmados.",
   "rules": [
     {
       "id": "anti_mobility",
       "name": "Control contra movilidad",
       "attacker_tags": ["CC", "Crowd Control"],
       "target_tags": ["Mobility", "Chase"],
-      "interaction": "advantage",
-      "explanation": "Las habilidades de control pueden limitar los desplazamientos y las posibilidades de escape de un héroe móvil.",
-      "conditions": [
-        "La habilidad de control debe alcanzar al objetivo.",
-        "El objetivo no debe tener inmunidad o purificación disponible.",
-        "Hay que considerar el alcance y el tiempo de reutilización de la habilidad."
-      ]
-    },
-    {
-      "id": "burst_vs_squishy",
-      "name": "Daño explosivo contra objetivos vulnerables",
-      "attacker_tags": ["Burst"],
-      "target_tags": ["Poke", "Finisher"],
       "interaction": "conditional_advantage",
-      "explanation": "El daño explosivo puede eliminar rápidamente a héroes vulnerables antes de que puedan responder.",
+      "explanation": "Las habilidades de control pueden limitar los desplazamientos de un héroe móvil cuando consiguen alcanzarlo. La efectividad depende del tipo de control y de las herramientas defensivas del objetivo.",
       "conditions": [
-        "El objetivo debe tener poca resistencia.",
-        "El atacante debe poder ejecutar su combinación de habilidades.",
-        "La ventaja depende de los objetos, niveles y habilidades disponibles."
-      ]
-    },
-    {
-      "id": "poke_vs_initiator",
-      "name": "Hostigamiento contra iniciación",
-      "attacker_tags": ["Poke"],
-      "target_tags": ["Initiator", "Charge"],
-      "interaction": "conditional_advantage",
-      "explanation": "El daño a distancia puede desgastar al iniciador antes de que consiga comenzar un combate.",
-      "conditions": [
-        "El atacante debe mantener una distancia segura.",
-        "El objetivo no debe poder cerrar rápidamente el espacio.",
-        "La ventaja puede desaparecer si el iniciador consigue entrar."
-      ]
-    },
-    {
-      "id": "sustain_vs_poke",
-      "name": "Regeneración contra hostigamiento",
-      "attacker_tags": ["Regen", "Heal"],
-      "target_tags": ["Poke"],
-      "interaction": "conditional_advantage",
-      "explanation": "La recuperación de vida puede reducir el impacto del daño recibido durante los intercambios prolongados.",
-      "conditions": [
-        "La regeneración o curación debe estar disponible.",
-        "El daño recibido no debe superar la capacidad de recuperación.",
-        "Se deben considerar los efectos de reducción de curación."
+        "El control debe alcanzar al objetivo y afectar su capacidad de movimiento.",
+        "Se debe comprobar si el objetivo dispone de inmunidad, purificación o habilidades para evitar el control.",
+        "Hay que considerar el alcance, la duración y el tiempo de reutilización de ambas habilidades.",
+        "La movilidad del objetivo no debe confundirse automáticamente con vulnerabilidad al control."
       ]
     },
     {
@@ -62,11 +24,12 @@
       "attacker_tags": ["Push"],
       "target_tags": [],
       "interaction": "strategic_advantage",
-      "explanation": "La capacidad de eliminar oleadas y presionar estructuras puede generar ventajas de mapa.",
+      "explanation": "La capacidad de limpiar oleadas y presionar estructuras puede generar ventajas de mapa, obligando al equipo rival a responder y modificando sus posibilidades de rotación.",
       "conditions": [
-        "El equipo debe poder proteger la presión.",
-        "Se debe considerar la capacidad defensiva del rival.",
-        "La presión debe aprovecharse para obtener objetivos del mapa."
+        "El equipo debe poder proteger al héroe mientras ejerce presión.",
+        "Se debe considerar la capacidad defensiva del rival para limpiar oleadas.",
+        "La presión debe aprovecharse para conseguir objetivos o generar espacio en el mapa.",
+        "La presión de líneas no implica necesariamente una ventaja en el enfrentamiento individual."
       ]
     }
   ]
