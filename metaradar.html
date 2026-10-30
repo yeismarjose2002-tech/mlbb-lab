@@ -54,6 +54,7 @@
         <h2>META RADAR</h2>
         <p>Datos utilizados para estudiar el rendimiento competitivo.</p>
       </div>
+
       <div class="count" id="radarCount">CARGANDO...</div>
     </div>
 
@@ -104,6 +105,10 @@
   <span>PROYECTO INDEPENDIENTE · NO AFILIADO A MOONTON</span>
 </footer>
 
+<!-- CARGA DEL CATÁLOGO DE IMÁGENES -->
+<script src="data.js"></script>
+<script src="app.js"></script>
+
 <script>
 async function loadMetaRadar() {
   const status = document.getElementById('radarStatus');
@@ -124,6 +129,8 @@ async function loadMetaRadar() {
     if (!Array.isArray(heroes) || heroes.length === 0) {
       throw new Error('No hay estadísticas disponibles.');
     }
+
+    const heroImages = window.HERO_IMAGES || {};
 
     function percentile(hero, field) {
       const values = heroes
@@ -182,10 +189,13 @@ async function loadMetaRadar() {
 
     categories.forEach(category => {
       const group = document.createElement('div');
-      group.className = `tupa-tier-group tier-${category.name.toLowerCase()}`;
+
+      group.className =
+        `tupa-tier-group tier-${category.name.toLowerCase()}`;
 
       const heading = document.createElement('h3');
-      heading.textContent = `${category.name} — ${category.title}`;
+      heading.textContent =
+        `${category.name} — ${category.title}`;
 
       const grid = document.createElement('div');
       grid.className = 'tupa-hero-grid';
@@ -194,9 +204,29 @@ async function loadMetaRadar() {
         const card = document.createElement('article');
         card.className = 'tupa-hero-card';
 
+        // IMAGEN DEL HÉROE
+        const imagePath = heroImages[hero.name];
+
+        if (imagePath) {
+          const image = document.createElement('img');
+
+          image.src = imagePath;
+          image.alt = hero.name;
+          image.loading = 'lazy';
+          image.className = 'tupa-hero-image';
+
+          image.onerror = () => {
+            image.remove();
+          };
+
+          card.appendChild(image);
+        }
+
+        // NOMBRE
         const name = document.createElement('strong');
         name.textContent = hero.name;
 
+        // ESTADÍSTICAS
         const stats = document.createElement('div');
         stats.className = 'tupa-hero-stats';
 
@@ -208,10 +238,13 @@ async function loadMetaRadar() {
 
         card.append(name, stats);
 
+        // ADVERTENCIA DE MUESTRA BAJA
         if (hero.lowSample) {
           const warning = document.createElement('small');
+
           warning.textContent = 'Muestra baja';
           warning.className = 'tupa-warning';
+
           card.appendChild(warning);
         }
 
@@ -224,7 +257,8 @@ async function loadMetaRadar() {
 
     count.textContent = `${total} HÉROES`;
 
-    status.textContent = 'Estadísticas cargadas correctamente.';
+    status.textContent =
+      'Estadísticas cargadas correctamente.';
 
     if (result.data.measuredAt) {
       const measuredDate = new Date(result.data.measuredAt);
@@ -234,8 +268,11 @@ async function loadMetaRadar() {
     }
 
   } catch (error) {
-    status.textContent = `Error al cargar el Meta Radar: ${error.message}`;
+    status.textContent =
+      `Error al cargar el Meta Radar: ${error.message}`;
+
     count.textContent = 'SIN DATOS';
+
     console.error(error);
   }
 }
