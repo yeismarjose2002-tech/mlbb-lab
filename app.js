@@ -155,6 +155,9 @@ const HERO_IMAGES = {
   "Harith": "harith.webp"
 };
 
+// Compartir imágenes con otras páginas del proyecto
+window.HERO_IMAGES = HERO_IMAGES;
+
 // =====================================
 // TIER LIST POR LÍNEAS
 // =====================================
