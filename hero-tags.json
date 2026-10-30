@@ -2,6 +2,52 @@
 {
   "version": 1,
   "game": "Mobile Legends: Bang Bang",
-  "description": "Base de características de héroes para TUPA MLBB",
+  "description": "Sistema de clasificación de características para Counter Lab",
+  "taxonomy": {
+    "roles": [
+      "Assassin",
+      "Fighter",
+      "Mage",
+      "Marksman",
+      "Tank",
+      "Support"
+    ],
+    "lanes": [
+      "EXP Lane",
+      "Gold Lane",
+      "Mid Lane",
+      "Jungle",
+      "Roam"
+    ],
+    "specialties": [
+      "Burst",
+      "Chase",
+      "Charge",
+      "Control",
+      "Crowd Control",
+      "Finisher",
+      "Initiator",
+      "Poke",
+      "Push",
+      "Regen",
+      "Support"
+    ],
+    "abilityTags": [
+      "Mobility",
+      "AoE",
+      "Buff",
+      "Burst",
+      "Slow",
+      "Invincible",
+      "Damage",
+      "Heal",
+      "Camouflage",
+      "CC",
+      "Remove CC",
+      "Teleport",
+      "Morph",
+      "Death Immunity"
+    ]
+  },
   "heroes": []
 }
