@@ -8,11 +8,9 @@
   <link rel="stylesheet" href="styles.css">
 
   <style>
-    .counter-hero {
-      padding: 55px 0 35px;
-    }
+    .counter-hero { padding: 55px 0 35px; }
 
-    .counter-panel {
+    .counter-panel, .class-panel {
       background: #101925;
       border: 1px solid #263747;
       border-radius: 14px;
@@ -35,7 +33,6 @@
       padding: 20px;
       text-align: left;
       cursor: pointer;
-      transition: .2s;
     }
 
     .counter-mode.active {
@@ -43,16 +40,8 @@
       background: #142b36;
     }
 
-    .counter-mode h3 {
-      margin: 0 0 8px;
-      color: #5ce1e6;
-    }
-
-    .counter-mode p {
-      margin: 0;
-      color: #a9b8c7;
-      font-size: 14px;
-    }
+    .counter-mode h3 { margin: 0 0 8px; color: #5ce1e6; }
+    .counter-mode p { margin: 0; color: #a9b8c7; font-size: 14px; }
 
     .counter-form {
       display: grid;
@@ -68,8 +57,7 @@
       font-size: 13px;
     }
 
-    .counter-form select,
-    .counter-form input {
+    .counter-form select {
       width: 100%;
       padding: 13px;
       border-radius: 8px;
@@ -89,13 +77,7 @@
       cursor: pointer;
     }
 
-    .counter-button:hover {
-      filter: brightness(1.1);
-    }
-
-    .counter-results {
-      margin-top: 25px;
-    }
+    .counter-results { margin-top: 25px; }
 
     .counter-empty {
       padding: 25px;
@@ -123,15 +105,16 @@
       object-fit: contain;
     }
 
-    .counter-hero-card h3 {
-      margin: 0 0 5px;
+    .counter-hero-card h3 { margin: 0 0 5px; }
+    .counter-hero-card p { color: #a9b8c7; margin: 0; font-size: 13px; }
+
+    .class-panel h2 { color: #5ce1e6; }
+    .class-panel p, .class-panel li {
+      color: #a9b8c7;
+      line-height: 1.6;
     }
 
-    .counter-hero-card p {
-      color: #a9b8c7;
-      margin: 0;
-      font-size: 13px;
-    }
+    .class-panel ul { padding-left: 20px; }
 
     .counter-note {
       color: #a9b8c7;
@@ -141,13 +124,7 @@
     }
 
     @media (max-width: 650px) {
-      .counter-modes {
-        grid-template-columns: 1fr;
-      }
-
-      .counter-form {
-        grid-template-columns: 1fr;
-      }
+      .counter-modes, .counter-form { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -176,8 +153,37 @@
     <p class="eyebrow">INTELIGENCIA DE ENFRENTAMIENTOS</p>
     <h1>COUNTER LAB</h1>
     <p>
-      Cada héroe tiene fortalezas y debilidades.
-      Aprende a reconocerlas antes de elegir.
+      Aprende a reconocer las fortalezas, debilidades
+      y enfrentamientos entre héroes.
+    </p>
+  </section>
+
+  <section class="class-panel">
+    <p class="eyebrow">FORMACIÓN · JUNGLA</p>
+    <h2>JUNGLA ASESINO</h2>
+
+    <p>
+      Su función principal es eliminar objetivos vulnerables
+      mediante daño explosivo y oportunidades de entrada.
+    </p>
+
+    <h3>Características principales</h3>
+    <ul>
+      <li>Movilidad para acercarse o escapar.</li>
+      <li>Daño explosivo para eliminar objetivos rápidamente.</li>
+      <li>Capacidad de alcanzar la retaguardia enemiga.</li>
+      <li>Dependencia de una buena oportunidad de entrada.</li>
+    </ul>
+
+    <h3>Objetivo estratégico</h3>
+    <p>
+      Encontrar objetivos vulnerables, conseguir eliminaciones
+      y transformar esa ventaja en control del mapa y objetivos.
+    </p>
+
+    <p class="counter-note">
+      Ejemplos de este perfil: Ling, Aamon y Nolan.
+      Sus habilidades y condiciones de victoria son diferentes.
     </p>
   </section>
 
@@ -217,7 +223,7 @@
     </div>
 
     <p class="counter-note">
-      Las recomendaciones de Counter Lab serán orientativas.
+      Las recomendaciones serán orientativas.
       Un enfrentamiento depende también de la línea, la composición,
       la estrategia y la habilidad de cada jugador.
     </p>
@@ -309,7 +315,6 @@
     }
 
     const hero = heroes.find(item => item.name === selectedHero);
-
     if (!hero) return;
 
     const imagePath = window.HERO_IMAGES?.[hero.name];
@@ -319,6 +324,7 @@
         <strong>${currentMode === 'advantage'
           ? 'ANÁLISIS DE VENTAJA'
           : 'ANÁLISIS DE CONTRACOUNTER'}</strong>
+
         <div class="counter-hero-card">
           ${imagePath ? `<img src="${imagePath}" alt="${hero.name}">` : ''}
           <div>
@@ -326,9 +332,10 @@
             <p>Héroe seleccionado para el análisis.</p>
           </div>
         </div>
+
         <p>
-          La selección funciona. La base de enfrentamientos todavía
-          debe construirse para mostrar recomendaciones verificadas.
+          La selección funciona. La base de enfrentamientos
+          todavía debe construirse con información verificada.
         </p>
       </div>
     `;
