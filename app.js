@@ -11,8 +11,6 @@ let activeLane = 'Jungle';
 
 // Imágenes de héroes disponibles
 
-
-
 const HERO_IMAGES = {
   // ROAM
   "Belerick": "belerick.webp",
@@ -158,7 +156,9 @@ const HERO_IMAGES = {
   "Harith": "harith.webp"
 };
 
-
+// =====================================
+// TIER LIST ORIGINAL POR LÍNEAS
+// =====================================
 
 function renderTabs() {
   laneTabs.innerHTML = '';
@@ -260,6 +260,8 @@ renderBoard();
 async function loadTupaTier() {
   const container = document.getElementById('tupaTierBoard');
 
+  if (!container) return;
+
   try {
     const response = await fetch('./rankings.json');
 
@@ -286,6 +288,7 @@ async function loadTupaTier() {
       if (!Number.isFinite(value) || values.length < 2) return 0;
 
       const position = values.filter(v => v <= value).length - 1;
+
       return position / (values.length - 1);
     }
 
@@ -330,13 +333,22 @@ async function loadTupaTier() {
         const card = document.createElement('article');
         card.className = 'tupa-hero-card';
 
-        const image = document.createElement('img');
-        image.src = HERO_IMAGES[hero.name] || '';
-        image.alt = hero.name;
-        image.loading = 'lazy';
+        // Imagen con tamaño uniforme.
+        const imagePath = HERO_IMAGES[hero.name];
 
-        if (!image.src || !HERO_IMAGES[hero.name]) {
-          image.style.display = 'none';
+        if (imagePath) {
+          const image = document.createElement('img');
+
+          image.src = imagePath;
+          image.alt = hero.name;
+          image.loading = 'lazy';
+          image.className = 'tupa-hero-image';
+
+          image.onerror = () => {
+            image.remove();
+          };
+
+          card.appendChild(image);
         }
 
         const name = document.createElement('strong');
@@ -344,13 +356,14 @@ async function loadTupaTier() {
 
         const stats = document.createElement('div');
         stats.className = 'tupa-hero-stats';
+
         stats.innerHTML = `
           <span>WR <b>${Number(hero.winRate).toFixed(2)}%</b></span>
           <span>PR <b>${Number(hero.pickRate).toFixed(2)}%</b></span>
           <span>BR <b>${Number(hero.banRate).toFixed(2)}%</b></span>
         `;
 
-        card.append(image, name, stats);
+        card.append(name, stats);
 
         if (hero.lowSample) {
           const warning = document.createElement('small');
