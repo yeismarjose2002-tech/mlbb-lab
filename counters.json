@@ -1,0 +1,70 @@
+
+{
+  "version": 1,
+  "game": "Mobile Legends: Bang Bang",
+  "description": "Reglas de interacción entre características de héroes para Counter Lab",
+  "rules": [
+    {
+      "id": "anti_mobility",
+      "name": "Control contra movilidad",
+      "attacker_tags": ["CC", "Crowd Control"],
+      "target_tags": ["Mobility", "Chase"],
+      "interaction": "advantage",
+      "explanation": "El control puede interrumpir desplazamientos o impedir que un héroe móvil escape.",
+      "conditions": [
+        "El control debe poder alcanzar al objetivo.",
+        "El objetivo no debe tener inmunidad o purificación disponible."
+      ]
+    },
+    {
+      "id": "burst_vs_squishy",
+      "name": "Daño explosivo contra baja resistencia",
+      "attacker_tags": ["Burst"],
+      "target_tags": ["Poke", "Finisher"],
+      "interaction": "conditional_advantage",
+      "explanation": "El daño explosivo puede eliminar rápidamente a objetivos vulnerables.",
+      "conditions": [
+        "El objetivo debe tener poca resistencia.",
+        "El atacante debe poder ejecutar su combinación de habilidades.",
+        "La ventaja depende de los objetos y niveles."
+      ]
+    },
+    {
+      "id": "poke_vs_short_range",
+      "name": "Hostigamiento contra corto alcance",
+      "attacker_tags": ["Poke"],
+      "target_tags": ["Initiator", "Charge"],
+      "interaction": "conditional_advantage",
+      "explanation": "El daño a distancia puede desgastar al rival antes de que consiga iniciar un combate.",
+      "conditions": [
+        "El atacante debe mantener la distancia.",
+        "El objetivo no debe poder cerrar rápidamente el espacio."
+      ]
+    },
+    {
+      "id": "push_pressure",
+      "name": "Presión de líneas",
+      "attacker_tags": ["Push"],
+      "target_tags": [],
+      "interaction": "strategic_advantage",
+      "explanation": "La capacidad de eliminar oleadas y presionar estructuras puede generar ventajas en el mapa.",
+      "conditions": [
+        "El equipo debe poder proteger la presión.",
+        "Se debe considerar la capacidad defensiva del rival."
+      ]
+    },
+    {
+      "id": "sustain_vs_poke",
+      "name": "Regeneración contra hostigamiento",
+      "attacker_tags": ["Regen", "Heal"],
+      "target_tags": ["Poke"],
+      "interaction": "conditional_advantage",
+      "explanation": "La recuperación de vida puede reducir el impacto del daño constante.",
+      "conditions": [
+        "La regeneración debe estar disponible.",
+        "El daño recibido no debe superar la capacidad de recuperación.",
+        "Se deben considerar los efectos de reducción de curación."
+      ]
+    }
+  ]
+}
