@@ -252,3 +252,128 @@ search.addEventListener('input', renderBoard);
 
 renderTabs();
 renderBoard();
+
+// =====================================
+// TUPA MLBB — TIER LIST PROPIA
+// =====================================
+
+async function loadTupaTier() {
+  const container = document.getElementById('tupaTierBoard');
+
+  try {
+    const response = await fetch('./rankings.json');
+
+    if (!response.ok) {
+      throw new Error('No se pudieron cargar las estadísticas.');
+    }
+
+    const result = await response.json();
+    const heroes = result?.data?.heroes;
+
+    if (!Array.isArray(heroes) || heroes.length === 0) {
+      throw new Error('No hay datos de héroes disponibles.');
+    }
+
+    // Calcula la posición relativa de cada héroe en cada métrica.
+    function percentile(hero, field) {
+      const values = heroes
+        .map(h => Number(h[field]))
+        .filter(Number.isFinite)
+        .sort((a, b) => a - b);
+
+      const value = Number(hero[field]);
+
+      if (!Number.isFinite(value) || values.length < 2) return 0;
+
+      const position = values.filter(v => v <= value).length - 1;
+      return position / (values.length - 1);
+    }
+
+    // Ponderación inicial de TUPA.
+    const ranked = heroes.map(hero => {
+      const wr = percentile(hero, 'winRate');
+      const pr = percentile(hero, 'pickRate');
+      const br = percentile(hero, 'banRate');
+
+      return {
+        ...hero,
+        tupaScore: (wr * 0.50) + (pr * 0.25) + (br * 0.25)
+      };
+    });
+
+    ranked.sort((a, b) => b.tupaScore - a.tupaScore);
+
+    // Tres categorías: S, A y C.
+    const total = ranked.length;
+
+    const categories = [
+      { name: 'S', title: 'DOMINANTES', limit: Math.ceil(total * 0.20) },
+      { name: 'A', title: 'COMPETITIVOS', limit: Math.ceil(total * 0.60) },
+      { name: 'C', title: 'CONTEXTUALES', limit: total }
+    ];
+
+    let start = 0;
+
+    container.innerHTML = '';
+
+    categories.forEach(category => {
+      const group = document.createElement('div');
+      group.className = `tupa-tier-group tier-${category.name.toLowerCase()}`;
+
+      const heading = document.createElement('h3');
+      heading.textContent = `${category.name} — ${category.title}`;
+
+      const grid = document.createElement('div');
+      grid.className = 'tupa-hero-grid';
+
+      ranked.slice(start, category.limit).forEach(hero => {
+        const card = document.createElement('article');
+        card.className = 'tupa-hero-card';
+
+        const image = document.createElement('img');
+        image.src = HERO_IMAGES[hero.name] || '';
+        image.alt = hero.name;
+        image.loading = 'lazy';
+
+        if (!image.src || !HERO_IMAGES[hero.name]) {
+          image.style.display = 'none';
+        }
+
+        const name = document.createElement('strong');
+        name.textContent = hero.name;
+
+        const stats = document.createElement('div');
+        stats.className = 'tupa-hero-stats';
+        stats.innerHTML = `
+          <span>WR <b>${Number(hero.winRate).toFixed(2)}%</b></span>
+          <span>PR <b>${Number(hero.pickRate).toFixed(2)}%</b></span>
+          <span>BR <b>${Number(hero.banRate).toFixed(2)}%</b></span>
+        `;
+
+        card.append(image, name, stats);
+
+        if (hero.lowSample) {
+          const warning = document.createElement('small');
+          warning.textContent = 'Muestra baja';
+          warning.className = 'tupa-warning';
+          card.appendChild(warning);
+        }
+
+        grid.appendChild(card);
+      });
+
+      group.append(heading, grid);
+      container.appendChild(group);
+
+      start = category.limit;
+    });
+
+    console.log('TUPA Tier List cargada:', ranked.length, 'héroes');
+
+  } catch (error) {
+    container.textContent = `Error: ${error.message}`;
+    console.error(error);
+  }
+}
+
+loadTupaTier();
