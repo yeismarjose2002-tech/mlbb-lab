@@ -1,0 +1,110 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="TUPA MLBB: clasificación y análisis competitivo de héroes.">
+  <title>TUPA MLBB — Tier List</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">TP</span>
+    <span>TUPA <b>MLBB</b><small>COMPETITIVE INTELLIGENCE</small></span>
+  </a>
+
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="metaradar.html">Meta Radar</a>
+    <a href="draftlab.html">Draft Lab</a>
+    <a href="metodologia.html">Metodología</a>
+  </nav>
+
+  <a class="lane-btn" href="login.html">INICIAR SESIÓN</a>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="eyebrow">TUPA COMPETITIVE ANALYSIS</div>
+    <h1>ENTIENDE EL META.<br><em>DECIDE MEJOR.</em></h1>
+    <p>
+      Analiza el rendimiento de los héroes y utiliza la información
+      para construir tu propio criterio competitivo.
+    </p>
+    <div class="hero-meta">
+      <span>WIN RATE</span>
+      <span>PICK RATE</span>
+      <span>BAN RATE</span>
+    </div>
+  </section>
+
+  <section id="tupa-tier" class="panel">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">TUPA COMPETITIVE ANALYSIS</div>
+        <h2>TUPA TIER LIST</h2>
+        <p>Clasificación propia basada en victorias, selecciones y baneos.</p>
+      </div>
+      <div class="count">META RADAR</div>
+    </div>
+
+    <div id="tupaTierBoard" class="tier-board">
+      <p>Cargando clasificación...</p>
+    </div>
+  </section>
+
+  <section id="tierlist" class="panel">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">EXPLORADOR DE HÉROES</div>
+        <h2>Explorador de héroes</h2>
+        <p>Selecciona una línea y consulta la clasificación de cada héroe.</p>
+      </div>
+      <div class="count" id="heroCount">— HÉROES</div>
+    </div>
+
+    <div class="toolbar">
+      <div class="lanes" id="laneTabs"></div>
+      <input id="search" type="search"
+        placeholder="Buscar héroe…" autocomplete="off">
+    </div>
+
+    <div id="tierBoard" class="tier-board" aria-live="polite"></div>
+
+    <div id="empty" class="empty" hidden>
+      No se encontraron héroes con ese nombre.
+    </div>
+
+    <div class="source-note">
+      Clasificación de referencia de MLBB.GG. Consulta la fecha
+      y el contexto de los datos antes de tomar decisiones.
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow">RECUERDA</div>
+    <h2>Los datos orientan. Tú decides.</h2>
+    <p>
+      Una clasificación es una referencia, no una orden de selección.
+      El resultado depende también de tu ejecución, tu estrategia y
+      el contexto de cada partida.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <span>TUPA MLBB</span>
+  <span>PROYECTO INDEPENDIENTE · NO AFILIADO A MOONTON</span>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
