@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Metodología, evidencia y arquitectura estratégica de TUPA MLBB.">
+  <title>TUPA MLBB — Metodología</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .method-hero {
+      padding: 75px 25px 45px;
+    }
+
+    .method-hero h1 {
+      font: 800 clamp(42px, 7vw, 76px)/.95 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      margin: 18px 0;
+    }
+
+    .method-hero h1 em {
+      color: var(--cyan);
+      font-style: normal;
+    }
+
+    .method-hero p {
+      color: var(--muted);
+      max-width: 720px;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .method-section {
+      margin: 0 20px 18px;
+      padding: 28px;
+      background: linear-gradient(145deg, #111d2a, #0e1722);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .method-section h2 {
+      font: 700 30px 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      margin: 8px 0 18px;
+    }
+
+    .method-section p,
+    .method-section li {
+      color: #aab8c8;
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    .method-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .method-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #0b131d;
+    }
+
+    .method-card strong {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .method-card p {
+      margin-bottom: 0;
+    }
+
+    .method-status {
+      display: inline-block;
+      padding: 6px 10px;
+      border: 1px solid #5ce1e655;
+      border-radius: 4px;
+      color: var(--cyan);
+      font-size: 9px;
+      letter-spacing: 1px;
+      font-weight: 800;
+    }
+
+    .method-flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .method-step {
+      padding: 17px;
+      background: #142131;
+      border: 1px solid #2b3d50;
+      border-radius: 7px;
+    }
+
+    .method-step span {
+      display: block;
+      color: var(--cyan);
+      font: 700 24px 'Barlow Condensed', sans-serif;
+      margin-bottom: 8px;
+    }
+
+    .method-step b {
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .method-step p {
+      font-size: 11px;
+    }
+
+    .method-note {
+      border-left: 3px solid var(--gold);
+      padding: 12px 17px;
+      background: #f4c76b0b;
+      margin-top: 18px;
+    }
+
+    .method-note p {
+      margin: 0;
+    }
+
+    .method-list {
+      padding-left: 20px;
+    }
+
+    .method-list li {
+      margin-bottom: 7px;
+    }
+
+    @media (max-width: 700px) {
+      .method-hero {
+        padding: 55px 20px 35px;
+      }
+
+      .method-section {
+        margin: 0 10px 13px;
+        padding: 19px;
+      }
+
+      .method-cards,
+      .method-flow {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-mark">TP</span>
+    <span>TUPA <b>MLBB</b><small>COMPETITIVE INTELLIGENCE</small></span>
+  </a>
+
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="tierlist.html">Tier List</a>
+    <a href="metaradar.html">Meta Radar</a>
+    <a href="counterlab.html">Counter Lab</a>
+    <a href="draftlab.html">Draft Lab</a>
+    <a href="metodologia.html">Metodología</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="method-hero">
+    <div class="eyebrow">TUPA · FUNDAMENTOS DEL SISTEMA</div>
+    <h1>EL CONOCIMIENTO<br><em>DETRÁS DE CADA DECISIÓN.</em></h1>
+    <p>
+      TUPA no busca recomendar por intuición ni convertir estadísticas
+      aisladas en verdades. Su propósito es reunir información,
+      evaluar evidencia, comprender el contexto y ofrecer criterios
+      estratégicos que puedan ser examinados.
+    </p>
+    <span class="method-status">METODOLOGÍA BASE · VERSIÓN 1.0</span>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">01 · PRINCIPIO FUNDAMENTAL</div>
+    <h2>No confundir datos con conocimiento.</h2>
+    <p>
+      Una estadística describe un resultado. Una observación registra
+      un comportamiento. Una hipótesis propone una explicación.
+      Un conocimiento estratégico necesita evidencia, contexto,
+      revisión y condiciones de aplicación.
+    </p>
+    <div class="method-cards">
+      <article class="method-card">
+        <strong>DATOS</strong>
+        <p>Información registrada, como estadísticas, resultados y cambios de habilidades.</p>
+      </article>
+      <article class="method-card">
+        <strong>OBSERVACIONES</strong>
+        <p>Comportamientos detectados durante partidas y análisis de jugadores.</p>
+      </article>
+      <article class="method-card">
+        <strong>CONOCIMIENTO</strong>
+        <p>Conclusiones respaldadas, revisadas y delimitadas por sus condiciones.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">02 · CICLO DE CONOCIMIENTO</div>
+    <h2>Cómo aprende TUPA.</h2>
+    <p>
+      El sistema transforma información en propuestas de conocimiento
+      mediante un proceso trazable. Ninguna hipótesis se convierte
+      automáticamente en una regla estratégica oficial.
+    </p>
+    <div class="method-flow">
+      <article class="method-step">
+        <span>01</span>
+        <b>Recopilación</b>
+        <p>Reunir estadísticas, partidas, fuentes y observaciones.</p>
+      </article>
+      <article class="method-step">
+        <span>02</span>
+        <b>Evaluación</b>
+        <p>Comparar evidencia, condiciones, calidad y actualidad.</p>
+      </article>
+      <article class="method-step">
+        <span>03</span>
+        <b>Validación</b>
+        <p>Revisión de analistas y autorización humana cuando corresponda.</p>
+      </article>
+      <article class="method-step">
+        <span>04</span>
+        <b>Aplicación</b>
+        <p>Utilizar el conocimiento aprobado en los análisis estratégicos.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">03 · EVIDENCIA Y CONFIANZA</div>
+    <h2>Todo conocimiento debe poder rastrearse.</h2>
+    <p>Cada registro estratégico deberá conservar:</p>
+    <ul class="method-list">
+      <li>La afirmación que se desea respaldar.</li>
+      <li>Las fuentes y su procedencia.</li>
+      <li>El parche y periodo al que corresponde.</li>
+      <li>La fecha de consulta y última revisión.</li>
+      <li>Las condiciones y limitaciones detectadas.</li>
+      <li>El estado de verificación y su historial.</li>
+    </ul>
+    <div class="method-cards">
+      <article class="method-card">
+        <strong>VERIFICADO</strong>
+        <p>Cuenta con evidencia suficiente y revisión aprobada.</p>
+      </article>
+      <article class="method-card">
+        <strong>PARCIAL</strong>
+        <p>Existe respaldo, pero faltan aspectos por comprobar.</p>
+      </article>
+      <article class="method-card">
+        <strong>PROVISIONAL</strong>
+        <p>Es una hipótesis o hallazgo todavía en evaluación.</p>
+      </article>
+    </div>
+    <div class="method-note">
+      <p>
+        La confianza en la evidencia es independiente de la puntuación
+        estratégica. Una recomendación puede parecer prometedora y
+        todavía tener respaldo limitado.
+      </p>
+    </div>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">04 · GOBERNANZA</div>
+    <h2>La validación es una responsabilidad compartida.</h2>
+    <div class="method-cards">
+      <article class="method-card">
+        <strong>USUARIOS</strong>
+        <p>Aportan partidas, observaciones, resultados y evidencia.</p>
+      </article>
+      <article class="method-card">
+        <strong>ANALISTAS</strong>
+        <p>Contrastan fuentes, revisan argumentos y evalúan hallazgos.</p>
+      </article>
+      <article class="method-card">
+        <strong>ADMINISTRADORES</strong>
+        <p>Autorizan, rechazan o devuelven propuestas justificando su decisión.</p>
+      </article>
+    </div>
+    <p>
+      TUPA organiza y evalúa la información. Los conocimientos
+      estratégicos importantes requieren aprobación humana.
+    </p>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">05 · DISCREPANCIAS</div>
+    <h2>El desacuerdo también aporta información.</h2>
+    <p>
+      Cuando los analistas discrepen, TUPA comparará fuentes,
+      argumentos, muestras y condiciones. No decidirá por votación
+      ni ocultará las opiniones minoritarias.
+    </p>
+    <ul class="method-list">
+      <li><b>Consistente:</b> la evidencia respalda una conclusión común.</li>
+      <li><b>Condicionado:</b> las conclusiones dependen de contextos distintos.</li>
+      <li><b>En revisión:</b> todavía se necesita evidencia.</li>
+      <li><b>Provisional:</b> existe una hipótesis sin respaldo suficiente.</li>
+      <li><b>Contradictorio:</b> hay evidencia incompatible sin resolver.</li>
+    </ul>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">06 · ACTUALIZACIONES</div>
+    <h2>El conocimiento evoluciona con el juego.</h2>
+    <p>
+      TUPA utilizará fuentes combinadas: las oficiales para confirmar
+      los cambios y las especializadas para ampliar su interpretación.
+    </p>
+    <div class="method-cards">
+      <article class="method-card">
+        <strong>REVISIÓN PERIÓDICA</strong>
+        <p>Consultas programadas de las fuentes disponibles.</p>
+      </article>
+      <article class="method-card">
+        <strong>ALERTAS POR EVENTOS</strong>
+        <p>Detección de parches y modificaciones importantes.</p>
+      </article>
+      <article class="method-card">
+        <strong>REVISIÓN MANUAL</strong>
+        <p>Investigaciones iniciadas por los administradores.</p>
+      </article>
+    </div>
+    <p>
+      La revisión será por impacto: se identificarán los aspectos
+      afectados por cada cambio y se conservarán los conocimientos
+      que continúen respaldados.
+    </p>
+    <div class="method-note">
+      <p>
+        Las alertas tendrán clasificación adaptativa según alcance,
+        urgencia, módulos afectados e incertidumbre. Detectar un parche
+        no autoriza una modificación estratégica automática.
+      </p>
+    </div>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">07 · MOTOR DE ANÁLISIS</div>
+    <h2>Evaluar el contexto antes de recomendar.</h2>
+    <p>
+      El motor estratégico evaluará cada candidato considerando cinco
+      dimensiones, con ponderaciones dinámicas según la situación.
+    </p>
+    <div class="method-cards">
+      <article class="method-card">
+        <strong>NECESIDAD</strong>
+        <p>Qué necesita resolver la composición.</p>
+      </article>
+      <article class="method-card">
+        <strong>COMPATIBILIDAD</strong>
+        <p>Cómo se integra con los aliados.</p>
+      </article>
+      <article class="method-card">
+        <strong>ENFRENTAMIENTO</strong>
+        <p>Cómo responde a las amenazas enemigas.</p>
+      </article>
+      <article class="method-card">
+        <strong>FUNCIONALIDAD</strong>
+        <p>Qué aporta durante las distintas fases de partida.</p>
+      </article>
+      <article class="method-card">
+        <strong>RIESGO</strong>
+        <p>Qué debilidades o condiciones pueden limitar la elección.</p>
+      </article>
+    </div>
+    <p>
+      La evaluación utiliza una escala de 1 a 5. Sus ponderaciones
+      dependen del contexto y la confianza de la evidencia se muestra
+      por separado.
+    </p>
+  </section>
+
+  <section class="method-section">
+    <div class="eyebrow">08 · TRANSPARENCIA</div>
+    <h2>Una recomendación debe explicar sus razones.</h2>
+    <p>
+      TUPA mostrará primero una conclusión comprensible y permitirá
+      consultar las fuentes, versiones, factores de evaluación,
+      limitaciones y condiciones de aplicación.
+    </p>
+    <h3>La información es nuestra contribución. El criterio y las decisiones pertenecen al jugador.</h3>
+  </section>
+
+</main>
+
+<footer>
+  <span>TUPA MLBB</span>
+  <span>PROYECTO INDEPENDIENTE · NO AFILIADO A MOONTON</span>
+</footer>
+
+</body>
+</html>
