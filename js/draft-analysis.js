@@ -39,7 +39,6 @@ window.TUPA_DRAFT_ANALYSIS = {
   },
 
   analyzeTeam(heroIds = []) {
-
     if (!Array.isArray(heroIds)) {
       heroIds = [];
     }
@@ -89,23 +88,26 @@ window.TUPA_DRAFT_ANALYSIS = {
       hero => hero.damage?.magical === true
     ).length;
 
-    const physicalUnknown = selectedHeroes.filter(
-      hero => hero.damage?.physical == null
-    ).length;
+    const physicalUnknown = heroIds.length -
+      selectedHeroes.filter(hero =>
+        typeof hero.damage?.physical === "boolean"
+      ).length;
 
-    const magicalUnknown = selectedHeroes.filter(
-      hero => hero.damage?.magical == null
-    ).length;
+    const magicalUnknown = heroIds.length -
+      selectedHeroes.filter(hero =>
+        typeof hero.damage?.magical === "boolean"
+      ).length;
 
     const damage = {
       physical: physicalCount,
       magical: magicalCount,
       physicalUnknown,
       magicalUnknown,
-      unknown: selectedHeroes.filter(hero =>
-        hero.damage?.physical == null ||
-        hero.damage?.magical == null
-      ).length
+      unknown: heroIds.length -
+        selectedHeroes.filter(hero =>
+          typeof hero.damage?.physical === "boolean" &&
+          typeof hero.damage?.magical === "boolean"
+        ).length
     };
 
     // ATRIBUTOS
@@ -119,7 +121,6 @@ window.TUPA_DRAFT_ANALYSIS = {
     const attributes = {};
 
     attributeNames.forEach(attribute => {
-
       const values = selectedHeroes
         .map(hero => hero.attributes?.[attribute])
         .filter(value =>
@@ -129,7 +130,10 @@ window.TUPA_DRAFT_ANALYSIS = {
 
       attributes[attribute] = {
         knownCount: values.length,
-        unknownCount: selectedHeroes.length - values.length,
+
+        // Incluye héroes sin ficha estratégica.
+        unknownCount: heroIds.length - values.length,
+
         average: values.length > 0
           ? Number(
               (
@@ -143,18 +147,17 @@ window.TUPA_DRAFT_ANALYSIS = {
 
     // INFORMACIÓN FALTANTE
     const missingInformation = selectedHeroes.map(hero => {
-
       const missing = [];
 
       if (!hero.roles?.primary) {
         missing.push("primaryRole");
       }
 
-      if (hero.damage?.physical == null) {
+      if (typeof hero.damage?.physical !== "boolean") {
         missing.push("physicalDamage");
       }
 
-      if (hero.damage?.magical == null) {
+      if (typeof hero.damage?.magical !== "boolean") {
         missing.push("magicalDamage");
       }
 
@@ -174,8 +177,22 @@ window.TUPA_DRAFT_ANALYSIS = {
         heroName: hero.name,
         missing
       };
-
     }).filter(item => item.missing.length > 0);
+
+    // HÉROES SIN FICHA ESTRATÉGICA
+    unknownHeroes.forEach(value => {
+      missingInformation.push({
+        heroId: this.normalizeHeroId(value),
+        heroName: String(value),
+        missing: [
+          "heroRecord",
+          "primaryRole",
+          "physicalDamage",
+          "magicalDamage",
+          ...attributeNames
+        ]
+      });
+    });
 
     const hasIncompleteVerification =
       unknownHeroes.length > 0 ||
@@ -210,9 +227,7 @@ window.TUPA_DRAFT_ANALYSIS = {
     };
   },
 
-  // COMPARAR EQUIPO AZUL Y EQUIPO ROJO
   compareTeams(blueTeam = [], redTeam = []) {
-
     const blue = this.analyzeTeam(blueTeam);
     const red = this.analyzeTeam(redTeam);
 
