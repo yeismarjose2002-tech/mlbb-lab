@@ -2,46 +2,64 @@
 /*
   TUPA MLBB — DRAFT RECOMMENDER
 
-  Prepara candidatos para las recomendaciones del Draft Lab.
-
-  Estados:
-  - verified: información verificada.
-  - partial: información parcialmente verificada.
-  - pending: información pendiente.
-
-  Los héroes pendientes quedan excluidos.
-  Los héroes parciales pueden participar, pero deben
-  identificarse como tales y no generar afirmaciones
-  basadas en datos que todavía no están verificados.
+  Gestiona los candidatos disponibles y su evidencia.
+  No inventa compatibilidades, counters ni ventajas.
 */
 
 window.TUPA_DRAFT_RECOMMENDER = {
 
+  validStatuses: ["verified", "partial", "pending"],
+
+  normalizeId(value) {
+    if (!value || typeof value !== "string") return null;
+
+    return value
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]/g, "");
+  },
+
   getAvailableCandidates(selectedHeroIds = [], options = {}) {
     const engine = window.TUPA_DRAFT_ENGINE;
 
-    if (!engine) return [];
+    if (!engine || typeof engine.getHeroes !== "function") {
+      return [];
+    }
 
-    const heroes = engine.getHeroes();
+    const selectedIds = new Set(
+      (Array.isArray(selectedHeroIds) ? selectedHeroIds : [])
+        .map(value => this.normalizeId(value))
+        .filter(Boolean)
+    );
 
     const allowedStatuses = options.includePartial === false
       ? ["verified"]
       : ["verified", "partial"];
 
-    return heroes.filter(hero => {
-      const status = hero.verification?.status;
+    return engine.getHeroes().filter(hero => {
+      const status = this.getValidStatus(hero);
 
       return (
         allowedStatuses.includes(status) &&
-        !selectedHeroIds.includes(hero.id)
+        !selectedIds.has(this.normalizeId(hero.id))
       );
     });
+  },
+
+  getValidStatus(hero) {
+    const status = hero?.verification?.status;
+
+    return this.validStatuses.includes(status)
+      ? status
+      : "pending";
   },
 
   getRecommendationStatus() {
     const engine = window.TUPA_DRAFT_ENGINE;
 
-    if (!engine) {
+    if (!engine || typeof engine.getHeroes !== "function") {
       return {
         ready: false,
         message: "El motor de Draft no está cargado.",
@@ -55,33 +73,26 @@ window.TUPA_DRAFT_RECOMMENDER = {
     const heroes = engine.getHeroes();
 
     const verified = heroes.filter(
-      hero => hero.verification?.status === "verified"
+      hero => this.getValidStatus(hero) === "verified"
     );
 
     const partial = heroes.filter(
-      hero => hero.verification?.status === "partial"
+      hero => this.getValidStatus(hero) === "partial"
     );
 
     const pending = heroes.filter(
-      hero => hero.verification?.status === "pending"
+      hero => this.getValidStatus(hero) === "pending"
     );
 
     const candidates = [...verified, ...partial];
 
-    if (candidates.length === 0) {
-      return {
-        ready: false,
-        message: "Todavía no hay héroes verificados o parcialmente verificados.",
-        verifiedCount: verified.length,
-        partialCount: partial.length,
-        pendingCount: pending.length,
-        availableHeroes: 0
-      };
-    }
-
     return {
-      ready: true,
-      message: "Hay candidatos disponibles. Revisa su nivel de verificación.",
+      ready: candidates.length > 0,
+
+      message: candidates.length > 0
+        ? "Hay candidatos disponibles. Revisa su nivel de verificación."
+        : "Todavía no hay héroes verificados o parcialmente verificados.",
+
       verifiedCount: verified.length,
       partialCount: partial.length,
       pendingCount: pending.length,
@@ -92,16 +103,24 @@ window.TUPA_DRAFT_RECOMMENDER = {
   getCandidateEvidence(hero) {
     if (!hero) return null;
 
-    const status = hero.verification?.status || "pending";
+    const status = this.getValidStatus(hero);
 
     return {
-      heroId: hero.id,
-      heroName: hero.name,
+      heroId: hero.id || null,
+      heroName: hero.name || "Héroe sin nombre",
       verificationStatus: status,
-      sources: hero.verification?.sources || [],
+
+      sources: Array.isArray(hero.verification?.sources)
+        ? hero.verification.sources
+        : [],
+
       lastReviewed: hero.verification?.lastReviewed || null,
-      canBeRecommended: status === "verified" || status === "partial",
+
+      canBeRecommended:
+        status === "verified" || status === "partial",
+
       requiresWarning: status === "partial",
+
       message: status === "verified"
         ? "Información verificada."
         : status === "partial"
