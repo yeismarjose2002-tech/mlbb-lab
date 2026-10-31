@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,114 +8,165 @@
 
 <style>
 :root{
-  --blue:#70b7ff;
-  --red:#ed8585;
-  --gold:#d6a85b;
-  --panel:#171717;
-  --line:#353535;
-  --muted:#999;
+  --blue:#78baff;
+  --red:#f18b8b;
+  --gold:#d9ad67;
+  --bg:#0d0e10;
+  --panel:#15171a;
+  --panel2:#1c1f23;
+  --line:#30343a;
+  --muted:#9299a3;
+  --green:#8bd5a0;
 }
 *{box-sizing:border-box}
-body{background:#101010}
-.draft-container{max-width:1200px;margin:30px auto;padding:18px}
-.draft-header{margin-bottom:24px}
-.draft-header h1{font-family:'Cinzel',serif;font-size:clamp(34px,6vw,54px);color:var(--gold);margin:8px 0}
-.draft-header p,.muted{color:var(--muted);font-size:13px;line-height:1.5}
+body{background:var(--bg);color:#eee}
+.draft-container{max-width:1250px;margin:25px auto;padding:16px}
+.draft-header{margin-bottom:22px}
+.draft-header h1{
+  font-family:'Cinzel',serif;font-size:clamp(34px,6vw,52px);
+  color:var(--gold);margin:8px 0;letter-spacing:2px
+}
+.draft-header p,.muted{color:var(--muted);font-size:12px;line-height:1.5}
+.eyebrow{font-size:10px;letter-spacing:2px;color:var(--gold)}
 .draft-layout,.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .draft-team,.hero-selector,.analysis-panel,.hero-details{
-  background:var(--panel);border:1px solid var(--line);
-  padding:17px;border-radius:10px;min-width:0
+  background:linear-gradient(145deg,#191c20,#121416);
+  border:1px solid var(--line);padding:16px;border-radius:12px;min-width:0
 }
 .draft-team h2,.hero-selector h2,.analysis-panel h2,.hero-details h2{
-  font-family:'Cinzel',serif;font-size:17px;margin:0 0 8px
+  font-family:'Cinzel',serif;font-size:16px;margin:0 0 8px
 }
 .team-blue h2,.blue h3{color:var(--blue)}
 .team-red h2,.red h3{color:var(--red)}
 .draft-slots{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
 .draft-slot{
-  min-height:65px;padding:9px 5px;border:1px dashed #444;
-  border-radius:7px;background:#111;color:#777;
-  display:flex;flex-direction:column;justify-content:center;
-  gap:5px;text-align:center;font-size:10px
+  min-width:0;min-height:105px;position:relative;overflow:hidden;
+  border:1px dashed #3c4148;border-radius:9px;background:#101215;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding:6px 3px;gap:4px;text-align:center;cursor:default
 }
-.draft-slot strong{color:#eee;font-size:11px;overflow-wrap:anywhere}
-.draft-slot.filled{border-style:solid;border-color:#665536}
-.team-blue .draft-slot.filled{border-color:#42698c}
-.team-red .draft-slot.filled{border-color:#874d4d}
-.hero-selector,.analysis-panel,.hero-details{margin-top:17px}
+.draft-slot .slot-image{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:.72
+}
+.draft-slot:has(.slot-image)::after{
+  content:"";position:absolute;inset:35% 0 0;
+  background:linear-gradient(transparent,#090a0c 90%)
+}
+.draft-slot .slot-position,.draft-slot strong{
+  position:relative;z-index:1
+}
+.draft-slot .slot-position{font-size:9px;color:#aaa}
+.draft-slot strong{
+  color:#fff;font-size:10px;line-height:1.1;
+  overflow-wrap:anywhere;text-shadow:0 1px 4px #000
+}
+.draft-slot.filled{border-style:solid}
+.team-blue .draft-slot.filled{border-color:#416b91}
+.team-red .draft-slot.filled{border-color:#874b4b}
+.draft-slot:hover{filter:brightness(1.2)}
+.hero-selector,.analysis-panel,.hero-details{margin-top:15px}
 .hero-search,.team-select{
   width:100%;padding:11px;margin:8px 0 12px;
-  background:#101010;color:white;border:1px solid #444;border-radius:6px
+  background:#101215;color:white;border:1px solid #3b4148;border-radius:7px;
+  outline:none
 }
+.hero-search:focus,.team-select:focus{border-color:var(--gold)}
+.selector-top{display:grid;grid-template-columns:180px 1fr;gap:9px}
+.selector-top .team-select,.selector-top .hero-search{margin:8px 0 12px}
 .hero-options{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));
-  gap:7px;max-height:340px;overflow:auto;padding:2px
+  gap:8px;max-height:390px;overflow:auto;padding:2px
 }
 .hero-option{
-  padding:10px 6px;background:#202020;border:1px solid #383838;
-  color:#eee;border-radius:6px;cursor:pointer;font-size:12px
+  position:relative;overflow:hidden;min-height:105px;padding:0;
+  background:#202328;border:1px solid #383e46;color:#eee;
+  border-radius:8px;cursor:pointer;text-align:left
+}
+.hero-option img{
+  width:100%;height:75px;object-fit:cover;display:block;
+  background:#111;transition:transform .2s
+}
+.hero-option span{
+  display:block;padding:6px 5px;font-size:11px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 .hero-option:hover{border-color:var(--gold);color:var(--gold)}
-.hero-option:disabled{opacity:.25;cursor:not-allowed}
-.hero-option small{display:block;margin-top:4px;color:#888;font-size:9px}
+.hero-option:hover img{transform:scale(1.05)}
+.hero-option:disabled{opacity:.25;cursor:not-allowed;filter:grayscale(1)}
 .draft-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .draft-actions button,.action-button{
-  padding:10px 14px;border:1px solid var(--gold);
-  background:transparent;color:var(--gold);border-radius:6px;cursor:pointer
+  padding:10px 15px;border:1px solid var(--gold);
+  background:transparent;color:var(--gold);border-radius:7px;cursor:pointer;
+  font-size:12px
 }
 .draft-actions button:hover,.action-button:hover{background:var(--gold);color:#111}
-.draft-message,.system-status{margin-top:11px;color:#999;font-size:12px}
-.system-status,.analysis-status{padding:10px;border:1px solid #383838;border-radius:6px}
+.draft-message,.system-status{margin-top:10px;color:var(--muted);font-size:11px}
+.system-status,.analysis-status{
+  padding:9px 11px;border:1px solid #383e46;border-radius:7px;
+  font-size:11px;color:#aaa
+}
 .ready{border-color:#547c58!important}
 .warning{border-color:#96604c!important}
 .analysis-panel[hidden],.hero-details[hidden]{display:none}
-.analysis-team{padding:14px;border:1px solid #383838;border-radius:8px;background:#111;min-width:0}
-.analysis-team h3{font-family:'Cinzel',serif;font-size:15px;margin:0 0 12px}
-.team-hero-list{display:flex;flex-wrap:wrap;gap:6px}
+.analysis-team{padding:13px;border:1px solid #383e46;border-radius:9px;background:#101215;min-width:0}
+.analysis-team h3{font-family:'Cinzel',serif;font-size:14px;margin:0 0 10px}
+.team-hero-list{display:flex;flex-wrap:wrap;gap:5px}
 .hero-chip,.tactical-tag{
-  display:inline-flex;align-items:center;padding:6px 9px;
-  background:#202020;border:1px solid #383838;border-radius:5px;
-  font-size:11px;color:#ddd
+  display:inline-flex;align-items:center;padding:5px 8px;
+  background:#202328;border:1px solid #383e46;border-radius:5px;
+  font-size:10px;color:#ddd
 }
-.tactical-section{margin-top:15px}
-.tactical-section h4{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px}
-.tag-list{display:flex;flex-wrap:wrap;gap:6px}
-.tag-good{border-color:#426c50;color:#9bd4a5}
-.tag-bad{border-color:#824949;color:#e99b9b}
+.tactical-section{margin-top:13px}
+.tactical-section h4{
+  font-size:10px;color:#9299a3;text-transform:uppercase;
+  letter-spacing:1px;margin:0 0 7px
+}
+.tag-list{display:flex;flex-wrap:wrap;gap:5px}
+.tag-good{border-color:#426c50;color:var(--green)}
+.tag-bad{border-color:#824949;color:#f0a0a0}
 .tag-neutral{border-color:#665536;color:#e4bd78}
 .counter-match{
-  display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:9px 11px;background:#1c1c1c;border:1px solid #383838;
-  border-radius:6px;font-size:12px
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  padding:8px 10px;background:#1c1f23;border:1px solid #383e46;
+  border-radius:6px;font-size:11px
 }
 .counter-match strong{color:#eee}
-.counter-match small{color:#aaa}
-.counter-column{display:grid;gap:6px}
-.counter-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.hero-detail-header{display:flex;gap:12px;align-items:center;margin-bottom:14px}
-.hero-portrait{width:65px;height:65px;object-fit:cover;border-radius:8px;background:#222}
+.counter-match small{color:#aaa;text-align:right}
+.counter-column{display:grid;gap:5px}
+.counter-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero-detail-header{display:flex;gap:12px;align-items:center;margin-bottom:13px}
+.hero-portrait{
+  width:70px;height:70px;object-fit:cover;border-radius:9px;
+  background:#222;border:1px solid #454545
+}
 .hero-detail-header h3{margin:0;color:var(--gold);font-size:17px}
 .hero-detail-header p{margin:5px 0;color:#999;font-size:11px}
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.stat-box{padding:9px;background:#202020;border-radius:6px;text-align:center}
-.stat-box strong{display:block;color:#e4bd78;font-size:13px}
+.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.stat-box{padding:8px 4px;background:#202328;border-radius:6px;text-align:center}
+.stat-box strong{display:block;color:#e4bd78;font-size:12px}
 .stat-box small{color:#888;font-size:9px}
-.skill-list,.build-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:7px}
-.skill-card,.build-card{padding:10px;background:#202020;border:1px solid #383838;border-radius:6px}
-.skill-card strong,.build-card strong{display:block;color:#e4bd78;font-size:12px}
-.skill-card p,.build-card p{font-size:11px;color:#aaa;line-height:1.5;margin:6px 0 0}
-.source-note{font-size:10px;color:#777;line-height:1.5;margin-top:13px}
+.skill-list,.build-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px}
+.skill-card,.build-card{padding:9px;background:#202328;border:1px solid #383e46;border-radius:7px}
+.skill-card strong,.build-card strong{display:block;color:#e4bd78;font-size:11px}
+.skill-card p,.build-card p{font-size:10px;color:#aaa;line-height:1.4;margin:5px 0 0}
+.source-note{font-size:10px;color:#777;line-height:1.5;margin-top:12px}
 .loading{color:var(--gold)}
 .error-text{color:var(--red)}
 .empty-note{color:#777;font-size:11px}
+.analysis-status{margin:12px 0}
+.analysis-team .tactical-section:first-of-type{margin-top:8px}
 @media(max-width:700px){
- .draft-layout,.analysis-grid,.counter-grid{grid-template-columns:1fr}
- .draft-container{padding:10px}
- .draft-team,.hero-selector,.analysis-panel,.hero-details{padding:13px}
- .draft-slots{gap:5px}
- .draft-slot{min-height:58px;padding:6px 2px}
- .draft-slot strong{font-size:10px}
- .stat-grid{grid-template-columns:repeat(3,1fr)}
+  .draft-layout,.analysis-grid,.counter-grid{grid-template-columns:1fr}
+  .draft-container{padding:10px}
+  .draft-team,.hero-selector,.analysis-panel,.hero-details{padding:12px}
+  .draft-slots{gap:4px}
+  .draft-slot{min-height:82px;padding:5px 2px}
+  .draft-slot strong{font-size:9px}
+  .selector-top{grid-template-columns:1fr}
+  .selector-top .team-select,.selector-top .hero-search{margin:5px 0}
+  .stat-grid{grid-template-columns:repeat(3,1fr)}
+  .hero-options{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style>
 </head>
@@ -146,18 +196,22 @@ body{background:#101010}
 
 <section class="hero-selector">
   <h2>Seleccionar héroe</h2>
-  <select class="team-select" id="teamSelect">
-    <option value="blue">Equipo azul</option>
-    <option value="red">Equipo rojo</option>
-  </select>
-  <input class="hero-search" id="heroSearch" type="search"
-    placeholder="Buscar héroe..." autocomplete="off">
+  <div class="selector-top">
+    <select class="team-select" id="teamSelect">
+      <option value="blue">Equipo azul</option>
+      <option value="red">Equipo rojo</option>
+    </select>
+    <input class="hero-search" id="heroSearch" type="search"
+      placeholder="Buscar héroe..." autocomplete="off">
+  </div>
+
   <div class="hero-options" id="heroOptions"></div>
 
   <div class="draft-actions">
     <button id="analyzeButton">Analizar draft</button>
     <button id="resetButton">Reiniciar</button>
   </div>
+
   <p class="draft-message" id="draftMessage" aria-live="polite">Cargando catálogo...</p>
   <div class="system-status" id="systemStatus">Conectando...</div>
 </section>
@@ -170,7 +224,7 @@ body{background:#101010}
 
 <section class="analysis-panel" id="analysisPanel" hidden>
   <h2>ANÁLISIS TÁCTICO</h2>
-  <p class="muted">Resumen basado en los datos disponibles.</p>
+  <p class="muted">Cruces registrados entre ambos equipos.</p>
   <div id="analysisGlobalStatus" class="analysis-status"></div>
 
   <div class="analysis-grid">
@@ -184,13 +238,13 @@ body{background:#101010}
     </article>
   </div>
 
-  <div class="hero-details" style="margin-top:15px">
-    <h2>VENTAJAS DEL DRAFT</h2>
+  <div class="hero-details" style="margin-top:14px">
+    <h2>CRUCES DEL DRAFT</h2>
     <div id="counterAnalysis" class="counter-grid"></div>
   </div>
 
   <p class="source-note">
-    Las ventajas muestran relaciones registradas en las fichas consultadas.
+    Los cruces reflejan relaciones registradas en las fichas consultadas.
     No garantizan una victoria.
   </p>
 </section>
@@ -243,13 +297,40 @@ async function fetchJSON(url){
 }
 
 function getProfileData(profile){
-  return profile?.hero || profile;
+  return profile?.hero || profile?.data?.hero || profile?.data || profile;
 }
 
 function getHeroSlug(hero){
   return hero?.slug || hero?.id || normalize(hero?.name);
 }
 
+/* IMÁGENES */
+function getHeroImage(hero){
+  if(!hero) return "";
+
+  const candidates=[
+    hero.image,hero.image_url,hero.portrait,hero.icon,
+    hero.head,hero.cover,hero.avatar,hero.img,
+    hero.splash,hero.hero_image,hero.square_image
+  ];
+
+  for(const value of candidates){
+    if(typeof value==="string" && value.startsWith("http")) return value;
+    if(value && typeof value==="object"){
+      const nested=value.url || value.src || value.webp || value.png;
+      if(typeof nested==="string" && nested.startsWith("http")) return nested;
+    }
+  }
+  return "";
+}
+
+function getHeroImageFromProfile(profile,fallback){
+  return getHeroImage(getProfileData(profile)) ||
+         getHeroImage(profile) ||
+         getHeroImage(fallback);
+}
+
+/* CATÁLOGO */
 async function loadCatalog(){
   const status=document.getElementById("systemStatus");
   status.textContent="Conectando con MLBBDex...";
@@ -293,6 +374,7 @@ function setMessage(text){
   document.getElementById("draftMessage").textContent=text;
 }
 
+/* EQUIPOS */
 function renderDraft(){
   ["blue","red"].forEach(team=>{
     const container=document.getElementById(team+"Slots");
@@ -302,25 +384,41 @@ function renderDraft(){
       const slot=document.createElement("div");
       slot.className="draft-slot"+(hero?" filled":"");
 
-      slot.appendChild(makeElement("span","P"+(index+1)));
+      if(hero){
+        const image=getHeroImage(hero);
+        if(image){
+          const img=document.createElement("img");
+          img.className="slot-image";
+          img.src=image;
+          img.alt=hero.name;
+          img.loading="lazy";
+          slot.appendChild(img);
+        }
+      }
+
+      slot.appendChild(makeElement("span","P"+(index+1),"slot-position"));
       slot.appendChild(makeElement("strong",hero?hero.name:"—"));
 
       if(hero){
-        slot.style.cursor="pointer";
         slot.title="Quitar "+hero.name;
         slot.addEventListener("click",()=>removeHero(team,index));
       }
+
       container.appendChild(slot);
     });
   });
+
   renderHeroes();
 }
 
+/* SELECTOR */
 function renderHeroes(){
   const query=normalize(document.getElementById("heroSearch").value);
   const selected=new Set(
-    [...draft.blue,...draft.red].filter(Boolean).map(h=>normalize(getHeroSlug(h)))
+    [...draft.blue,...draft.red].filter(Boolean)
+      .map(h=>normalize(getHeroSlug(h)))
   );
+
   const container=document.getElementById("heroOptions");
   container.innerHTML="";
 
@@ -331,18 +429,25 @@ function renderHeroes(){
 
   const filtered=heroes.filter(hero=>{
     const lanes=Array.isArray(hero.lanes)?hero.lanes:[hero.lanes || ""];
-    return normalize([hero.name,hero.slug,hero.title,...lanes].join(" ")).includes(query);
+    return normalize([hero.name,hero.slug,hero.title,...lanes].join(" "))
+      .includes(query);
   });
 
   filtered.forEach(hero=>{
     const button=document.createElement("button");
     button.className="hero-option";
     button.disabled=selected.has(normalize(getHeroSlug(hero)));
+
+    const image=getHeroImage(hero);
+    if(image){
+      const img=document.createElement("img");
+      img.src=image;
+      img.alt=hero.name;
+      img.loading="lazy";
+      button.appendChild(img);
+    }
+
     button.appendChild(makeElement("span",hero.name));
-
-    const lanes=Array.isArray(hero.lanes)?hero.lanes:[hero.lanes].filter(Boolean);
-    if(lanes.length) button.appendChild(makeElement("small",lanes.join(" / ")));
-
     button.addEventListener("click",()=>selectHero(hero));
     container.appendChild(button);
   });
@@ -361,6 +466,7 @@ function selectHero(hero){
 
   const exists=[...draft.blue,...draft.red].filter(Boolean)
     .some(h=>normalize(getHeroSlug(h))===normalize(getHeroSlug(hero)));
+
   if(exists) return;
 
   draft[team][index]=hero;
@@ -391,6 +497,7 @@ function hideAnalysis(){
   document.getElementById("analysisPanel").hidden=true;
 }
 
+/* FICHAS */
 async function getHeroProfile(hero){
   const slug=getHeroSlug(hero);
   if(detailCache.has(slug)) return detailCache.get(slug);
@@ -401,7 +508,6 @@ async function getHeroProfile(hero){
   return profile;
 }
 
-/* FICHA COMPACTA */
 async function loadHeroProfile(hero){
   const panel=document.getElementById("heroDetails");
   const content=document.getElementById("heroProfile");
@@ -423,26 +529,33 @@ async function loadHeroProfile(hero){
 function addTags(parent,values,className="tag-neutral",limit=5){
   const wrap=document.createElement("div");
   wrap.className="tag-list";
+
   const list=Array.isArray(values)?values:[];
   list.slice(0,limit).forEach(value=>{
-    const label=typeof value==="string"?value:(value?.name || value?.title || "");
+    const label=typeof value==="string"
+      ?value:(value?.name || value?.title || value?.slug || "");
     if(label) wrap.appendChild(makeElement("span",label,className+" tactical-tag"));
   });
-  if(!wrap.children.length) wrap.appendChild(makeElement("span","Sin datos","tactical-tag"));
+
+  if(!wrap.children.length){
+    wrap.appendChild(makeElement("span","Sin datos","tactical-tag"));
+  }
+
   parent.appendChild(wrap);
 }
 
 function renderHeroProfile(profile,fallback){
   const container=document.getElementById("heroProfile");
   container.innerHTML="";
+
   const hero=getProfileData(profile);
   const name=hero.name || fallback.name;
-  const portrait=hero.image || hero.portrait || hero.icon || hero.head;
+  const portrait=getHeroImageFromProfile(profile,fallback);
 
   const header=document.createElement("div");
   header.className="hero-detail-header";
 
-  if(typeof portrait==="string" && portrait.startsWith("https://")){
+  if(portrait){
     const img=document.createElement("img");
     img.className="hero-portrait";
     img.src=portrait;
@@ -456,6 +569,7 @@ function renderHeroProfile(profile,fallback){
   title.appendChild(makeElement("p",[
     hero.title,hero.role,hero.lane,hero.specialty
   ].filter(Boolean).join(" · ")));
+
   header.appendChild(title);
   container.appendChild(header);
 
@@ -481,7 +595,7 @@ function renderHeroProfile(profile,fallback){
   if(statGrid.children.length) container.appendChild(statGrid);
 
   const skills=hero.skills || profile.skills || [];
-  if(skills.length){
+  if(Array.isArray(skills) && skills.length){
     container.appendChild(makeElement("h4","HABILIDADES"));
     const grid=document.createElement("div");
     grid.className="skill-list";
@@ -493,6 +607,7 @@ function renderHeroProfile(profile,fallback){
       card.appendChild(makeElement("p",skill.type || skill.type_name || "Skill"));
       grid.appendChild(card);
     });
+
     container.appendChild(grid);
   }
 
@@ -505,21 +620,24 @@ function renderHeroProfile(profile,fallback){
     container.appendChild(makeElement("h4","FORTALEZAS"));
     addTags(container,strengths,"tag-good",4);
   }
+
   if(weaknesses.length){
     container.appendChild(makeElement("h4","DEBILIDADES"));
     addTags(container,weaknesses,"tag-bad",4);
   }
+
   if(strong.length){
     container.appendChild(makeElement("h4","FUERTE CONTRA"));
     addTags(container,strong,"tag-good",6);
   }
+
   if(weak.length){
     container.appendChild(makeElement("h4","DÉBIL CONTRA"));
     addTags(container,weak,"tag-bad",6);
   }
 
   const builds=profile.builds || hero.builds || [];
-  if(builds.length){
+  if(Array.isArray(builds) && builds.length){
     container.appendChild(makeElement("h4","BUILDS"));
     const grid=document.createElement("div");
     grid.className="build-list";
@@ -534,37 +652,83 @@ function renderHeroProfile(profile,fallback){
       ].filter(Boolean).join(" · ")));
       grid.appendChild(card);
     });
-    container.appendChild(grid);
-  }
 
-  const skins=hero.skins || profile.skins;
-  if(Array.isArray(skins) && skins.length){
-    container.appendChild(makeElement("p",skins.length+" skins"));
+    container.appendChild(grid);
   }
 }
 
-/* ANÁLISIS ENTRE LOS DOS EQUIPOS */
-function getHeroNames(slugs,enemyTeam){
-  const names=[];
-  const enemyMap=new Map(enemyTeam.map(h=>[normalize(getHeroSlug(h)),h.name]));
+/* ANÁLISIS DE COUNTERS */
+function findArrayInProfile(profile,field){
+  const visited=new Set();
 
-  (Array.isArray(slugs)?slugs:[]).forEach(slug=>{
+  function search(obj){
+    if(!obj || typeof obj!=="object" || visited.has(obj)) return null;
+    visited.add(obj);
+
+    if(Array.isArray(obj[field]) && obj[field].length){
+      return obj[field];
+    }
+
+    const priority=["hero","data","result","profile","analysis"];
+    for(const key of priority){
+      if(obj[key] && typeof obj[key]==="object"){
+        const found=search(obj[key]);
+        if(found) return found;
+      }
+    }
+
+    for(const [key,value] of Object.entries(obj)){
+      if(priority.includes(key)) continue;
+      if(value && typeof value==="object"){
+        const found=search(value);
+        if(found) return found;
+      }
+    }
+
+    return null;
+  }
+
+  return search(profile) || [];
+}
+
+function getCounterSlug(item){
+  if(typeof item==="string") return item;
+  if(!item || typeof item!=="object") return "";
+
+  return item.slug || item.id || item.hero_slug ||
+         item.name || item.title || item.hero || "";
+}
+
+function getHeroNames(slugs,enemyTeam){
+  const enemyMap=new Map(
+    enemyTeam.map(hero=>[
+      normalize(getHeroSlug(hero)),
+      hero.name
+    ])
+  );
+
+  const names=[];
+  (Array.isArray(slugs)?slugs:[]).forEach(item=>{
+    const slug=getCounterSlug(item);
     const match=enemyMap.get(normalize(slug));
     if(match) names.push(match);
   });
+
   return [...new Set(names)];
 }
 
 function renderTeamSummary(team,containerId){
   const container=document.getElementById(containerId);
   container.innerHTML="";
-  const selected=draft[team].filter(Boolean);
 
+  const selected=draft[team].filter(Boolean);
   const chips=document.createElement("div");
   chips.className="team-hero-list";
+
   selected.forEach(hero=>{
     chips.appendChild(makeElement("span",hero.name,"hero-chip"));
   });
+
   container.appendChild(chips);
 }
 
@@ -577,7 +741,7 @@ function renderMatchList(container,title,matches,className){
   list.className="counter-column";
 
   if(!matches.length){
-    list.appendChild(makeElement("span","Sin registros","empty-note"));
+    list.appendChild(makeElement("span","Sin cruces registrados","empty-note"));
   }else{
     matches.forEach(match=>{
       const row=document.createElement("div");
@@ -587,6 +751,7 @@ function renderMatchList(container,title,matches,className){
       list.appendChild(row);
     });
   }
+
   section.appendChild(list);
   container.appendChild(section);
 }
@@ -595,6 +760,7 @@ async function analyzeDraft(){
   const panel=document.getElementById("analysisPanel");
   const status=document.getElementById("analysisGlobalStatus");
   const counterArea=document.getElementById("counterAnalysis");
+
   const blue=draft.blue.filter(Boolean);
   const red=draft.red.filter(Boolean);
 
@@ -602,21 +768,23 @@ async function analyzeDraft(){
   counterArea.innerHTML="";
 
   if(blue.length!==5 || red.length!==5){
-    status.textContent="Faltan héroes.";
+    status.textContent="Completa los dos equipos.";
     status.className="analysis-status warning";
     renderTeamSummary("blue","blueAnalysis");
     renderTeamSummary("red","redAnalysis");
-    counterArea.textContent="Completa ambos equipos.";
+    counterArea.textContent="Faltan héroes.";
     return;
   }
 
-  status.textContent="Analizando...";
+  status.textContent="Consultando fichas...";
   status.className="analysis-status loading";
+
   renderTeamSummary("blue","blueAnalysis");
   renderTeamSummary("red","redAnalysis");
 
   try{
     const all=[...blue,...red];
+
     const profiles=await Promise.all(all.map(async hero=>{
       try{
         return {hero,profile:await getHeroProfile(hero)};
@@ -635,8 +803,9 @@ async function analyzeDraft(){
 
     blueData.forEach(({hero,profile})=>{
       if(!profile) return;
-      const strong=profile.strongAgainst || profile.hero?.strongAgainst || [];
-      const weak=profile.weakAgainst || profile.hero?.weakAgainst || [];
+
+      const strong=findArrayInProfile(profile,"strongAgainst");
+      const weak=findArrayInProfile(profile,"weakAgainst");
 
       const against=getHeroNames(strong,red);
       const vulnerable=getHeroNames(weak,red);
@@ -647,8 +816,9 @@ async function analyzeDraft(){
 
     redData.forEach(({hero,profile})=>{
       if(!profile) return;
-      const strong=profile.strongAgainst || profile.hero?.strongAgainst || [];
-      const weak=profile.weakAgainst || profile.hero?.weakAgainst || [];
+
+      const strong=findArrayInProfile(profile,"strongAgainst");
+      const weak=findArrayInProfile(profile,"weakAgainst");
 
       const against=getHeroNames(strong,blue);
       const vulnerable=getHeroNames(weak,blue);
@@ -681,8 +851,14 @@ async function analyzeDraft(){
     counterArea.append(left,right);
 
     const available=profiles.filter(item=>item.profile).length;
-    status.textContent=available+"/10 fichas consultadas · "+catalogSource;
-    status.className="analysis-status "+(available===10?"ready":"warning");
+    const crosses=blueAdvantages.length+redAdvantages.length+
+                  blueRisks.length+redRisks.length;
+
+    status.textContent=
+      available+"/10 fichas · "+crosses+" cruces · "+catalogSource;
+
+    status.className="analysis-status "+
+      (available===10?"ready":"warning");
 
   }catch(error){
     console.error(error);
@@ -693,6 +869,7 @@ async function analyzeDraft(){
   panel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
+/* ESTADO */
 function updateSystemStatus(){
   const element=document.getElementById("systemStatus");
   const engines=[
@@ -700,14 +877,17 @@ function updateSystemStatus(){
     "TUPA_DRAFT_RECOMMENDER",
     "TUPA_DRAFT_ANALYSIS"
   ];
+
   const loaded=engines.filter(name=>window[name]).length;
 
   element.textContent=
     (catalogLoaded?heroes.length:0)+" héroes · "+
-    catalogSource+" · Motores "+loaded+"/3";
+    catalogSource+" · Motores "+loaded+"/3;
+
   element.className="system-status "+(catalogLoaded?"ready":"warning");
 }
 
+/* EVENTOS */
 document.getElementById("heroSearch").addEventListener("input",renderHeroes);
 document.getElementById("teamSelect").addEventListener("change",renderHeroes);
 document.getElementById("analyzeButton").addEventListener("click",analyzeDraft);
