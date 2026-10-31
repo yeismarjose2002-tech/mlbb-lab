@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,134 +20,516 @@
   --muted:#9299a5;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:#eee}
+body{background:var(--bg);color:#eee;margin:0}
 button,input,select{font:inherit}
 button{cursor:pointer}
-.draft-container{width:min(1250px,100%);margin:30px auto;padding:18px}
-.draft-header{position:relative;padding:24px 0 28px;border-bottom:1px solid var(--line);margin-bottom:22px}
-.draft-header:after{content:"";position:absolute;bottom:-1px;left:0;width:110px;height:2px;background:var(--gold)}
-.eyebrow,.overline{font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
-.draft-header h1{font-family:'Cinzel',serif;font-size:clamp(36px,6vw,58px);letter-spacing:3px;color:var(--gold);margin:8px 0}
-.draft-header p,.muted{color:var(--muted);font-size:13px;line-height:1.6}
-.draft-layout,.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* NAVEGACIÓN PRINCIPAL TUPA */
+.tupa-navigation{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  width:100%;
+  padding:13px 5%;
+  background:rgba(13,14,16,.97);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(12px);
+}
+.tupa-brand{
+  color:var(--gold);
+  font-weight:800;
+  font-size:18px;
+  text-decoration:none;
+  white-space:nowrap;
+  letter-spacing:1px;
+}
+.tupa-brand span{color:var(--blue)}
+.tupa-nav-links{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  overflow-x:auto;
+}
+.tupa-nav-links a{
+  color:#c5c9d0;
+  font-size:12px;
+  text-decoration:none;
+  white-space:nowrap;
+  padding:9px 0;
+  transition:.2s;
+}
+.tupa-nav-links a:hover,
+.tupa-nav-links a.active{color:var(--gold)}
+.tupa-nav-links a.active{
+  border-bottom:2px solid var(--gold);
+}
+
+.draft-container{
+  width:min(1250px,100%);
+  margin:30px auto;
+  padding:18px;
+}
+.draft-header{
+  position:relative;
+  padding:24px 0 28px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:22px;
+}
+.draft-header:after{
+  content:"";
+  position:absolute;
+  bottom:-1px;
+  left:0;
+  width:110px;
+  height:2px;
+  background:var(--gold);
+}
+.eyebrow,.overline{
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.draft-header h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(36px,6vw,58px);
+  letter-spacing:3px;
+  color:var(--gold);
+  margin:8px 0;
+}
+.draft-header p,.muted{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+.draft-layout,.analysis-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
 .draft-team,.hero-selector,.analysis-panel,.hero-details{
   background:linear-gradient(145deg,#1b1e23,#141619);
-  border:1px solid var(--line);padding:18px;border-radius:12px;min-width:0;
+  border:1px solid var(--line);
+  padding:18px;
+  border-radius:12px;
+  min-width:0;
 }
 .draft-team{position:relative;overflow:hidden}
-.draft-team:before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--team-color)}
+.draft-team:before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:3px;
+  background:var(--team-color);
+}
 .team-blue{--team-color:var(--blue)}
 .team-red{--team-color:var(--red)}
 .draft-team h2,.hero-selector h2,.analysis-panel h2,.hero-details h2{
-  font-family:'Cinzel',serif;font-size:17px;margin:0 0 6px;color:var(--gold2)
+  font-family:'Cinzel',serif;
+  font-size:17px;
+  margin:0 0 6px;
+  color:var(--gold2);
 }
 .team-blue h2,.blue h3{color:var(--blue)}
 .team-red h2,.red h3{color:var(--red)}
-.draft-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:14px}
-.draft-slot{
-  min-width:0;min-height:118px;padding:8px 3px;border:1px dashed #414752;
-  border-radius:9px;background:#101216;color:#777;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:6px;text-align:center;font-size:10px;
-  position:relative;overflow:hidden;transition:.2s
+.draft-slots{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px;
+  margin-top:14px;
 }
-.draft-slot.filled{border-style:solid;background:#1c2026}
+.draft-slot{
+  min-width:0;
+  min-height:118px;
+  padding:8px 3px;
+  border:1px dashed #414752;
+  border-radius:9px;
+  background:#101216;
+  color:#777;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  text-align:center;
+  font-size:10px;
+  position:relative;
+  overflow:hidden;
+  transition:.2s;
+}
+.draft-slot.filled{
+  border-style:solid;
+  background:#1c2026;
+}
 .team-blue .draft-slot.filled{border-color:#42698c}
 .team-red .draft-slot.filled{border-color:#874d4d}
-.draft-slot img{width:57px;height:57px;object-fit:cover;border-radius:7px;background:#222;border:1px solid #454b55}
-.draft-slot strong{font-size:10px;color:#eee;overflow-wrap:anywhere}
-.draft-slot .slot-position{position:absolute;top:6px;left:7px;font-size:9px;color:#818995}
-.draft-slot .remove-hint{font-size:9px;color:#9299a5}
-.draft-slot.filled:hover{border-color:var(--gold);transform:translateY(-2px)}
+.draft-slot img{
+  width:57px;
+  height:57px;
+  object-fit:cover;
+  border-radius:7px;
+  background:#222;
+  border:1px solid #454b55;
+}
+.draft-slot strong{
+  font-size:10px;
+  color:#eee;
+  overflow-wrap:anywhere;
+}
+.draft-slot .slot-position{
+  position:absolute;
+  top:6px;
+  left:7px;
+  font-size:9px;
+  color:#818995;
+}
+.draft-slot .remove-hint{
+  font-size:9px;
+  color:#9299a5;
+}
+.draft-slot.filled:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
 .hero-selector,.analysis-panel,.hero-details{margin-top:16px}
-.selector-controls{display:grid;grid-template-columns:180px 1fr;gap:9px}
+.selector-controls{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:9px;
+}
 .hero-search,.team-select{
-  width:100%;padding:12px;margin:10px 0;background:#101216;color:white;
-  border:1px solid #414752;border-radius:8px;outline:none
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  background:#101216;
+  color:white;
+  border:1px solid #414752;
+  border-radius:8px;
+  outline:none;
 }
 .hero-search:focus,.team-select:focus{border-color:var(--gold)}
-.hero-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:9px;max-height:430px;overflow:auto;padding:3px}
+.hero-options{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(105px,1fr));
+  gap:9px;
+  max-height:430px;
+  overflow:auto;
+  padding:3px;
+}
 .hero-option{
-  min-width:0;padding:9px 5px;background:#20242a;border:1px solid #363d47;color:#eee;
-  border-radius:9px;font-size:11px;display:flex;flex-direction:column;align-items:center;
-  gap:6px;transition:.16s
+  min-width:0;
+  padding:9px 5px;
+  background:#20242a;
+  border:1px solid #363d47;
+  color:#eee;
+  border-radius:9px;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  transition:.16s;
 }
-.hero-option:hover{border-color:var(--gold);transform:translateY(-2px);background:#292d34}
-.hero-option:disabled{opacity:.22;cursor:not-allowed;transform:none}
-.hero-option img{width:60px;height:60px;object-fit:cover;border-radius:7px;background:#111}
-.hero-option span{text-align:center;overflow-wrap:anywhere}
-.hero-option small{color:#9299a5;font-size:9px;text-align:center}
-.draft-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.hero-option:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+  background:#292d34;
+}
+.hero-option:disabled{
+  opacity:.22;
+  cursor:not-allowed;
+  transform:none;
+}
+.hero-option img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:7px;
+  background:#111;
+}
+.hero-option span{
+  text-align:center;
+  overflow-wrap:anywhere;
+}
+.hero-option small{
+  color:#9299a5;
+  font-size:9px;
+  text-align:center;
+}
+.draft-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:15px;
+}
 .draft-actions button,.action-button{
-  padding:11px 16px;border:1px solid var(--gold);background:transparent;color:var(--gold);
-  border-radius:7px;transition:.15s;font-size:12px
+  padding:11px 16px;
+  border:1px solid var(--gold);
+  background:transparent;
+  color:var(--gold);
+  border-radius:7px;
+  transition:.15s;
+  font-size:12px;
 }
-.draft-actions button:hover,.action-button:hover{background:var(--gold);color:#111}
-#analyzeButton{background:var(--gold);color:#111;font-weight:700}
+.draft-actions button:hover,.action-button:hover{
+  background:var(--gold);
+  color:#111;
+}
+#analyzeButton{
+  background:var(--gold);
+  color:#111;
+  font-weight:700;
+}
 #analyzeButton:hover{background:var(--gold2)}
-.draft-message,.system-status{margin-top:12px;color:var(--muted);font-size:12px}
-.system-status,.analysis-status{padding:11px;border:1px solid #383e48;border-radius:8px;font-size:12px;line-height:1.5;background:#111419}
+.draft-message,.system-status{
+  margin-top:12px;
+  color:var(--muted);
+  font-size:12px;
+}
+.system-status,.analysis-status{
+  padding:11px;
+  border:1px solid #383e48;
+  border-radius:8px;
+  font-size:12px;
+  line-height:1.5;
+  background:#111419;
+}
 .ready{border-color:#547c58!important}
 .warning{border-color:#96604c!important}
 .analysis-panel[hidden],.hero-details[hidden]{display:none}
 .analysis-panel{border-color:#665333}
 .analysis-status{margin:14px 0}
-.analysis-team{padding:15px;border:1px solid #383e48;border-radius:9px;background:#111419;min-width:0}
-.analysis-team h3{font-family:'Cinzel',serif;font-size:15px;margin:0 0 12px}
-.team-hero-list,.tag-list{display:flex;flex-wrap:wrap;gap:6px}
+.analysis-team{
+  padding:15px;
+  border:1px solid #383e48;
+  border-radius:9px;
+  background:#111419;
+  min-width:0;
+}
+.analysis-team h3{
+  font-family:'Cinzel',serif;
+  font-size:15px;
+  margin:0 0 12px;
+}
+.team-hero-list,.tag-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
 .hero-chip,.tactical-tag{
-  display:inline-flex;align-items:center;padding:7px 10px;background:#20242a;
-  border:1px solid #383e48;border-radius:6px;font-size:11px;color:#ddd
+  display:inline-flex;
+  align-items:center;
+  padding:7px 10px;
+  background:#20242a;
+  border:1px solid #383e48;
+  border-radius:6px;
+  font-size:11px;
+  color:#ddd;
 }
 .tactical-section{margin-top:16px}
 .tactical-section h4,.profile-section h4{
-  font-size:10px;color:#a5abb5;text-transform:uppercase;letter-spacing:1.4px;margin:0 0 9px
+  font-size:10px;
+  color:#a5abb5;
+  text-transform:uppercase;
+  letter-spacing:1.4px;
+  margin:0 0 9px;
 }
 .counter-column{display:grid;gap:8px}
 .counter-match{
-  display:flex;flex-direction:column;gap:7px;padding:11px;
-  background:#1c2026;border:1px solid #383e48;border-radius:7px;font-size:11px
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  padding:11px;
+  background:#1c2026;
+  border:1px solid #383e48;
+  border-radius:7px;
+  font-size:11px;
 }
-.counter-match-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.counter-match-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+}
 .counter-match strong{color:#eee}
 .counter-match small{color:#b5bbc5}
-.counter-description{color:#b9bec7;font-size:11px;line-height:1.5}
+.counter-description{
+  color:#b9bec7;
+  font-size:11px;
+  line-height:1.5;
+}
 .counter-extra{display:flex;flex-wrap:wrap;gap:5px}
 .counter-extra span{
-  padding:4px 7px;border:1px solid #414752;border-radius:5px;
-  color:#aeb5c0;font-size:9px
+  padding:4px 7px;
+  border:1px solid #414752;
+  border-radius:5px;
+  color:#aeb5c0;
+  font-size:9px;
 }
 .tag-good{border-color:#426c50!important;color:var(--green)!important}
 .tag-bad{border-color:#824949!important;color:#e99b9b!important}
 .tag-neutral{border-color:#665536!important;color:#e4bd78!important}
-.counter-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.hero-detail-header{display:flex;gap:13px;align-items:center;margin:14px 0}
-.hero-portrait{width:78px;height:78px;object-fit:cover;border-radius:9px;background:#222;border:1px solid #444}
-.hero-detail-header h3{margin:0;color:var(--gold);font-size:18px}
-.hero-detail-header p{margin:5px 0;color:#999;font-size:11px}
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.stat-box{padding:10px;background:#20242a;border-radius:7px;text-align:center}
-.stat-box strong{display:block;color:var(--gold2);font-size:13px}
-.stat-box small{color:#9299a5;font-size:9px}
-.skill-list,.build-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.skill-card,.build-card{padding:11px;background:#20242a;border:1px solid #383e48;border-radius:7px}
-.skill-card strong,.build-card strong{display:block;color:var(--gold2);font-size:12px}
-.skill-card p,.build-card p{font-size:11px;color:#aab0ba;line-height:1.5;margin:6px 0 0}
-.source-note{font-size:10px;color:#777;line-height:1.5;margin-top:13px}
+.counter-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.hero-detail-header{
+  display:flex;
+  gap:13px;
+  align-items:center;
+  margin:14px 0;
+}
+.hero-portrait{
+  width:78px;
+  height:78px;
+  object-fit:cover;
+  border-radius:9px;
+  background:#222;
+  border:1px solid #444;
+}
+.hero-detail-header h3{
+  margin:0;
+  color:var(--gold);
+  font-size:18px;
+}
+.hero-detail-header p{
+  margin:5px 0;
+  color:#999;
+  font-size:11px;
+}
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+.stat-box{
+  padding:10px;
+  background:#20242a;
+  border-radius:7px;
+  text-align:center;
+}
+.stat-box strong{
+  display:block;
+  color:var(--gold2);
+  font-size:13px;
+}
+.stat-box small{
+  color:#9299a5;
+  font-size:9px;
+}
+.skill-list,.build-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:8px;
+}
+.skill-card,.build-card{
+  padding:11px;
+  background:#20242a;
+  border:1px solid #383e48;
+  border-radius:7px;
+}
+.skill-card strong,.build-card strong{
+  display:block;
+  color:var(--gold2);
+  font-size:12px;
+}
+.skill-card p,.build-card p{
+  font-size:11px;
+  color:#aab0ba;
+  line-height:1.5;
+  margin:6px 0 0;
+}
+.source-note{
+  font-size:10px;
+  color:#777;
+  line-height:1.5;
+  margin-top:13px;
+}
 .loading{color:var(--gold)}
 .error-text{color:var(--red)}
 .empty-note{color:#9299a5;font-size:11px}
-.section-title{margin:18px 0 9px;color:#aaa;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.section-title{
+  margin:18px 0 9px;
+  color:#aaa;
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
 .profile-section{margin-top:15px}
-.diagnostic-line{margin-top:9px;color:#999;font-size:11px;line-height:1.5}
-.score-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
-.score-box{background:#111419;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}
-.score-box strong{display:block;font-size:22px;color:var(--gold2)}
-.score-box small{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.counter-source{font-size:10px;color:#858c97;margin-top:12px;line-height:1.5}
-.relation-legend{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
-.relation-legend span{font-size:10px;padding:6px 9px;border-radius:5px;border:1px solid var(--line)}
-.analysis-subtitle{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0 12px}
+.diagnostic-line{
+  margin-top:9px;
+  color:#999;
+  font-size:11px;
+  line-height:1.5;
+}
+.score-strip{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin:14px 0;
+}
+.score-box{
+  background:#111419;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:12px;
+  text-align:center;
+}
+.score-box strong{
+  display:block;
+  font-size:22px;
+  color:var(--gold2);
+}
+.score-box small{
+  font-size:9px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.counter-source{
+  font-size:10px;
+  color:#858c97;
+  margin-top:12px;
+  line-height:1.5;
+}
+.relation-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:12px 0;
+}
+.relation-legend span{
+  font-size:10px;
+  padding:6px 9px;
+  border-radius:5px;
+  border:1px solid var(--line);
+}
+.analysis-subtitle{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
+  margin:5px 0 12px;
+}
+
 @media(max-width:700px){
+  .tupa-navigation{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:8px;
+    padding:12px 14px;
+  }
+  .tupa-nav-links{
+    width:100%;
+    gap:20px;
+    padding-bottom:5px;
+    scrollbar-width:thin;
+    -webkit-overflow-scrolling:touch;
+  }
   .draft-layout,.analysis-grid,.counter-grid{grid-template-columns:1fr}
   .draft-container{padding:10px}
   .draft-team,.hero-selector,.analysis-panel,.hero-details{padding:13px}
@@ -156,7 +537,9 @@ button{cursor:pointer}
   .draft-slot{min-height:94px;padding:5px 2px}
   .draft-slot img{width:44px;height:44px}
   .draft-slot strong{font-size:9px}
-  .hero-options{grid-template-columns:repeat(auto-fill,minmax(85px,1fr))}
+  .hero-options{
+    grid-template-columns:repeat(auto-fill,minmax(85px,1fr));
+  }
   .hero-option img{width:49px;height:49px}
   .stat-grid{grid-template-columns:repeat(3,1fr)}
   .selector-controls{grid-template-columns:1fr;gap:0}
@@ -166,6 +549,21 @@ button{cursor:pointer}
 </head>
 
 <body>
+
+<nav class="tupa-navigation">
+  <a class="tupa-brand" href="index.html">
+    TUPA <span>MLBB</span>
+  </a>
+
+  <div class="tupa-nav-links">
+    <a href="index.html">Inicio</a>
+    <a href="draftlab.html" class="active">Draft Lab</a>
+    <a href="community.html">Comunidad</a>
+    <a href="https://github.com/yeismarjose2002-tech/mlbb-lab/discussions"
+       target="_blank" rel="noopener">Discusiones</a>
+  </div>
+</nav>
+
 <main class="draft-container">
 
 <header class="draft-header">
@@ -802,31 +1200,6 @@ function showLocalHeroProfile(hero){
    MOTOR DE COUNTERS
 ========================================= */
 
-/*
-  ESTRUCTURA DE LA BASE:
-
-  hero:
-    Héroe que recibe el counter.
-
-  against:
-    Héroe que contrarresta al primero.
-
-  EJEMPLO:
-
-  { hero: "Atlas", against: "Alice" }
-
-  Significa:
-  Alice contrarresta a Atlas.
-
-  Azul Atlas / Rojo Alice:
-    Riesgo azul.
-    Ventaja roja.
-
-  Azul Alice / Rojo Atlas:
-    Ventaja azul.
-    Riesgo rojo.
-*/
-
 function getCounterRelation(heroName,counterName){
   const targetHero = normalize(getReferenceName(heroName));
   const targetCounter = normalize(getReferenceName(counterName));
@@ -844,19 +1217,6 @@ function getCounterRelation(heroName,counterName){
   }) || null;
 }
 
-/*
-  Analiza un equipo desde su propia perspectiva.
-
-  Ventaja:
-    Nuestro héroe es counter del rival.
-
-  Riesgo:
-    El héroe rival es counter del nuestro.
-
-  Sin relación:
-    No existe registro en ninguna dirección.
-*/
-
 function findTeamCounters(team,enemyTeam){
   const advantages = [];
   const risks = [];
@@ -868,13 +1228,11 @@ function findTeamCounters(team,enemyTeam){
     enemyTeam.forEach(enemy=>{
       comparisons++;
 
-      // ¿El rival contrarresta a nuestro héroe?
       const enemyCounter = getCounterRelation(
         hero.name,
         enemy.name
       );
 
-      // ¿Nuestro héroe contrarresta al rival?
       const ourCounter = getCounterRelation(
         enemy.name,
         hero.name
@@ -1218,15 +1576,6 @@ function renderScore(blueResults,redResults){
   const area = $("scoreStrip");
   area.innerHTML = "";
 
-  /*
-    Las relaciones de un mismo cruce aparecen desde
-    la perspectiva de ambos equipos.
-
-    Por eso NO sumamos los registros azul + rojo.
-    El número de relaciones únicas se obtiene desde
-    una sola perspectiva: la del equipo azul.
-  */
-
   const uniqueDirectionalRelations = blueResults.recorded;
 
   const values = [
@@ -1286,22 +1635,6 @@ function analyzeDraft(){
     return;
   }
 
-  /*
-    Se analiza cada equipo desde su propia perspectiva.
-
-    Azul:
-      Ventajas = counters de azul contra rojo.
-      Riesgos = counters de rojo contra azul.
-
-    Rojo:
-      Ventajas = counters de rojo contra azul.
-      Riesgos = counters de azul contra rojo.
-
-    Cada equipo revisa 25 cruces.
-    Son los mismos 25 enfrentamientos vistos
-    desde perspectivas opuestas.
-  */
-
   const blueResults = findTeamCounters(blue,red);
   const redResults = findTeamCounters(red,blue);
 
@@ -1327,10 +1660,7 @@ function analyzeDraft(){
     redResults
   );
 
-  // Los cruces reales únicos son 5 x 5 = 25.
   const totalComparisons = blueResults.comparisons;
-
-  // Contar desde un solo equipo evita duplicar registros.
   const totalDirectional = blueResults.recorded;
 
   const pending = COUNTER_DATA.filter(item=>
