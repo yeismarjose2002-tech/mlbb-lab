@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=UnifrakturCook:wght@700&family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
   --bg: #080d15;
@@ -694,5 +694,716 @@ button.lane-btn {
 
   .page-view .panel {
     margin-bottom: 14px;
+  }
+}
+
+/* =========================================================
+   TUPA MLBB — IDENTIDAD VISUAL ROCA / FORTALEZA
+   Capa visual añadida: conserva los selectores y funciones
+   del diseño original.
+   ========================================================= */
+
+:root {
+  --bg: #100e0b;
+  --panel: #1b1813;
+  --panel2: #252017;
+  --line: #514332;
+  --muted: #b2a38d;
+  --text: #eee5d5;
+  --cyan: #d49a45;
+  --gold: #edbd69;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% -12%, #594329 0, transparent 42%),
+    radial-gradient(ellipse at 100% 45%, #292016 0, transparent 38%),
+    linear-gradient(180deg, #100e0b 0%, #15110d 48%, #0d0b09 100%);
+  color: var(--text);
+}
+
+.topbar {
+  background: rgba(16, 14, 11, .94);
+  border-bottom: 1px solid #80623a55;
+  box-shadow: 0 8px 28px #0008;
+}
+
+.brand-mark {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: linear-gradient(145deg, #332719, #17120d);
+  box-shadow: inset 0 0 12px #d49a4520, 0 0 16px #d49a4512;
+}
+
+.brand b,
+nav a:hover,
+.footer-source a:hover {
+  color: var(--gold);
+}
+
+nav a,
+.footer-source a {
+  color: #c9b99f;
+}
+
+.hero {
+  position: relative;
+}
+
+.hero h1 {
+  text-shadow: 0 5px 24px #000b;
+}
+
+.hero h1 em,
+.eyebrow {
+  color: var(--gold);
+}
+
+.hero > p {
+  color: #c2b6a3;
+}
+
+.hero-meta {
+  color: #9e8c72;
+}
+
+.panel {
+  background:
+    linear-gradient(145deg, rgba(47, 38, 27, .97), rgba(24, 20, 15, .98)),
+    repeating-linear-gradient(135deg, #ffffff05 0 1px, transparent 1px 7px);
+  border-color: #594832;
+  border-radius: 8px;
+  box-shadow: 0 22px 65px #0008, inset 0 1px #ffffff0b;
+}
+
+.section-head h2,
+.method h2,
+.footer-source h2 {
+  text-shadow: 0 3px 12px #0008;
+}
+
+.count,
+.tupa-warning,
+.method-grid b {
+  color: var(--gold);
+}
+
+.lane-btn {
+  background: linear-gradient(180deg, #292218, #19150f);
+  border-color: #5a4933;
+  color: #c7b89f;
+}
+
+.lane-btn.active,
+.lane-btn:hover {
+  border-color: var(--gold);
+  color: #ffe0a3;
+  background: linear-gradient(180deg, #594126, #302316);
+  box-shadow: inset 0 0 12px #edbd6917, 0 0 12px #edbd6910;
+}
+
+.toolbar input {
+  background: #15120e;
+  border-color: #574630;
+  color: var(--text);
+}
+
+.toolbar input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px #edbd691c;
+}
+
+.tier-row {
+  background: #17130f;
+  border-color: #51412e;
+}
+
+.tier-label {
+  background: #2b241a;
+  border-right-color: #51412e;
+}
+
+.tier-label.ss {
+  color: #ffe09a;
+  background: #49351d;
+}
+
+.tier-label.s {
+  color: #f29a7e;
+  background: #40251e;
+}
+
+.tier-label.a {
+  color: #d7b0e8;
+}
+
+.tier-label.b {
+  color: #b9cce0;
+}
+
+.tier-label.c {
+  color: #a9d0b4;
+}
+
+.tier-label.d {
+  color: #b2a99a;
+}
+
+.hero-chip,
+.tupa-hero-card {
+  background: linear-gradient(155deg, #30271c, #1d1913);
+  border-color: #594832;
+  color: #e7dcc9;
+  box-shadow: inset 0 1px #ffffff08, 0 5px 14px #0003;
+}
+
+.hero-chip:hover,
+.tupa-hero-card:hover {
+  border-color: var(--gold);
+  color: #ffe0a3;
+  box-shadow: 0 8px 22px #0006, 0 0 14px #d49a4514;
+}
+
+.tupa-hero-card strong {
+  color: #f0e6d5;
+}
+
+.tupa-hero-stats {
+  color: #b8a990;
+}
+
+.tupa-hero-stats b {
+  color: var(--gold);
+}
+
+.empty {
+  color: #b8a990;
+}
+
+.source-note {
+  border-top-color: #51412e;
+  color: #a9977d;
+}
+
+.method-grid article {
+  background: linear-gradient(145deg, #292218, #19150f);
+  border-color: #51412e;
+  box-shadow: inset 0 1px #ffffff08;
+}
+
+.method-grid p,
+.section-head p,
+.method > p,
+.footer-source p {
+  color: #b8aa94;
+}
+
+.panel h3 {
+  color: var(--gold);
+}
+
+.panel > p {
+  color: #c2b6a3;
+}
+
+.panel .method-grid h3 {
+  color: var(--text);
+}
+
+.footer-source {
+  border-top-color: #51412e;
+  border-bottom-color: #51412e;
+}
+
+.footer-source a {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: #2a2116;
+}
+
+footer {
+  border-top-color: #80623a44;
+  color: #9d8c73;
+  background: #0b0907;
+}
+
+footer span:first-child {
+  color: var(--gold);
+}
+
+.status {
+  color: #b5a58c;
+}
+
+.status i {
+  background: #b9a16b;
+  box-shadow: 0 0 9px #b9a16b88;
+}
+
+/* Texturas discretas: aspecto de piedra tallada, sin ocultar contenido. */
+.panel,
+.method-grid article,
+.tupa-hero-card,
+.hero-chip,
+.tier-row {
+  position: relative;
+}
+
+.panel::before,
+.method-grid article::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(115deg, #ffffff06, transparent 24% 72%, #00000012),
+    repeating-linear-gradient(18deg, transparent 0 17px, #ffffff04 18px, transparent 19px 37px);
+  opacity: .55;
+}
+
+.panel > *,
+.method-grid article > * {
+  position: relative;
+}
+
+button,
+a,
+input {
+  transition: color .18s ease, background-color .18s ease,
+              border-color .18s ease, box-shadow .18s ease,
+              transform .18s ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .topbar {
+    background: rgba(16, 14, 11, .97);
+  }
+
+  .panel {
+    background: linear-gradient(145deg, #292218, #19150f);
+  }
+
+  .hero h1 {
+    text-shadow: 0 4px 18px #000b;
+  }
+}
+/* ==========================================
+   TUPA MLBB — IDENTIDAD TIPOGRÁFICA
+   ========================================== */
+
+:root {
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-gothic: 'UnifrakturCook', Georgia, serif;
+  --font-ui: 'Inter', Arial, sans-serif;
+}
+
+/* Tipografía general */
+html,
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-ui);
+}
+
+/* Monograma de TUPA: sencillo y medieval */
+.brand-mark {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 43px;
+  border: 1px solid var(--gold, #c99b50);
+  border-radius: 4px;
+  background: linear-gradient(145deg, #242019, #11100d);
+  color: #e4c58b;
+  font-family: var(--font-gothic);
+  font-size: 29px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1px;
+  transform: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+/* Nombre y subtítulo de la marca */
+.brand b,
+.brand small {
+  font-family: var(--font-display);
+  letter-spacing: .08em;
+}
+
+.brand b {
+  font-weight: 800;
+}
+
+.brand small {
+  font-weight: 600;
+  letter-spacing: .12em;
+}
+
+/* Títulos principales */
+.hero h1,
+.hero h2,
+.section-head h2,
+.method h2,
+.footer-source h2,
+.page-view .hero h2,
+.tupa-tier-group h3,
+.panel h3,
+.tier-label {
+  font-family: var(--font-display);
+  letter-spacing: .035em;
+}
+
+.hero h1 {
+  font-weight: 800;
+  letter-spacing: .025em;
+}
+
+.section-head h2,
+.method h2,
+.footer-source h2,
+.page-view .hero h2,
+.tupa-tier-group h3,
+.panel h3 {
+  font-weight: 700;
+}
+
+/* La interfaz conserva una lectura limpia */
+nav,
+.nav,
+button,
+.btn,
+input,
+select,
+textarea,
+.stat,
+.badge,
+.tag,
+small,
+p,
+li,
+label {
+  font-family: var(--font-ui);
+}
+
+/* Evita adornos artificiales en el monograma */
+.brand-mark::before,
+.brand-mark::after {
+  content: none !important;
+}
+
+/* ==========================================
+   TUPA MLBB — MOBILE FIRST / RESPONSIVE
+   Ajustes adicionales sin alterar identidad
+   ========================================== */
+
+/* Evitar desbordamientos horizontales */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Navegación adaptable */
+.topbar {
+  min-width: 0;
+}
+
+.topbar nav {
+  min-width: 0;
+}
+
+nav a {
+  white-space: nowrap;
+}
+
+/* Contenido general */
+main {
+  width: 100%;
+  min-width: 0;
+}
+
+.hero,
+.panel,
+.method,
+.footer-source {
+  min-width: 0;
+}
+
+.panel > *,
+.method-grid > * {
+  min-width: 0;
+}
+
+/* Tablets y pantallas medianas */
+@media (max-width: 950px) {
+  .topbar {
+    gap: 18px;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  nav {
+    gap: 13px;
+    margin-left: 0;
+  }
+
+  nav a {
+    font-size: 11px;
+  }
+
+  .hero {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .method-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Celulares */
+@media (max-width: 700px) {
+  .topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    height: auto;
+    padding: 12px 15px;
+  }
+
+  .brand {
+    min-width: 0;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .brand small {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    font-size: 25px;
+  }
+
+  .topbar > .lane-btn {
+    padding: 10px 9px;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  nav {
+    grid-column: 1 / -1;
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 20px;
+    padding: 10px 1px 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  nav a {
+    flex: 0 0 auto;
+    font-size: 11px;
+  }
+
+  .hero {
+    padding: 52px 19px 42px;
+  }
+
+  .hero h1 {
+    font-size: clamp(37px, 10vw, 65px);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+  }
+
+  .eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    line-height: 1.7;
+  }
+
+  .hero > p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .hero-meta {
+    gap: 12px;
+    font-size: 8px;
+    line-height: 1.7;
+  }
+
+  .hero > .lane-btn {
+    display: inline-block;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .panel {
+    margin: 0 12px 14px;
+    padding: 19px 16px;
+    border-radius: 7px;
+  }
+
+  .panel > p {
+    font-size: 12px;
+    line-height: 1.85;
+  }
+
+  .panel h2 {
+    font-size: 25px;
+    line-height: 1.25;
+  }
+
+  .panel h3 {
+    font-size: 16px;
+  }
+
+  .method {
+    padding: 48px 19px;
+  }
+
+  .method h2 {
+    font-size: 31px;
+  }
+
+  .method-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .method-grid article {
+    padding: 17px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar input {
+    width: 100%;
+    min-width: 0;
+    min-height: 43px;
+  }
+
+  .lanes {
+    gap: 7px;
+  }
+
+  .lane-btn {
+    min-height: 38px;
+    padding: 9px 11px;
+  }
+
+  .tier-row {
+    grid-template-columns: 45px minmax(0, 1fr);
+  }
+
+  .heroes {
+    min-width: 0;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .hero-chip {
+    min-width: 65px;
+  }
+
+  .tupa-hero-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .tupa-hero-card {
+    min-width: 0;
+    padding: 12px 7px;
+  }
+
+  .footer-source {
+    margin: 0 14px 35px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footer-source a {
+    text-align: center;
+    white-space: normal;
+  }
+
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 22px 17px;
+    font-size: 8px;
+    line-height: 1.7;
+  }
+}
+
+/* Celulares pequeños */
+@media (max-width: 380px) {
+  .topbar {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+  .brand {
+    font-size: 11px;
+  }
+
+  .topbar > .lane-btn {
+    font-size: 8px;
+    padding: 9px 7px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .panel {
+    margin-left: 8px;
+    margin-right: 8px;
+    padding: 15px 12px;
+  }
+
+  .tupa-hero-grid {
+    gap: 6px;
+  }
+}
+
+/* Accesibilidad: respetar movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
