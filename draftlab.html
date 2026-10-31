@@ -222,7 +222,7 @@ button{cursor:pointer}
 <section class="analysis-panel" id="analysisPanel" hidden>
   <span class="overline">Lectura de enfrentamientos</span>
   <h2>ANÁLISIS TÁCTICO</h2>
-  <p class="muted">Análisis individual de todos los cruces entre los diez héroes seleccionados.</p>
+  <p class="muted">Análisis individual de los 25 cruces posibles entre los diez héroes seleccionados.</p>
 
   <div class="relation-legend">
     <span class="tag-good">Ventaja: tu héroe contrarresta al rival</span>
@@ -818,8 +818,6 @@ function showLocalHeroProfile(hero){
   Significa:
   Alice contrarresta a Atlas.
 
-  Por tanto:
-
   Azul Atlas / Rojo Alice:
     Riesgo azul.
     Ventaja roja.
@@ -827,9 +825,6 @@ function showLocalHeroProfile(hero){
   Azul Alice / Rojo Atlas:
     Ventaja azul.
     Riesgo rojo.
-
-  La función revisa ambas direcciones de cada
-  enfrentamiento sin inventar relaciones.
 */
 
 function getCounterRelation(heroName,counterName){
@@ -852,15 +847,14 @@ function getCounterRelation(heroName,counterName){
 /*
   Analiza un equipo desde su propia perspectiva.
 
-  advantages:
-    Nuestro héroe contrarresta al rival.
+  Ventaja:
+    Nuestro héroe es counter del rival.
 
-  risks:
-    El héroe rival contrarresta al nuestro.
+  Riesgo:
+    El héroe rival es counter del nuestro.
 
-  IMPORTANTE:
-  Se revisan todas las combinaciones:
-  5 héroes x 5 héroes = 25 cruces.
+  Sin relación:
+    No existe registro en ninguna dirección.
 */
 
 function findTeamCounters(team,enemyTeam){
@@ -874,15 +868,16 @@ function findTeamCounters(team,enemyTeam){
     enemyTeam.forEach(enemy=>{
       comparisons++;
 
-      /*
-        CASO 1:
-        El enemigo es counter de nuestro héroe.
-        Eso representa un riesgo para nuestro equipo.
-      */
-
+      // ¿El rival contrarresta a nuestro héroe?
       const enemyCounter = getCounterRelation(
         hero.name,
         enemy.name
+      );
+
+      // ¿Nuestro héroe contrarresta al rival?
+      const ourCounter = getCounterRelation(
+        enemy.name,
+        hero.name
       );
 
       if(enemyCounter){
@@ -894,17 +889,6 @@ function findTeamCounters(team,enemyTeam){
         });
       }
 
-      /*
-        CASO 2:
-        Nuestro héroe es counter del enemigo.
-        Eso representa una ventaja para nuestro equipo.
-      */
-
-      const ourCounter = getCounterRelation(
-        enemy.name,
-        hero.name
-      );
-
       if(ourCounter){
         advantages.push({
           hero:hero.name,
@@ -913,12 +897,6 @@ function findTeamCounters(team,enemyTeam){
           direction:"our-counter"
         });
       }
-
-      /*
-        CASO 3:
-        No existe ninguna relación registrada
-        en ninguna de las dos direcciones.
-      */
 
       if(!enemyCounter && !ourCounter){
         uncovered.push({
@@ -1017,19 +995,36 @@ function renderRelationCard(match,kind){
   top.className = "counter-match-top";
 
   const title = document.createElement("strong");
-
   title.textContent = match.hero+" contra "+match.enemy;
 
   const badge = document.createElement("span");
+  badge.className = "tactical-tag";
 
-  badge.className =
-    "tactical-tag "+(kind==="good"?"tag-good":"tag-bad");
-
-  badge.textContent =
-    kind==="good"?"VENTAJA":"RIESGO";
+  if(kind==="good"){
+    badge.classList.add("tag-good");
+    badge.textContent = "VENTAJA";
+  }else if(kind==="bad"){
+    badge.classList.add("tag-bad");
+    badge.textContent = "RIESGO";
+  }else{
+    badge.classList.add("tag-neutral");
+    badge.textContent = "SIN DATOS";
+  }
 
   top.append(title,badge);
   card.appendChild(top);
+
+  if(kind==="neutral"){
+    card.appendChild(
+      makeElement(
+        "p",
+        "La base local no registra una relación de counter entre estos dos héroes. Esto no significa que el enfrentamiento sea equilibrado.",
+        "counter-description"
+      )
+    );
+
+    return card;
+  }
 
   const reason = getRelationReason(match.relation);
 
@@ -1053,22 +1048,19 @@ function renderRelationCard(match,kind){
   const verification = getRelationVerification(match.relation);
 
   const extra = document.createElement("div");
-
   extra.className = "counter-extra";
 
-  if(conditions.length){
-    conditions.forEach(condition=>{
-      const span = makeElement("span","Condición: "+condition);
-      extra.appendChild(span);
-    });
-  }
+  conditions.forEach(condition=>{
+    extra.appendChild(
+      makeElement("span","Condición: "+condition)
+    );
+  });
 
-  if(weaknesses.length){
-    weaknesses.forEach(weakness=>{
-      const span = makeElement("span","Limitación: "+weakness);
-      extra.appendChild(span);
-    });
-  }
+  weaknesses.forEach(weakness=>{
+    extra.appendChild(
+      makeElement("span","Limitación: "+weakness)
+    );
+  });
 
   if(confidence){
     extra.appendChild(makeElement("span",confidence));
@@ -1088,7 +1080,7 @@ function renderRelationCard(match,kind){
 }
 
 /* =========================================
-   LISTAS DE VENTAJAS Y RIESGOS
+   LISTAS DE VENTAJAS, RIESGOS Y SIN DATOS
 ========================================= */
 
 function renderMatchList(container,title,matches,kind){
@@ -1098,16 +1090,17 @@ function renderMatchList(container,title,matches,kind){
   section.appendChild(makeElement("h4",title));
 
   const list = document.createElement("div");
-
   list.className = "counter-column";
 
   if(!matches.length){
+    let message = "No hay relaciones registradas para estos cruces.";
+
+    if(kind==="neutral"){
+      message = "No hay cruces pendientes de información.";
+    }
+
     list.appendChild(
-      makeElement(
-        "span",
-        "No hay relaciones registradas para estos cruces.",
-        "empty-note"
-      )
+      makeElement("span",message,"empty-note")
     );
   }else{
     matches.forEach(match=>{
@@ -1125,7 +1118,6 @@ function renderMatchList(container,title,matches,kind){
 
 function renderTeamSummary(team,container){
   const chips = document.createElement("div");
-
   chips.className = "team-hero-list";
 
   team.forEach(hero=>{
@@ -1141,7 +1133,7 @@ function renderTeamSummary(team,container){
    ANÁLISIS DE CADA EQUIPO
 ========================================= */
 
-function renderAnalysisTeam(container,team,enemyTeam,results){
+function renderAnalysisTeam(container,team,results){
   container.innerHTML = "";
 
   renderTeamSummary(team,container);
@@ -1163,21 +1155,15 @@ function renderAnalysisTeam(container,team,enemyTeam,results){
   renderMatchList(
     container,
     "CRUCES SIN RELACIÓN REGISTRADA ("+results.uncovered.length+")",
-    results.uncovered.map(match=>({
-      ...match,
-      relation:null
-    })),
+    results.uncovered,
     "neutral"
   );
-
-  const known = results.comparisons;
-  const recorded = results.recorded;
 
   container.appendChild(
     makeElement(
       "p",
-      recorded+" relaciones direccionales encontradas de "+
-      known+" enfrentamientos individuales. "+
+      results.recorded+" relaciones direccionales registradas entre "+
+      results.comparisons+" enfrentamientos. "+
       results.uncovered.length+
       " enfrentamientos sin relación registrada.",
       "diagnostic-line"
@@ -1191,12 +1177,11 @@ function renderAnalysisTeam(container,team,enemyTeam,results){
 
 function renderCounterSummary(blueResults,redResults){
   const area = $("counterAnalysis");
-
   area.innerHTML = "";
 
   const blueCard = document.createElement("div");
-
   blueCard.className = "analysis-team";
+
   blueCard.appendChild(
     makeElement("h3","Ventajas del equipo azul","blue")
   );
@@ -1209,8 +1194,8 @@ function renderCounterSummary(blueResults,redResults){
   );
 
   const redCard = document.createElement("div");
-
   redCard.className = "analysis-team";
+
   redCard.appendChild(
     makeElement("h3","Ventajas del equipo rojo","red")
   );
@@ -1231,23 +1216,28 @@ function renderCounterSummary(blueResults,redResults){
 
 function renderScore(blueResults,redResults){
   const area = $("scoreStrip");
-
   area.innerHTML = "";
+
+  /*
+    Las relaciones de un mismo cruce aparecen desde
+    la perspectiva de ambos equipos.
+
+    Por eso NO sumamos los registros azul + rojo.
+    El número de relaciones únicas se obtiene desde
+    una sola perspectiva: la del equipo azul.
+  */
+
+  const uniqueDirectionalRelations = blueResults.recorded;
 
   const values = [
     ["Ventajas azul",blueResults.advantages.length,"blue"],
     ["Riesgos azul",blueResults.risks.length,"red"],
     ["Ventajas rojo",redResults.advantages.length,"red"],
-    [
-      "Cruces direccionales",
-      blueResults.recorded+redResults.recorded,
-      ""
-    ]
+    ["Relaciones registradas",uniqueDirectionalRelations,""]
   ];
 
   values.forEach(([label,value,team])=>{
     const box = document.createElement("div");
-
     box.className = "score-box";
 
     const strong = makeElement("strong",String(value));
@@ -1297,9 +1287,7 @@ function analyzeDraft(){
   }
 
   /*
-    IMPORTANTE:
-
-    Cada equipo se analiza desde su propia perspectiva.
+    Se analiza cada equipo desde su propia perspectiva.
 
     Azul:
       Ventajas = counters de azul contra rojo.
@@ -1309,7 +1297,9 @@ function analyzeDraft(){
       Ventajas = counters de rojo contra azul.
       Riesgos = counters de azul contra rojo.
 
-    Ambos análisis revisan las 25 combinaciones.
+    Cada equipo revisa 25 cruces.
+    Son los mismos 25 enfrentamientos vistos
+    desde perspectivas opuestas.
   */
 
   const blueResults = findTeamCounters(blue,red);
@@ -1318,14 +1308,12 @@ function analyzeDraft(){
   renderAnalysisTeam(
     $("blueAnalysis"),
     blue,
-    red,
     blueResults
   );
 
   renderAnalysisTeam(
     $("redAnalysis"),
     red,
-    blue,
     redResults
   );
 
@@ -1339,11 +1327,11 @@ function analyzeDraft(){
     redResults
   );
 
-  const totalDirectional =
-    blueResults.recorded+redResults.recorded;
+  // Los cruces reales únicos son 5 x 5 = 25.
+  const totalComparisons = blueResults.comparisons;
 
-  const totalComparisons =
-    blueResults.comparisons+redResults.comparisons;
+  // Contar desde un solo equipo evita duplicar registros.
+  const totalDirectional = blueResults.recorded;
 
   const pending = COUNTER_DATA.filter(item=>
     item.verification?.status==="pending"
@@ -1355,7 +1343,7 @@ function analyzeDraft(){
 
   status.textContent =
     "Se analizaron "+totalComparisons+
-    " enfrentamientos individuales. "+
+    " enfrentamientos únicos entre ambos equipos. "+
     "Se encontraron "+totalDirectional+
     " relaciones direccionales registradas. "+
     "Azul: "+blueResults.advantages.length+
