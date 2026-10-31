@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,170 +9,553 @@
 
 <style>
 :root{
-  --blue:#78baff;
-  --red:#f18b8b;
-  --gold:#d9ad67;
-  --bg:#0d0e10;
-  --panel:#15171a;
-  --panel2:#1c1f23;
-  --line:#30343a;
-  --muted:#9299a3;
-  --green:#8bd5a0;
+  --blue:#70b7ff;
+  --red:#ed8585;
+  --gold:#d6a85b;
+  --panel:#171717;
+  --panel2:#202020;
+  --line:#353535;
+  --muted:#999;
+  --green:#9bd4a5;
 }
+
 *{box-sizing:border-box}
-body{background:var(--bg);color:#eee}
-.draft-container{max-width:1250px;margin:25px auto;padding:16px}
-.draft-header{margin-bottom:22px}
+
+body{
+  background:#101010;
+  color:#eee;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+.draft-container{
+  width:min(1200px,100%);
+  margin:30px auto;
+  padding:18px;
+}
+
+.draft-header{
+  margin-bottom:24px;
+}
+
 .draft-header h1{
-  font-family:'Cinzel',serif;font-size:clamp(34px,6vw,52px);
-  color:var(--gold);margin:8px 0;letter-spacing:2px
+  font-family:'Cinzel',serif;
+  font-size:clamp(34px,6vw,54px);
+  color:var(--gold);
+  margin:8px 0;
+  letter-spacing:2px;
 }
-.draft-header p,.muted{color:var(--muted);font-size:12px;line-height:1.5}
-.eyebrow{font-size:10px;letter-spacing:2px;color:var(--gold)}
-.draft-layout,.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.draft-team,.hero-selector,.analysis-panel,.hero-details{
-  background:linear-gradient(145deg,#191c20,#121416);
-  border:1px solid var(--line);padding:16px;border-radius:12px;min-width:0
+
+.draft-header p,.muted{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
 }
-.draft-team h2,.hero-selector h2,.analysis-panel h2,.hero-details h2{
-  font-family:'Cinzel',serif;font-size:16px;margin:0 0 8px
+
+.draft-layout,
+.analysis-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
+
+.draft-team,
+.hero-selector,
+.analysis-panel,
+.hero-details{
+  background:var(--panel);
+  border:1px solid var(--line);
+  padding:17px;
+  border-radius:10px;
+  min-width:0;
+}
+
+.draft-team h2,
+.hero-selector h2,
+.analysis-panel h2,
+.hero-details h2{
+  font-family:'Cinzel',serif;
+  font-size:17px;
+  margin:0 0 8px;
+}
+
 .team-blue h2,.blue h3{color:var(--blue)}
 .team-red h2,.red h3{color:var(--red)}
-.draft-slots{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+
+.draft-slots{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px;
+}
+
 .draft-slot{
-  min-width:0;min-height:105px;position:relative;overflow:hidden;
-  border:1px dashed #3c4148;border-radius:9px;background:#101215;
-  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-  padding:6px 3px;gap:4px;text-align:center;cursor:default
+  min-width:0;
+  min-height:110px;
+  padding:7px 4px;
+  border:1px dashed #444;
+  border-radius:7px;
+  background:#111;
+  color:#777;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  text-align:center;
+  font-size:10px;
+  position:relative;
+  overflow:hidden;
 }
-.draft-slot .slot-image{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;opacity:.72
-}
-.draft-slot:has(.slot-image)::after{
-  content:"";position:absolute;inset:35% 0 0;
-  background:linear-gradient(transparent,#090a0c 90%)
-}
-.draft-slot .slot-position,.draft-slot strong{
-  position:relative;z-index:1
-}
-.draft-slot .slot-position{font-size:9px;color:#aaa}
+
 .draft-slot strong{
-  color:#fff;font-size:10px;line-height:1.1;
-  overflow-wrap:anywhere;text-shadow:0 1px 4px #000
+  color:#eee;
+  font-size:10px;
+  overflow-wrap:anywhere;
 }
-.draft-slot.filled{border-style:solid}
-.team-blue .draft-slot.filled{border-color:#416b91}
-.team-red .draft-slot.filled{border-color:#874b4b}
-.draft-slot:hover{filter:brightness(1.2)}
-.hero-selector,.analysis-panel,.hero-details{margin-top:15px}
-.hero-search,.team-select{
-  width:100%;padding:11px;margin:8px 0 12px;
-  background:#101215;color:white;border:1px solid #3b4148;border-radius:7px;
-  outline:none
+
+.draft-slot img{
+  width:54px;
+  height:54px;
+  object-fit:cover;
+  border-radius:6px;
+  background:#222;
+  border:1px solid #444;
 }
-.hero-search:focus,.team-select:focus{border-color:var(--gold)}
-.selector-top{display:grid;grid-template-columns:180px 1fr;gap:9px}
-.selector-top .team-select,.selector-top .hero-search{margin:8px 0 12px}
+
+.draft-slot.filled{
+  border-style:solid;
+  background:#191919;
+}
+
+.team-blue .draft-slot.filled{
+  border-color:#42698c;
+}
+
+.team-red .draft-slot.filled{
+  border-color:#874d4d;
+}
+
+.draft-slot .slot-position{
+  position:absolute;
+  top:5px;
+  left:6px;
+  font-size:9px;
+  color:#888;
+}
+
+.draft-slot .remove-hint{
+  font-size:9px;
+  color:#777;
+}
+
+.hero-selector,
+.analysis-panel,
+.hero-details{
+  margin-top:17px;
+}
+
+.selector-controls{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:8px;
+}
+
+.hero-search,
+.team-select{
+  width:100%;
+  padding:11px;
+  margin:8px 0 12px;
+  background:#101010;
+  color:white;
+  border:1px solid #444;
+  border-radius:6px;
+  outline:none;
+}
+
+.hero-search:focus,
+.team-select:focus{
+  border-color:var(--gold);
+}
+
 .hero-options{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));
-  gap:8px;max-height:390px;overflow:auto;padding:2px
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(105px,1fr));
+  gap:8px;
+  max-height:390px;
+  overflow:auto;
+  padding:2px;
 }
+
 .hero-option{
-  position:relative;overflow:hidden;min-height:105px;padding:0;
-  background:#202328;border:1px solid #383e46;color:#eee;
-  border-radius:8px;cursor:pointer;text-align:left
+  min-width:0;
+  padding:8px 5px;
+  background:#202020;
+  border:1px solid #383838;
+  color:#eee;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  transition:.15s;
 }
+
+.hero-option:hover{
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
+
+.hero-option:disabled{
+  opacity:.25;
+  cursor:not-allowed;
+  transform:none;
+}
+
 .hero-option img{
-  width:100%;height:75px;object-fit:cover;display:block;
-  background:#111;transition:transform .2s
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border-radius:6px;
+  background:#111;
 }
+
 .hero-option span{
-  display:block;padding:6px 5px;font-size:11px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+  text-align:center;
+  overflow-wrap:anywhere;
 }
-.hero-option:hover{border-color:var(--gold);color:var(--gold)}
-.hero-option:hover img{transform:scale(1.05)}
-.hero-option:disabled{opacity:.25;cursor:not-allowed;filter:grayscale(1)}
-.draft-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.draft-actions button,.action-button{
-  padding:10px 15px;border:1px solid var(--gold);
-  background:transparent;color:var(--gold);border-radius:7px;cursor:pointer;
-  font-size:12px
+
+.hero-option small{
+  color:#888;
+  font-size:9px;
+  text-align:center;
 }
-.draft-actions button:hover,.action-button:hover{background:var(--gold);color:#111}
-.draft-message,.system-status{margin-top:10px;color:var(--muted);font-size:11px}
-.system-status,.analysis-status{
-  padding:9px 11px;border:1px solid #383e46;border-radius:7px;
-  font-size:11px;color:#aaa
+
+.draft-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
 }
+
+.draft-actions button,
+.action-button{
+  padding:10px 14px;
+  border:1px solid var(--gold);
+  background:transparent;
+  color:var(--gold);
+  border-radius:6px;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.draft-actions button:hover,
+.action-button:hover{
+  background:var(--gold);
+  color:#111;
+}
+
+.draft-message,
+.system-status{
+  margin-top:11px;
+  color:#999;
+  font-size:12px;
+}
+
+.system-status,
+.analysis-status{
+  padding:10px;
+  border:1px solid #383838;
+  border-radius:6px;
+  font-size:12px;
+  line-height:1.5;
+}
+
 .ready{border-color:#547c58!important}
 .warning{border-color:#96604c!important}
-.analysis-panel[hidden],.hero-details[hidden]{display:none}
-.analysis-team{padding:13px;border:1px solid #383e46;border-radius:9px;background:#101215;min-width:0}
-.analysis-team h3{font-family:'Cinzel',serif;font-size:14px;margin:0 0 10px}
-.team-hero-list{display:flex;flex-wrap:wrap;gap:5px}
-.hero-chip,.tactical-tag{
-  display:inline-flex;align-items:center;padding:5px 8px;
-  background:#202328;border:1px solid #383e46;border-radius:5px;
-  font-size:10px;color:#ddd
+
+.analysis-panel[hidden],
+.hero-details[hidden]{
+  display:none;
 }
-.tactical-section{margin-top:13px}
+
+.analysis-team{
+  padding:14px;
+  border:1px solid #383838;
+  border-radius:8px;
+  background:#111;
+  min-width:0;
+}
+
+.analysis-team h3{
+  font-family:'Cinzel',serif;
+  font-size:15px;
+  margin:0 0 12px;
+}
+
+.team-hero-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.hero-chip,
+.tactical-tag{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 9px;
+  background:#202020;
+  border:1px solid #383838;
+  border-radius:5px;
+  font-size:11px;
+  color:#ddd;
+}
+
+.tactical-section{
+  margin-top:15px;
+}
+
 .tactical-section h4{
-  font-size:10px;color:#9299a3;text-transform:uppercase;
-  letter-spacing:1px;margin:0 0 7px
+  font-size:11px;
+  color:#999;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin:0 0 8px;
 }
-.tag-list{display:flex;flex-wrap:wrap;gap:5px}
-.tag-good{border-color:#426c50;color:var(--green)}
-.tag-bad{border-color:#824949;color:#f0a0a0}
-.tag-neutral{border-color:#665536;color:#e4bd78}
+
+.tag-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.tag-good{
+  border-color:#426c50;
+  color:var(--green);
+}
+
+.tag-bad{
+  border-color:#824949;
+  color:#e99b9b;
+}
+
+.tag-neutral{
+  border-color:#665536;
+  color:#e4bd78;
+}
+
 .counter-match{
-  display:flex;justify-content:space-between;align-items:center;gap:8px;
-  padding:8px 10px;background:#1c1f23;border:1px solid #383e46;
-  border-radius:6px;font-size:11px
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:9px 11px;
+  background:#1c1c1c;
+  border:1px solid #383838;
+  border-radius:6px;
+  font-size:12px;
 }
-.counter-match strong{color:#eee}
-.counter-match small{color:#aaa;text-align:right}
-.counter-column{display:grid;gap:5px}
-.counter-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hero-detail-header{display:flex;gap:12px;align-items:center;margin-bottom:13px}
+
+.counter-match strong{
+  color:#eee;
+}
+
+.counter-match small{
+  color:#aaa;
+  text-align:right;
+}
+
+.counter-column{
+  display:grid;
+  gap:6px;
+}
+
+.counter-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.hero-detail-header{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:14px;
+}
+
 .hero-portrait{
-  width:70px;height:70px;object-fit:cover;border-radius:9px;
-  background:#222;border:1px solid #454545
+  width:72px;
+  height:72px;
+  object-fit:cover;
+  border-radius:8px;
+  background:#222;
+  border:1px solid #444;
 }
-.hero-detail-header h3{margin:0;color:var(--gold);font-size:17px}
-.hero-detail-header p{margin:5px 0;color:#999;font-size:11px}
-.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.stat-box{padding:8px 4px;background:#202328;border-radius:6px;text-align:center}
-.stat-box strong{display:block;color:#e4bd78;font-size:12px}
-.stat-box small{color:#888;font-size:9px}
-.skill-list,.build-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:7px}
-.skill-card,.build-card{padding:9px;background:#202328;border:1px solid #383e46;border-radius:7px}
-.skill-card strong,.build-card strong{display:block;color:#e4bd78;font-size:11px}
-.skill-card p,.build-card p{font-size:10px;color:#aaa;line-height:1.4;margin:5px 0 0}
-.source-note{font-size:10px;color:#777;line-height:1.5;margin-top:12px}
+
+.hero-detail-header h3{
+  margin:0;
+  color:var(--gold);
+  font-size:17px;
+}
+
+.hero-detail-header p{
+  margin:5px 0;
+  color:#999;
+  font-size:11px;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+
+.stat-box{
+  padding:9px;
+  background:#202020;
+  border-radius:6px;
+  text-align:center;
+}
+
+.stat-box strong{
+  display:block;
+  color:#e4bd78;
+  font-size:13px;
+}
+
+.stat-box small{
+  color:#888;
+  font-size:9px;
+}
+
+.skill-list,
+.build-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:7px;
+}
+
+.skill-card,
+.build-card{
+  padding:10px;
+  background:#202020;
+  border:1px solid #383838;
+  border-radius:6px;
+}
+
+.skill-card strong,
+.build-card strong{
+  display:block;
+  color:#e4bd78;
+  font-size:12px;
+}
+
+.skill-card p,
+.build-card p{
+  font-size:11px;
+  color:#aaa;
+  line-height:1.5;
+  margin:6px 0 0;
+}
+
+.source-note{
+  font-size:10px;
+  color:#777;
+  line-height:1.5;
+  margin-top:13px;
+}
+
 .loading{color:var(--gold)}
 .error-text{color:var(--red)}
 .empty-note{color:#777;font-size:11px}
-.analysis-status{margin:12px 0}
-.analysis-team .tactical-section:first-of-type{margin-top:8px}
+
+.section-title{
+  margin:18px 0 9px;
+  color:#aaa;
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.profile-section{
+  margin-top:15px;
+}
+
+.profile-section h4{
+  font-size:11px;
+  color:#aaa;
+  letter-spacing:1px;
+  margin:0 0 8px;
+}
+
+.diagnostic-line{
+  margin-top:8px;
+  color:#999;
+  font-size:11px;
+}
+
 @media(max-width:700px){
-  .draft-layout,.analysis-grid,.counter-grid{grid-template-columns:1fr}
-  .draft-container{padding:10px}
-  .draft-team,.hero-selector,.analysis-panel,.hero-details{padding:12px}
-  .draft-slots{gap:4px}
-  .draft-slot{min-height:82px;padding:5px 2px}
-  .draft-slot strong{font-size:9px}
-  .selector-top{grid-template-columns:1fr}
-  .selector-top .team-select,.selector-top .hero-search{margin:5px 0}
-  .stat-grid{grid-template-columns:repeat(3,1fr)}
-  .hero-options{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .draft-layout,
+  .analysis-grid,
+  .counter-grid{
+    grid-template-columns:1fr;
+  }
+
+  .draft-container{
+    padding:10px;
+  }
+
+  .draft-team,
+  .hero-selector,
+  .analysis-panel,
+  .hero-details{
+    padding:13px;
+  }
+
+  .draft-slots{
+    gap:5px;
+  }
+
+  .draft-slot{
+    min-height:91px;
+    padding:5px 2px;
+  }
+
+  .draft-slot img{
+    width:43px;
+    height:43px;
+  }
+
+  .draft-slot strong{
+    font-size:9px;
+  }
+
+  .hero-options{
+    grid-template-columns:repeat(auto-fill,minmax(85px,1fr));
+  }
+
+  .hero-option img{
+    width:49px;
+    height:49px;
+  }
+
+  .stat-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .selector-controls{
+    grid-template-columns:1fr;
+    gap:0;
+  }
 }
 </style>
 </head>
 
 <body>
+
 <main class="draft-container">
 
 <header class="draft-header">
@@ -180,7 +564,10 @@ body{background:var(--bg);color:#eee}
   <p>Analiza composiciones. Encuentra ventajas. Decide mejor.</p>
 </header>
 
+<!-- EQUIPOS -->
+
 <section class="draft-layout">
+
   <div class="draft-team team-blue">
     <h2>Equipo azul</h2>
     <p class="muted">Tu equipo</p>
@@ -192,17 +579,30 @@ body{background:var(--bg);color:#eee}
     <p class="muted">Rival</p>
     <div class="draft-slots" id="redSlots"></div>
   </div>
+
 </section>
 
+<!-- SELECTOR -->
+
 <section class="hero-selector">
+
   <h2>Seleccionar héroe</h2>
-  <div class="selector-top">
+
+  <div class="selector-controls">
+
     <select class="team-select" id="teamSelect">
       <option value="blue">Equipo azul</option>
       <option value="red">Equipo rojo</option>
     </select>
-    <input class="hero-search" id="heroSearch" type="search"
-      placeholder="Buscar héroe..." autocomplete="off">
+
+    <input
+      class="hero-search"
+      id="heroSearch"
+      type="search"
+      placeholder="Buscar héroe o posición..."
+      autocomplete="off"
+    >
+
   </div>
 
   <div class="hero-options" id="heroOptions"></div>
@@ -212,689 +612,1690 @@ body{background:var(--bg);color:#eee}
     <button id="resetButton">Reiniciar</button>
   </div>
 
-  <p class="draft-message" id="draftMessage" aria-live="polite">Cargando catálogo...</p>
-  <div class="system-status" id="systemStatus">Conectando...</div>
+  <p class="draft-message" id="draftMessage" aria-live="polite">
+    Cargando catálogo...
+  </p>
+
+  <div class="system-status" id="systemStatus">
+    Conectando...
+  </div>
+
 </section>
+
+<!-- FICHA -->
 
 <section class="hero-details" id="heroDetails" hidden>
+
   <h2>FICHA DEL HÉROE</h2>
+
   <div id="heroProfile"></div>
+
   <div class="source-note" id="heroSource"></div>
+
 </section>
 
+<!-- ANÁLISIS -->
+
 <section class="analysis-panel" id="analysisPanel" hidden>
+
   <h2>ANÁLISIS TÁCTICO</h2>
-  <p class="muted">Cruces registrados entre ambos equipos.</p>
+
+  <p class="muted">
+    Cruces encontrados en los datos disponibles de los héroes.
+  </p>
+
   <div id="analysisGlobalStatus" class="analysis-status"></div>
 
   <div class="analysis-grid">
+
     <article class="analysis-team blue">
       <h3>Equipo azul</h3>
       <div id="blueAnalysis"></div>
     </article>
+
     <article class="analysis-team red">
       <h3>Equipo rojo</h3>
       <div id="redAnalysis"></div>
     </article>
+
   </div>
 
-  <div class="hero-details" style="margin-top:14px">
-    <h2>CRUCES DEL DRAFT</h2>
+  <div class="hero-details" style="margin-top:15px">
+
+    <h2>RESUMEN DE CRUCES</h2>
+
     <div id="counterAnalysis" class="counter-grid"></div>
+
   </div>
 
   <p class="source-note">
-    Los cruces reflejan relaciones registradas en las fichas consultadas.
-    No garantizan una victoria.
+    Las relaciones mostradas dependen de los datos publicados en las fichas.
+    No representan porcentajes de victoria ni garantizan un resultado.
   </p>
+
 </section>
 
 </main>
+
+<!-- DATOS Y MOTORES -->
 
 <script src="data/heroes.js"></script>
 <script src="data/sources.js"></script>
 <script src="data/synergies.js"></script>
 <script src="data/counters.js"></script>
+
 <script src="js/draft-engine.js"></script>
 <script src="js/draft-recommender.js"></script>
 <script src="js/draft-analysis.js"></script>
 
 <script>
+
+/* =====================================================
+   CONFIGURACIÓN
+===================================================== */
+
 const API = "https://mlbbdex.com/api/v1";
 
 let heroes = [];
-let catalogSource = "local";
+let catalogSource = "Local";
 let catalogLoaded = false;
 
 const draft = {
-  blue: Array(5).fill(null),
-  red: Array(5).fill(null)
+  blue:Array(5).fill(null),
+  red:Array(5).fill(null)
 };
 
 const detailCache = new Map();
 
+/*
+  Las imágenes se encuentran en la raíz del repositorio.
+
+  Si algún archivo tiene un nombre diferente al slug,
+  se agrega aquí una excepción.
+*/
+
+const IMAGE_OVERRIDES = {
+  "popolandkupa":"popol and kupa",
+  "yisunshin":"yisunshin"
+};
+
+
+/* =====================================================
+   FUNCIONES GENERALES
+===================================================== */
+
 function normalize(value){
-  return String(value || "").trim().toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
     .replace(/[^a-z0-9]/g,"");
+
 }
+
 
 function makeElement(tag,text,className){
-  const el=document.createElement(tag);
-  el.textContent=text ?? "";
-  if(className) el.className=className;
+
+  const el = document.createElement(tag);
+
+  el.textContent = text ?? "";
+
+  if(className){
+    el.className = className;
+  }
+
   return el;
+
 }
+
 
 function extractData(payload){
+
   return payload?.data ?? payload;
+
 }
+
 
 async function fetchJSON(url){
-  const response=await fetch(url,{headers:{Accept:"application/json"}});
-  if(!response.ok) throw new Error("HTTP "+response.status);
+
+  const response = await fetch(url,{
+    headers:{
+      Accept:"application/json"
+    }
+  });
+
+  if(!response.ok){
+    throw new Error("HTTP "+response.status);
+  }
+
   return response.json();
+
 }
 
-function getProfileData(profile){
-  return profile?.hero || profile?.data?.hero || profile?.data || profile;
-}
 
 function getHeroSlug(hero){
-  return hero?.slug || hero?.id || normalize(hero?.name);
+
+  return String(
+    hero?.slug ||
+    hero?.id ||
+    normalize(hero?.name)
+  );
+
 }
 
-/* IMÁGENES */
+
+function getHeroName(hero){
+
+  return (
+    hero?.name ||
+    hero?.hero_name ||
+    hero?.title ||
+    "Héroe"
+  );
+
+}
+
+
+/* =====================================================
+   IMÁGENES LOCALES
+===================================================== */
+
 function getHeroImage(hero){
+
   if(!hero) return "";
 
-  const candidates=[
-    hero.image,hero.image_url,hero.portrait,hero.icon,
-    hero.head,hero.cover,hero.avatar,hero.img,
-    hero.splash,hero.hero_image,hero.square_image
-  ];
+  const slug = normalize(
+    hero.slug ||
+    hero.id ||
+    hero.name
+  );
 
-  for(const value of candidates){
-    if(typeof value==="string" && value.startsWith("http")) return value;
-    if(value && typeof value==="object"){
-      const nested=value.url || value.src || value.webp || value.png;
-      if(typeof nested==="string" && nested.startsWith("http")) return nested;
-    }
-  }
-  return "";
+  const filename = IMAGE_OVERRIDES[slug] || slug;
+
+  return "./"+encodeURIComponent(filename)+".webp";
+
 }
 
-function getHeroImageFromProfile(profile,fallback){
-  return getHeroImage(getProfileData(profile)) ||
-         getHeroImage(profile) ||
-         getHeroImage(fallback);
+
+function createHeroImage(hero,className,alt){
+
+  const img = document.createElement("img");
+
+  img.className = className || "";
+  img.src = getHeroImage(hero);
+  img.alt = alt || getHeroName(hero);
+  img.loading = "lazy";
+
+  img.onerror = function(){
+
+    this.onerror = null;
+    this.style.display = "none";
+
+  };
+
+  return img;
+
 }
 
-/* CATÁLOGO */
+
+/* =====================================================
+   CARGA DEL CATÁLOGO
+===================================================== */
+
 async function loadCatalog(){
-  const status=document.getElementById("systemStatus");
-  status.textContent="Conectando con MLBBDex...";
+
+  const status = document.getElementById("systemStatus");
+
+  status.textContent = "Conectando con MLBBDex...";
 
   try{
-    const payload=await fetchJSON(API+"/heroes");
-    const data=extractData(payload);
-    if(!Array.isArray(data)) throw new Error("Catálogo inválido");
 
-    heroes=data.map(hero=>({
+    const payload = await fetchJSON(API+"/heroes");
+
+    const data = extractData(payload);
+
+    if(!Array.isArray(data)){
+      throw new Error("Catálogo inválido");
+    }
+
+    heroes = data.map(hero=>({
+
       ...hero,
+
       slug:getHeroSlug(hero),
-      name:hero.name || hero.hero_name || "Héroe",
-      lanes:hero.lanes || hero.positions || []
+
+      name:getHeroName(hero),
+
+      lanes:
+        hero.lanes ||
+        hero.positions ||
+        hero.roles ||
+        []
+
     }));
 
-    catalogSource="MLBBdex";
-    catalogLoaded=true;
+    catalogSource = "MLBBdex";
+    catalogLoaded = true;
+
     setMessage("Catálogo conectado.");
+
   }catch(error){
-    console.warn(error);
+
+    console.warn("Error MLBBDex:",error);
+
     try{
-      const local=await fetchJSON("./hero-tags.json");
-      if(!Array.isArray(local.data)) throw new Error("Catálogo local inválido");
-      heroes=local.data;
-      catalogSource="Local";
-      catalogLoaded=true;
+
+      const local = await fetchJSON("./hero-tags.json");
+
+      const data = Array.isArray(local)
+        ? local
+        : local.data;
+
+      if(!Array.isArray(data)){
+        throw new Error("Catálogo local inválido");
+      }
+
+      heroes = data.map(hero=>({
+
+        ...hero,
+
+        slug:getHeroSlug(hero),
+
+        name:getHeroName(hero),
+
+        lanes:
+          hero.lanes ||
+          hero.positions ||
+          hero.roles ||
+          []
+
+      }));
+
+      catalogSource = "Catálogo local";
+      catalogLoaded = true;
+
       setMessage("Usando catálogo local.");
+
     }catch(localError){
-      catalogLoaded=false;
-      heroes=[];
+
+      console.error("Error catálogo local:",localError);
+
+      catalogLoaded = false;
+      heroes = [];
+
       setMessage("No se pudo cargar el catálogo.");
+
     }
+
   }
 
   renderDraft();
   updateSystemStatus();
+
 }
+
 
 function setMessage(text){
-  document.getElementById("draftMessage").textContent=text;
+
+  document.getElementById("draftMessage").textContent = text;
+
 }
 
-/* EQUIPOS */
+
+/* =====================================================
+   DRAFT VISUAL
+===================================================== */
+
 function renderDraft(){
+
   ["blue","red"].forEach(team=>{
-    const container=document.getElementById(team+"Slots");
-    container.innerHTML="";
+
+    const container = document.getElementById(team+"Slots");
+
+    container.innerHTML = "";
 
     draft[team].forEach((hero,index)=>{
-      const slot=document.createElement("div");
-      slot.className="draft-slot"+(hero?" filled":"");
+
+      const slot = document.createElement("div");
+
+      slot.className = "draft-slot"+(hero?" filled":"");
+
+      slot.appendChild(
+        makeElement("span","P"+(index+1),"slot-position")
+      );
 
       if(hero){
-        const image=getHeroImage(hero);
-        if(image){
-          const img=document.createElement("img");
-          img.className="slot-image";
-          img.src=image;
-          img.alt=hero.name;
-          img.loading="lazy";
-          slot.appendChild(img);
-        }
-      }
 
-      slot.appendChild(makeElement("span","P"+(index+1),"slot-position"));
-      slot.appendChild(makeElement("strong",hero?hero.name:"—"));
+        slot.appendChild(
+          createHeroImage(hero,"","")
+        );
 
-      if(hero){
-        slot.title="Quitar "+hero.name;
-        slot.addEventListener("click",()=>removeHero(team,index));
+        slot.appendChild(
+          makeElement("strong",hero.name)
+        );
+
+        slot.appendChild(
+          makeElement("span","Quitar","remove-hint")
+        );
+
+        slot.style.cursor = "pointer";
+        slot.title = "Quitar "+hero.name;
+
+        slot.addEventListener("click",()=>{
+          removeHero(team,index);
+        });
+
+      }else{
+
+        slot.appendChild(
+          makeElement("strong","—")
+        );
+
       }
 
       container.appendChild(slot);
+
     });
+
   });
 
   renderHeroes();
+
 }
 
-/* SELECTOR */
+
+/* =====================================================
+   SELECTOR DE HÉROES
+===================================================== */
+
 function renderHeroes(){
-  const query=normalize(document.getElementById("heroSearch").value);
-  const selected=new Set(
-    [...draft.blue,...draft.red].filter(Boolean)
-      .map(h=>normalize(getHeroSlug(h)))
+
+  const query = normalize(
+    document.getElementById("heroSearch").value
   );
 
-  const container=document.getElementById("heroOptions");
-  container.innerHTML="";
+  const selected = new Set(
+
+    [...draft.blue,...draft.red]
+      .filter(Boolean)
+      .map(hero=>normalize(getHeroSlug(hero)))
+
+  );
+
+  const container = document.getElementById("heroOptions");
+
+  container.innerHTML = "";
 
   if(!catalogLoaded){
-    container.textContent="Catálogo no disponible.";
+
+    container.textContent = "Catálogo no disponible.";
+
     return;
+
   }
 
-  const filtered=heroes.filter(hero=>{
-    const lanes=Array.isArray(hero.lanes)?hero.lanes:[hero.lanes || ""];
-    return normalize([hero.name,hero.slug,hero.title,...lanes].join(" "))
-      .includes(query);
+  const filtered = heroes.filter(hero=>{
+
+    const lanes = Array.isArray(hero.lanes)
+      ? hero.lanes
+      : [hero.lanes || ""];
+
+    const searchable = [
+
+      hero.name,
+      hero.slug,
+      hero.title,
+      hero.role,
+      hero.specialty,
+      ...lanes
+
+    ].join(" ");
+
+    return normalize(searchable).includes(query);
+
   });
 
   filtered.forEach(hero=>{
-    const button=document.createElement("button");
-    button.className="hero-option";
-    button.disabled=selected.has(normalize(getHeroSlug(hero)));
 
-    const image=getHeroImage(hero);
-    if(image){
-      const img=document.createElement("img");
-      img.src=image;
-      img.alt=hero.name;
-      img.loading="lazy";
-      button.appendChild(img);
+    const button = document.createElement("button");
+
+    button.className = "hero-option";
+
+    button.disabled = selected.has(
+      normalize(getHeroSlug(hero))
+    );
+
+    button.appendChild(
+      createHeroImage(hero,"",hero.name)
+    );
+
+    button.appendChild(
+      makeElement("span",hero.name)
+    );
+
+    const lanes = Array.isArray(hero.lanes)
+      ? hero.lanes
+      : [hero.lanes].filter(Boolean);
+
+    if(lanes.length){
+
+      button.appendChild(
+        makeElement("small",lanes.join(" / "))
+      );
+
     }
 
-    button.appendChild(makeElement("span",hero.name));
-    button.addEventListener("click",()=>selectHero(hero));
+    button.addEventListener("click",()=>{
+
+      selectHero(hero);
+
+    });
+
     container.appendChild(button);
+
   });
 
-  if(!filtered.length) container.textContent="Sin resultados.";
+  if(!filtered.length){
+
+    container.textContent = "Sin resultados.";
+
+  }
+
 }
+
+
+/* =====================================================
+   SELECCIÓN Y ELIMINACIÓN
+===================================================== */
 
 function selectHero(hero){
-  const team=document.getElementById("teamSelect").value;
-  const index=draft[team].indexOf(null);
 
-  if(index<0){
+  const team = document.getElementById("teamSelect").value;
+
+  const index = draft[team].indexOf(null);
+
+  if(index < 0){
+
     setMessage("Equipo completo.");
+
     return;
+
   }
 
-  const exists=[...draft.blue,...draft.red].filter(Boolean)
-    .some(h=>normalize(getHeroSlug(h))===normalize(getHeroSlug(hero)));
+  const exists = [...draft.blue,...draft.red]
+    .filter(Boolean)
+    .some(existing=>
+      normalize(getHeroSlug(existing)) ===
+      normalize(getHeroSlug(hero))
+    );
 
-  if(exists) return;
+  if(exists){
 
-  draft[team][index]=hero;
+    setMessage("Ese héroe ya está seleccionado.");
+
+    return;
+
+  }
+
+  draft[team][index] = hero;
+
   setMessage(hero.name+" añadido.");
+
   hideAnalysis();
+
   renderDraft();
+
   loadHeroProfile(hero);
+
 }
+
 
 function removeHero(team,index){
-  const removed=draft[team][index];
-  draft[team][index]=null;
+
+  const removed = draft[team][index];
+
+  if(!removed) return;
+
+  draft[team][index] = null;
+
   setMessage(removed.name+" retirado.");
+
   hideAnalysis();
+
   renderDraft();
+
 }
+
 
 function resetDraft(){
+
   draft.blue.fill(null);
   draft.red.fill(null);
+
   hideAnalysis();
-  document.getElementById("heroDetails").hidden=true;
+
+  document.getElementById("heroDetails").hidden = true;
+
+  document.getElementById("heroProfile").innerHTML = "";
+
+  document.getElementById("heroSource").textContent = "";
+
   setMessage("Draft reiniciado.");
+
   renderDraft();
+
 }
+
 
 function hideAnalysis(){
-  document.getElementById("analysisPanel").hidden=true;
+
+  document.getElementById("analysisPanel").hidden = true;
+
 }
 
-/* FICHAS */
+
+/* =====================================================
+   CONSULTA DE FICHAS
+===================================================== */
+
 async function getHeroProfile(hero){
-  const slug=getHeroSlug(hero);
-  if(detailCache.has(slug)) return detailCache.get(slug);
 
-  const payload=await fetchJSON(API+"/heroes/"+encodeURIComponent(slug));
-  const profile=extractData(payload);
+  const slug = getHeroSlug(hero);
+
+  if(detailCache.has(slug)){
+
+    return detailCache.get(slug);
+
+  }
+
+  const payload = await fetchJSON(
+    API+"/heroes/"+encodeURIComponent(slug)
+  );
+
+  const profile = extractData(payload);
+
+  if(!profile || typeof profile !== "object"){
+
+    throw new Error("Perfil vacío");
+
+  }
+
   detailCache.set(slug,profile);
+
   return profile;
+
 }
+
+
+function getProfileData(profile){
+
+  if(!profile) return {};
+
+  return (
+    profile.hero ||
+    profile.data?.hero ||
+    profile
+  );
+
+}
+
+
+/* =====================================================
+   FICHA DEL HÉROE
+===================================================== */
 
 async function loadHeroProfile(hero){
-  const panel=document.getElementById("heroDetails");
-  const content=document.getElementById("heroProfile");
-  panel.hidden=false;
-  content.innerHTML="";
-  content.appendChild(makeElement("p","Cargando ficha...","loading"));
+
+  const panel = document.getElementById("heroDetails");
+
+  const content = document.getElementById("heroProfile");
+
+  panel.hidden = false;
+
+  content.innerHTML = "";
+
+  content.appendChild(
+    makeElement("p","Cargando ficha...","loading")
+  );
 
   try{
-    const profile=await getHeroProfile(hero);
+
+    const profile = await getHeroProfile(hero);
+
     renderHeroProfile(profile,hero);
-    document.getElementById("heroSource").textContent="Fuente: MLBBDex.";
+
+    document.getElementById("heroSource").textContent =
+      "Fuente: MLBBDex · Imagen: archivo local.";
+
   }catch(error){
-    content.innerHTML="";
-    content.appendChild(makeElement("p","Ficha no disponible.","error-text"));
-    document.getElementById("heroSource").textContent="Error de consulta.";
+
+    console.error("Error ficha:",error);
+
+    content.innerHTML = "";
+
+    content.appendChild(
+      makeElement("p","Ficha no disponible.","error-text")
+    );
+
+    document.getElementById("heroSource").textContent =
+      "No se pudo consultar el perfil.";
+
   }
+
 }
 
-function addTags(parent,values,className="tag-neutral",limit=5){
-  const wrap=document.createElement("div");
-  wrap.className="tag-list";
 
-  const list=Array.isArray(values)?values:[];
+function addTags(parent,values,className="tag-neutral",limit=6){
+
+  const wrap = document.createElement("div");
+
+  wrap.className = "tag-list";
+
+  const list = Array.isArray(values)
+    ? values
+    : [];
+
   list.slice(0,limit).forEach(value=>{
-    const label=typeof value==="string"
-      ?value:(value?.name || value?.title || value?.slug || "");
-    if(label) wrap.appendChild(makeElement("span",label,className+" tactical-tag"));
+
+    const label = getReferenceName(value);
+
+    if(label){
+
+      wrap.appendChild(
+        makeElement(
+          "span",
+          label,
+          className+" tactical-tag"
+        )
+      );
+
+    }
+
   });
 
   if(!wrap.children.length){
-    wrap.appendChild(makeElement("span","Sin datos","tactical-tag"));
+
+    wrap.appendChild(
+      makeElement("span","Sin datos","tactical-tag")
+    );
+
   }
 
   parent.appendChild(wrap);
+
 }
 
+
+function addProfileSection(container,title,content){
+
+  if(!content) return;
+
+  const section = document.createElement("div");
+
+  section.className = "profile-section";
+
+  section.appendChild(
+    makeElement("h4",title)
+  );
+
+  section.appendChild(content);
+
+  container.appendChild(section);
+
+}
+
+
 function renderHeroProfile(profile,fallback){
-  const container=document.getElementById("heroProfile");
-  container.innerHTML="";
 
-  const hero=getProfileData(profile);
-  const name=hero.name || fallback.name;
-  const portrait=getHeroImageFromProfile(profile,fallback);
+  const container = document.getElementById("heroProfile");
 
-  const header=document.createElement("div");
-  header.className="hero-detail-header";
+  container.innerHTML = "";
 
-  if(portrait){
-    const img=document.createElement("img");
-    img.className="hero-portrait";
-    img.src=portrait;
-    img.alt=name;
-    img.loading="lazy";
-    header.appendChild(img);
-  }
+  const hero = getProfileData(profile);
 
-  const title=document.createElement("div");
-  title.appendChild(makeElement("h3",name));
-  title.appendChild(makeElement("p",[
-    hero.title,hero.role,hero.lane,hero.specialty
-  ].filter(Boolean).join(" · ")));
+  const name = getHeroName(hero) || fallback.name;
+
+  /* CABECERA */
+
+  const header = document.createElement("div");
+
+  header.className = "hero-detail-header";
+
+  header.appendChild(
+    createHeroImage(fallback,"hero-portrait",name)
+  );
+
+  const title = document.createElement("div");
+
+  title.appendChild(
+    makeElement("h3",name)
+  );
+
+  title.appendChild(
+    makeElement(
+      "p",
+      [
+        hero.title,
+        hero.role,
+        hero.lane,
+        hero.specialty
+      ].filter(Boolean).join(" · ")
+    )
+  );
 
   header.appendChild(title);
+
   container.appendChild(header);
 
-  const stats=hero.stats || profile.stats || {};
-  const statGrid=document.createElement("div");
-  statGrid.className="stat-grid";
 
-  const importantStats=[
-    ["hp1","HP"],["physical_atk1","ATQ"],
-    ["physical_def1","DEF"],["magic_def1","DEF M"],
-    ["movement_spd","VEL"],["mana1","MANÁ"]
+  /* ESTADÍSTICAS */
+
+  const stats = hero.stats || profile.stats || {};
+
+  const statGrid = document.createElement("div");
+
+  statGrid.className = "stat-grid";
+
+  const importantStats = [
+
+    ["hp1","HP"],
+    ["physical_atk1","ATQ"],
+    ["physical_def1","DEF"],
+    ["magic_def1","DEF M"],
+    ["movement_spd","VEL"],
+    ["mana1","MANÁ"]
+
   ];
 
   importantStats.forEach(([key,label])=>{
-    if(stats[key]===undefined) return;
-    const box=document.createElement("div");
-    box.className="stat-box";
-    box.appendChild(makeElement("strong",String(stats[key])));
-    box.appendChild(makeElement("small",label));
+
+    if(stats[key] === undefined) return;
+
+    const box = document.createElement("div");
+
+    box.className = "stat-box";
+
+    box.appendChild(
+      makeElement("strong",String(stats[key]))
+    );
+
+    box.appendChild(
+      makeElement("small",label)
+    );
+
     statGrid.appendChild(box);
+
   });
 
-  if(statGrid.children.length) container.appendChild(statGrid);
+  if(statGrid.children.length){
 
-  const skills=hero.skills || profile.skills || [];
-  if(Array.isArray(skills) && skills.length){
-    container.appendChild(makeElement("h4","HABILIDADES"));
-    const grid=document.createElement("div");
-    grid.className="skill-list";
+    addProfileSection(
+      container,
+      "ESTADÍSTICAS",
+      statGrid
+    );
 
-    skills.forEach(skill=>{
-      const card=document.createElement("div");
-      card.className="skill-card";
-      card.appendChild(makeElement("strong",skill.name || skill.title || "Habilidad"));
-      card.appendChild(makeElement("p",skill.type || skill.type_name || "Skill"));
-      grid.appendChild(card);
-    });
-
-    container.appendChild(grid);
   }
 
-  const strengths=profile.strengths || hero.strengths || [];
-  const weaknesses=profile.weaknesses || hero.weaknesses || [];
-  const strong=profile.strongAgainst || hero.strongAgainst || [];
-  const weak=profile.weakAgainst || hero.weakAgainst || [];
+
+  /* HABILIDADES */
+
+  const skills = hero.skills || profile.skills || [];
+
+  if(Array.isArray(skills) && skills.length){
+
+    const grid = document.createElement("div");
+
+    grid.className = "skill-list";
+
+    skills.forEach(skill=>{
+
+      const card = document.createElement("div");
+
+      card.className = "skill-card";
+
+      card.appendChild(
+        makeElement(
+          "strong",
+          skill.name || skill.title || "Habilidad"
+        )
+      );
+
+      card.appendChild(
+        makeElement(
+          "p",
+          skill.type ||
+          skill.type_name ||
+          skill.description ||
+          "Habilidad"
+        )
+      );
+
+      grid.appendChild(card);
+
+    });
+
+    addProfileSection(
+      container,
+      "HABILIDADES",
+      grid
+    );
+
+  }
+
+
+  /* FORTALEZAS Y DEBILIDADES */
+
+  const strengths = findArrayInProfile(profile,"strengths");
+
+  const weaknesses = findArrayInProfile(profile,"weaknesses");
+
+  const strong = findArrayInProfile(profile,"strongAgainst");
+
+  const weak = findArrayInProfile(profile,"weakAgainst");
 
   if(strengths.length){
-    container.appendChild(makeElement("h4","FORTALEZAS"));
-    addTags(container,strengths,"tag-good",4);
+
+    const wrap = document.createElement("div");
+
+    addTags(wrap,strengths,"tag-good",6);
+
+    addProfileSection(container,"FORTALEZAS",wrap);
+
   }
 
   if(weaknesses.length){
-    container.appendChild(makeElement("h4","DEBILIDADES"));
-    addTags(container,weaknesses,"tag-bad",4);
+
+    const wrap = document.createElement("div");
+
+    addTags(wrap,weaknesses,"tag-bad",6);
+
+    addProfileSection(container,"DEBILIDADES",wrap);
+
   }
 
   if(strong.length){
-    container.appendChild(makeElement("h4","FUERTE CONTRA"));
-    addTags(container,strong,"tag-good",6);
+
+    const wrap = document.createElement("div");
+
+    addTags(wrap,strong,"tag-good",8);
+
+    addProfileSection(container,"FUERTE CONTRA",wrap);
+
   }
 
   if(weak.length){
-    container.appendChild(makeElement("h4","DÉBIL CONTRA"));
-    addTags(container,weak,"tag-bad",6);
+
+    const wrap = document.createElement("div");
+
+    addTags(wrap,weak,"tag-bad",8);
+
+    addProfileSection(container,"DÉBIL CONTRA",wrap);
+
   }
 
-  const builds=profile.builds || hero.builds || [];
-  if(Array.isArray(builds) && builds.length){
-    container.appendChild(makeElement("h4","BUILDS"));
-    const grid=document.createElement("div");
-    grid.className="build-list";
 
-    builds.slice(0,2).forEach(build=>{
-      const card=document.createElement("div");
-      card.className="build-card";
-      card.appendChild(makeElement("strong",build.name || "Build"));
-      card.appendChild(makeElement("p",(build.items || []).slice(0,3).join(" · ")));
-      card.appendChild(makeElement("p",[
-        build.emblem,build.talent,build.spell
-      ].filter(Boolean).join(" · ")));
+  /* BUILDS */
+
+  const builds = hero.builds || profile.builds || [];
+
+  if(Array.isArray(builds) && builds.length){
+
+    const grid = document.createElement("div");
+
+    grid.className = "build-list";
+
+    builds.slice(0,3).forEach(build=>{
+
+      const card = document.createElement("div");
+
+      card.className = "build-card";
+
+      card.appendChild(
+        makeElement("strong",build.name || "Build")
+      );
+
+      const items = Array.isArray(build.items)
+        ? build.items
+        : [];
+
+      card.appendChild(
+        makeElement(
+          "p",
+          items.map(getReferenceName).filter(Boolean).join(" · ")
+        )
+      );
+
+      card.appendChild(
+        makeElement(
+          "p",
+          [
+            getReferenceName(build.emblem),
+            getReferenceName(build.talent),
+            getReferenceName(build.spell)
+          ].filter(Boolean).join(" · ")
+        )
+      );
+
       grid.appendChild(card);
+
     });
 
-    container.appendChild(grid);
+    addProfileSection(container,"BUILDS",grid);
+
   }
+
+
+  /* SKINS */
+
+  const skins = hero.skins || profile.skins;
+
+  if(Array.isArray(skins) && skins.length){
+
+    container.appendChild(
+      makeElement(
+        "p",
+        skins.length+" skins registradas",
+        "source-note"
+      )
+    );
+
+  }
+
 }
 
-/* ANÁLISIS DE COUNTERS */
+
+/* =====================================================
+   LECTURA ROBUSTA DE DATOS DE COUNTERS
+===================================================== */
+
+/*
+  La API puede devolver los datos dentro de objetos
+  anidados. Estas funciones buscan los campos sin
+  depender de una sola estructura.
+*/
+
+
+function getReferenceName(value){
+
+  if(value === null || value === undefined){
+
+    return "";
+
+  }
+
+  if(typeof value === "string"){
+
+    return value.trim();
+
+  }
+
+  if(typeof value === "number"){
+
+    return String(value);
+
+  }
+
+  if(typeof value === "object"){
+
+    return (
+      value.name ||
+      value.hero_name ||
+      value.slug ||
+      value.id ||
+      value.title ||
+      value.hero?.name ||
+      value.hero?.slug ||
+      ""
+    );
+
+  }
+
+  return "";
+
+}
+
+
 function findArrayInProfile(profile,field){
-  const visited=new Set();
 
-  function search(obj){
-    if(!obj || typeof obj!=="object" || visited.has(obj)) return null;
-    visited.add(obj);
+  const found = [];
 
-    if(Array.isArray(obj[field]) && obj[field].length){
-      return obj[field];
+  const visited = new WeakSet();
+
+  function walk(node,depth=0){
+
+    if(!node || typeof node !== "object") return;
+
+    if(depth > 9) return;
+
+    if(visited.has(node)) return;
+
+    visited.add(node);
+
+    if(Array.isArray(node)){
+
+      node.forEach(item=>walk(item,depth+1));
+
+      return;
+
     }
 
-    const priority=["hero","data","result","profile","analysis"];
-    for(const key of priority){
-      if(obj[key] && typeof obj[key]==="object"){
-        const found=search(obj[key]);
-        if(found) return found;
+    Object.keys(node).forEach(key=>{
+
+      const value = node[key];
+
+      if(normalize(key) === normalize(field)){
+
+        if(Array.isArray(value)){
+
+          found.push(...value);
+
+        }else if(value && typeof value === "object"){
+
+          found.push(value);
+
+        }
+
       }
-    }
 
-    for(const [key,value] of Object.entries(obj)){
-      if(priority.includes(key)) continue;
-      if(value && typeof value==="object"){
-        const found=search(value);
-        if(found) return found;
+      if(value && typeof value === "object"){
+
+        walk(value,depth+1);
+
       }
-    }
 
-    return null;
+    });
+
   }
 
-  return search(profile) || [];
+  walk(profile);
+
+  const unique = new Map();
+
+  found.forEach(item=>{
+
+    const name = getReferenceName(item);
+
+    const key = normalize(name);
+
+    if(key && !unique.has(key)){
+
+      unique.set(key,item);
+
+    }
+
+  });
+
+  return [...unique.values()];
+
 }
 
-function getCounterSlug(item){
-  if(typeof item==="string") return item;
-  if(!item || typeof item!=="object") return "";
 
-  return item.slug || item.id || item.hero_slug ||
-         item.name || item.title || item.hero || "";
-}
+/* =====================================================
+   CRUCE DE HÉROES
+===================================================== */
 
-function getHeroNames(slugs,enemyTeam){
-  const enemyMap=new Map(
-    enemyTeam.map(hero=>[
+function getHeroNames(references,enemyTeam){
+
+  const names = [];
+
+  const enemyMap = new Map();
+
+  enemyTeam.forEach(hero=>{
+
+    enemyMap.set(
       normalize(getHeroSlug(hero)),
       hero.name
-    ])
-  );
+    );
 
-  const names=[];
-  (Array.isArray(slugs)?slugs:[]).forEach(item=>{
-    const slug=getCounterSlug(item);
-    const match=enemyMap.get(normalize(slug));
-    if(match) names.push(match);
+    enemyMap.set(
+      normalize(hero.name),
+      hero.name
+    );
+
+  });
+
+  (Array.isArray(references)?references:[]).forEach(reference=>{
+
+    const name = getReferenceName(reference);
+
+    const key = normalize(name);
+
+    const match = enemyMap.get(key);
+
+    if(match){
+
+      names.push(match);
+
+    }
+
   });
 
   return [...new Set(names)];
+
 }
 
-function renderTeamSummary(team,containerId){
-  const container=document.getElementById(containerId);
-  container.innerHTML="";
 
-  const selected=draft[team].filter(Boolean);
-  const chips=document.createElement("div");
-  chips.className="team-hero-list";
+/* =====================================================
+   RESUMEN DE EQUIPOS
+===================================================== */
+
+function renderTeamSummary(team,containerId){
+
+  const container = document.getElementById(containerId);
+
+  container.innerHTML = "";
+
+  const selected = draft[team].filter(Boolean);
+
+  const chips = document.createElement("div");
+
+  chips.className = "team-hero-list";
 
   selected.forEach(hero=>{
-    chips.appendChild(makeElement("span",hero.name,"hero-chip"));
+
+    chips.appendChild(
+      makeElement("span",hero.name,"hero-chip")
+    );
+
   });
 
   container.appendChild(chips);
+
 }
 
-function renderMatchList(container,title,matches,className){
-  const section=document.createElement("div");
-  section.className="tactical-section";
-  section.appendChild(makeElement("h4",title));
 
-  const list=document.createElement("div");
-  list.className="counter-column";
+/* =====================================================
+   LISTAS DE VENTAJAS Y RIESGOS
+===================================================== */
+
+function renderMatchList(container,title,matches,className){
+
+  const section = document.createElement("div");
+
+  section.className = "tactical-section";
+
+  section.appendChild(
+    makeElement("h4",title)
+  );
+
+  const list = document.createElement("div");
+
+  list.className = "counter-column";
 
   if(!matches.length){
-    list.appendChild(makeElement("span","Sin cruces registrados","empty-note"));
+
+    list.appendChild(
+      makeElement(
+        "span",
+        "Sin registros encontrados.",
+        "empty-note"
+      )
+    );
+
   }else{
+
     matches.forEach(match=>{
-      const row=document.createElement("div");
-      row.className="counter-match";
-      row.appendChild(makeElement("strong",match.hero));
-      row.appendChild(makeElement("small",match.enemies.join(", "),className));
+
+      const row = document.createElement("div");
+
+      row.className = "counter-match";
+
+      row.appendChild(
+        makeElement("strong",match.hero)
+      );
+
+      row.appendChild(
+        makeElement(
+          "small",
+          match.enemies.join(", "),
+          className
+        )
+      );
+
       list.appendChild(row);
+
     });
+
   }
 
   section.appendChild(list);
+
   container.appendChild(section);
+
 }
 
+
+/* =====================================================
+   ANÁLISIS TÁCTICO
+===================================================== */
+
 async function analyzeDraft(){
-  const panel=document.getElementById("analysisPanel");
-  const status=document.getElementById("analysisGlobalStatus");
-  const counterArea=document.getElementById("counterAnalysis");
 
-  const blue=draft.blue.filter(Boolean);
-  const red=draft.red.filter(Boolean);
+  const panel = document.getElementById("analysisPanel");
 
-  panel.hidden=false;
-  counterArea.innerHTML="";
+  const status = document.getElementById("analysisGlobalStatus");
 
-  if(blue.length!==5 || red.length!==5){
-    status.textContent="Completa los dos equipos.";
-    status.className="analysis-status warning";
+  const counterArea = document.getElementById("counterAnalysis");
+
+  const blueBox = document.getElementById("blueAnalysis");
+
+  const redBox = document.getElementById("redAnalysis");
+
+  const blue = draft.blue.filter(Boolean);
+
+  const red = draft.red.filter(Boolean);
+
+  panel.hidden = false;
+
+  counterArea.innerHTML = "";
+
+  blueBox.innerHTML = "";
+
+  redBox.innerHTML = "";
+
+
+  /* VALIDAR EQUIPOS */
+
+  if(blue.length !== 5 || red.length !== 5){
+
+    status.textContent =
+      "Faltan héroes. Completa los dos equipos para analizar.";
+
+    status.className = "analysis-status warning";
+
     renderTeamSummary("blue","blueAnalysis");
+
     renderTeamSummary("red","redAnalysis");
-    counterArea.textContent="Faltan héroes.";
+
+    counterArea.textContent = "Completa ambos equipos.";
+
+    panel.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
     return;
+
   }
 
-  status.textContent="Consultando fichas...";
-  status.className="analysis-status loading";
+
+  status.textContent = "Consultando perfiles y relaciones...";
+
+  status.className = "analysis-status loading";
 
   renderTeamSummary("blue","blueAnalysis");
+
   renderTeamSummary("red","redAnalysis");
 
+
   try{
-    const all=[...blue,...red];
 
-    const profiles=await Promise.all(all.map(async hero=>{
-      try{
-        return {hero,profile:await getHeroProfile(hero)};
-      }catch(error){
-        return {hero,profile:null};
-      }
-    }));
+    /* CONSULTAR LOS DIEZ PERFILES */
 
-    const blueData=profiles.slice(0,5);
-    const redData=profiles.slice(5);
+    const all = [...blue,...red];
 
-    const blueAdvantages=[];
-    const redAdvantages=[];
-    const blueRisks=[];
-    const redRisks=[];
+    const profiles = await Promise.all(
+
+      all.map(async hero=>{
+
+        try{
+
+          const profile = await getHeroProfile(hero);
+
+          return {
+            hero,
+            profile,
+            error:null
+          };
+
+        }catch(error){
+
+          console.warn(
+            "No se pudo consultar "+hero.name,
+            error
+          );
+
+          return {
+            hero,
+            profile:null,
+            error
+          };
+
+        }
+
+      })
+
+    );
+
+
+    const blueData = profiles.slice(0,5);
+
+    const redData = profiles.slice(5);
+
+
+    /* RESULTADOS */
+
+    const blueAdvantages = [];
+
+    const redAdvantages = [];
+
+    const blueRisks = [];
+
+    const redRisks = [];
+
+
+    /* EQUIPO AZUL */
 
     blueData.forEach(({hero,profile})=>{
+
       if(!profile) return;
 
-      const strong=findArrayInProfile(profile,"strongAgainst");
-      const weak=findArrayInProfile(profile,"weakAgainst");
+      const strong = findArrayInProfile(
+        profile,
+        "strongAgainst"
+      );
 
-      const against=getHeroNames(strong,red);
-      const vulnerable=getHeroNames(weak,red);
+      const weak = findArrayInProfile(
+        profile,
+        "weakAgainst"
+      );
 
-      if(against.length) blueAdvantages.push({hero:hero.name,enemies:against});
-      if(vulnerable.length) blueRisks.push({hero:hero.name,enemies:vulnerable});
+      const against = getHeroNames(strong,red);
+
+      const vulnerable = getHeroNames(weak,red);
+
+      if(against.length){
+
+        blueAdvantages.push({
+
+          hero:hero.name,
+
+          enemies:against
+
+        });
+
+      }
+
+      if(vulnerable.length){
+
+        blueRisks.push({
+
+          hero:hero.name,
+
+          enemies:vulnerable
+
+        });
+
+      }
+
     });
+
+
+    /* EQUIPO ROJO */
 
     redData.forEach(({hero,profile})=>{
+
       if(!profile) return;
 
-      const strong=findArrayInProfile(profile,"strongAgainst");
-      const weak=findArrayInProfile(profile,"weakAgainst");
+      const strong = findArrayInProfile(
+        profile,
+        "strongAgainst"
+      );
 
-      const against=getHeroNames(strong,blue);
-      const vulnerable=getHeroNames(weak,blue);
+      const weak = findArrayInProfile(
+        profile,
+        "weakAgainst"
+      );
 
-      if(against.length) redAdvantages.push({hero:hero.name,enemies:against});
-      if(vulnerable.length) redRisks.push({hero:hero.name,enemies:vulnerable});
+      const against = getHeroNames(strong,blue);
+
+      const vulnerable = getHeroNames(weak,blue);
+
+      if(against.length){
+
+        redAdvantages.push({
+
+          hero:hero.name,
+
+          enemies:against
+
+        });
+
+      }
+
+      if(vulnerable.length){
+
+        redRisks.push({
+
+          hero:hero.name,
+
+          enemies:vulnerable
+
+        });
+
+      }
+
     });
 
-    const blueBox=document.getElementById("blueAnalysis");
-    const redBox=document.getElementById("redAnalysis");
 
-    renderMatchList(blueBox,"VENTAJAS",blueAdvantages,"tag-good");
-    renderMatchList(blueBox,"RIESGOS",blueRisks,"tag-bad");
-    renderMatchList(redBox,"VENTAJAS",redAdvantages,"tag-good");
-    renderMatchList(redBox,"RIESGOS",redRisks,"tag-bad");
+    /* MOSTRAR RESULTADOS */
 
-    const left=document.createElement("div");
-    const right=document.createElement("div");
-    left.className="analysis-team";
-    right.className="analysis-team";
+    renderMatchList(
+      blueBox,
+      "VENTAJAS",
+      blueAdvantages,
+      "tag-good"
+    );
 
-    left.appendChild(makeElement("h3","Azul"));
-    right.appendChild(makeElement("h3","Rojo"));
+    renderMatchList(
+      blueBox,
+      "RIESGOS",
+      blueRisks,
+      "tag-bad"
+    );
 
-    renderMatchList(left,"VENTAJAS",blueAdvantages,"tag-good");
-    renderMatchList(left,"RIESGOS",blueRisks,"tag-bad");
-    renderMatchList(right,"VENTAJAS",redAdvantages,"tag-good");
-    renderMatchList(right,"RIESGOS",redRisks,"tag-bad");
+
+    renderMatchList(
+      redBox,
+      "VENTAJAS",
+      redAdvantages,
+      "tag-good"
+    );
+
+    renderMatchList(
+      redBox,
+      "RIESGOS",
+      redRisks,
+      "tag-bad"
+    );
+
+
+    /* RESUMEN COMPARATIVO */
+
+    const left = document.createElement("div");
+
+    const right = document.createElement("div");
+
+    left.className = "analysis-team";
+
+    right.className = "analysis-team";
+
+    left.appendChild(
+      makeElement("h3","Equipo azul","blue")
+    );
+
+    right.appendChild(
+      makeElement("h3","Equipo rojo","red")
+    );
+
+
+    renderMatchList(
+      left,
+      "CRUCES FAVORABLES",
+      blueAdvantages,
+      "tag-good"
+    );
+
+    renderMatchList(
+      right,
+      "CRUCES FAVORABLES",
+      redAdvantages,
+      "tag-good"
+    );
+
 
     counterArea.append(left,right);
 
-    const available=profiles.filter(item=>item.profile).length;
-    const crosses=blueAdvantages.length+redAdvantages.length+
-                  blueRisks.length+redRisks.length;
 
-    status.textContent=
-      available+"/10 fichas · "+crosses+" cruces · "+catalogSource;
+    /* DIAGNÓSTICO */
 
-    status.className="analysis-status "+
-      (available===10?"ready":"warning");
+    const available = profiles.filter(
+      item=>item.profile
+    ).length;
+
+    const totalAdvantages =
+      blueAdvantages.length +
+      redAdvantages.length;
+
+    const totalRisks =
+      blueRisks.length +
+      redRisks.length;
+
+    const totalCrosses =
+      totalAdvantages +
+      totalRisks;
+
+    let message =
+      available+"/10 perfiles consultados · "+
+      totalCrosses+" relaciones encontradas · "+
+      catalogSource;
+
+    if(available < 10){
+
+      message +=
+        " · Algunas fichas no pudieron consultarse.";
+
+    }
+
+    if(available === 10 && totalCrosses === 0){
+
+      message +=
+        " · La API no proporcionó cruces reconocibles para esta selección.";
+
+    }
+
+    status.textContent = message;
+
+    status.className =
+      "analysis-status "+
+      (available === 10 ? "ready" : "warning");
+
+
+    /* DETALLE DE DIAGNÓSTICO */
+
+    const diagnostic = makeElement(
+      "p",
+      "Perfiles disponibles: "+available+
+      "/10. Ventajas: "+totalAdvantages+
+      ". Riesgos: "+totalRisks+".",
+      "diagnostic-line"
+    );
+
+    counterArea.appendChild(diagnostic);
+
 
   }catch(error){
-    console.error(error);
-    status.textContent="No se pudo completar el análisis.";
-    status.className="analysis-status warning";
+
+    console.error("Error análisis:",error);
+
+    status.textContent =
+      "No se pudo completar el análisis.";
+
+    status.className = "analysis-status warning";
+
   }
 
-  panel.scrollIntoView({behavior:"smooth",block:"start"});
+
+  panel.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
 }
 
-/* ESTADO */
+
+/* =====================================================
+   ESTADO DEL SISTEMA
+===================================================== */
+
 function updateSystemStatus(){
-  const element=document.getElementById("systemStatus");
-  const engines=[
+
+  const element = document.getElementById("systemStatus");
+
+  const engines = [
+
     "TUPA_DRAFT_ENGINE",
     "TUPA_DRAFT_RECOMMENDER",
     "TUPA_DRAFT_ANALYSIS"
+
   ];
 
-  const loaded=engines.filter(name=>window[name]).length;
+  const loaded = engines.filter(
+    name=>Boolean(window[name])
+  ).length;
 
-  element.textContent=
-    (catalogLoaded?heroes.length:0)+" héroes · "+
-    catalogSource+" · Motores "+loaded+"/3;
+  element.textContent =
 
-  element.className="system-status "+(catalogLoaded?"ready":"warning");
+    (catalogLoaded ? heroes.length : 0)+
+    " héroes · "+
+    catalogSource+
+    " · Motores "+
+    loaded+
+    "/3";
+
+  element.className =
+    "system-status "+
+    (catalogLoaded ? "ready" : "warning");
+
 }
 
-/* EVENTOS */
-document.getElementById("heroSearch").addEventListener("input",renderHeroes);
-document.getElementById("teamSelect").addEventListener("change",renderHeroes);
-document.getElementById("analyzeButton").addEventListener("click",analyzeDraft);
-document.getElementById("resetButton").addEventListener("click",resetDraft);
+
+/* =====================================================
+   EVENTOS
+===================================================== */
+
+document
+  .getElementById("heroSearch")
+  .addEventListener("input",renderHeroes);
+
+
+document
+  .getElementById("teamSelect")
+  .addEventListener("change",renderHeroes);
+
+
+document
+  .getElementById("analyzeButton")
+  .addEventListener("click",analyzeDraft);
+
+
+document
+  .getElementById("resetButton")
+  .addEventListener("click",resetDraft);
+
+
+/* =====================================================
+   INICIO
+===================================================== */
 
 renderDraft();
+
 loadCatalog();
+
 </script>
+
 </body>
 </html>
