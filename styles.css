@@ -1407,3 +1407,61 @@ main {
     animation-duration: 0.01ms !important;
   }
 }
+/* ==========================================
+   TUPA MLBB — ENLACES DE COMUNIDAD
+========================================== */
+
+/* Botones del inicio */
+.hero > a.lane-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 22px;
+  margin-right: 10px;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Enlace Comunidad del footer */
+footer a {
+  display: inline-flex;
+  align-items: center;
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  border: 1px solid #80623a;
+  border-radius: 4px;
+  padding: 9px 13px;
+  background: #1b1813;
+}
+
+footer a:hover {
+  color: #100e0b;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+/* Resaltar el acceso a Comunidad en el menú */
+.topbar nav a[href="community.html"] {
+  color: var(--gold);
+}
+
+.topbar nav a[href="community.html"]:hover {
+  color: #ffe0a3;
+}
+
+/* Adaptación móvil */
+@media (max-width: 700px) {
+  .hero > a.lane-btn {
+    margin-top: 14px;
+    margin-right: 5px;
+    font-size: 9px;
+  }
+
+  footer a {
+    font-size: 8px;
+    padding: 9px 11px;
+  }
+}
