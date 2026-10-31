@@ -3,18 +3,24 @@
   TUPA MLBB — DRAFT ENGINE
 
   Motor central del Draft Lab.
-
-  Responsabilidades:
-  - Consultar las bases de datos.
-  - Clasificar el estado de verificación.
-  - Consultar héroes por identificador.
-  - Proporcionar información a los demás módulos.
+  Centraliza las consultas y el estado de las bases de datos.
 */
 
 window.TUPA_DRAFT_ENGINE = {
 
-  // ESTADOS PERMITIDOS
   validStatuses: ["verified", "partial", "pending"],
+
+  // NORMALIZAR IDENTIFICADORES
+  normalizeId(value) {
+    if (!value || typeof value !== "string") return null;
+
+    return value
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]/g, "");
+  },
 
   // COMPROBAR LAS BASES DE DATOS
   getDatabaseStatus() {
@@ -29,13 +35,25 @@ window.TUPA_DRAFT_ENGINE = {
   // CONSULTAR TODOS LOS HÉROES
   getHeroes() {
     return Array.isArray(window.TUPA_HEROES)
-      ? window.TUPA_HEROES
+      ? window.TUPA_HEROES.filter(hero =>
+          hero &&
+          typeof hero === "object" &&
+          typeof hero.id === "string" &&
+          typeof hero.name === "string"
+        )
       : [];
   },
 
-  // BUSCAR UN HÉROE POR IDENTIFICADOR
+  // BUSCAR HÉROE POR IDENTIFICADOR O NOMBRE
   getHeroById(id) {
-    return this.getHeroes().find(hero => hero.id === id) || null;
+    const normalized = this.normalizeId(id);
+
+    if (!normalized) return null;
+
+    return this.getHeroes().find(hero =>
+      this.normalizeId(hero.id) === normalized ||
+      this.normalizeId(hero.name) === normalized
+    ) || null;
   },
 
   // CLASIFICAR HÉROES
@@ -49,22 +67,19 @@ window.TUPA_DRAFT_ENGINE = {
     );
   },
 
-  // HÉROES VERIFICADOS
   getVerifiedHeroes() {
     return this.getHeroesByStatus("verified");
   },
 
-  // HÉROES PARCIALMENTE VERIFICADOS
   getPartialHeroes() {
     return this.getHeroesByStatus("partial");
   },
 
-  // HÉROES PENDIENTES
   getPendingHeroes() {
     return this.getHeroesByStatus("pending");
   },
 
-  // CONSULTAR EL ESTADO DE UN HÉROE
+  // CONSULTAR ESTADO DE VERIFICACIÓN
   getHeroVerification(id) {
     const hero = this.getHeroById(id);
 
@@ -72,18 +87,23 @@ window.TUPA_DRAFT_ENGINE = {
       return {
         found: false,
         status: "unknown",
-        message: "El héroe no está registrado en la base de datos."
+        message: "El héroe no está registrado en la base estratégica."
       };
     }
 
-    const status = hero.verification?.status || "pending";
+    const rawStatus = hero.verification?.status;
+    const status = this.validStatuses.includes(rawStatus)
+      ? rawStatus
+      : "pending";
 
     return {
       found: true,
       heroId: hero.id,
       heroName: hero.name,
       status,
-      sources: hero.verification?.sources || [],
+      sources: Array.isArray(hero.verification?.sources)
+        ? hero.verification.sources
+        : [],
       lastReviewed: hero.verification?.lastReviewed || null,
       message: status === "verified"
         ? "Información verificada."
@@ -93,7 +113,7 @@ window.TUPA_DRAFT_ENGINE = {
     };
   },
 
-  // RESUMEN GENERAL DE LA BASE DE HÉROES
+  // ESTADÍSTICAS GENERALES
   getHeroStatistics() {
     const heroes = this.getHeroes();
 
@@ -101,23 +121,28 @@ window.TUPA_DRAFT_ENGINE = {
       total: heroes.length,
       verified: this.getVerifiedHeroes().length,
       partial: this.getPartialHeroes().length,
-      pending: this.getPendingHeroes().length
+      pending: heroes.filter(hero =>
+        !this.validStatuses.includes(hero.verification?.status) ||
+        hero.verification?.status === "pending"
+      ).length
     };
   },
 
-  // CONSULTAR LAS BASES ESTRATÉGICAS
+  // CONSULTAR SINERGIAS
   getSynergies() {
     return Array.isArray(window.TUPA_SYNERGIES)
       ? window.TUPA_SYNERGIES
       : [];
   },
 
+  // CONSULTAR COUNTERS
   getCounters() {
     return Array.isArray(window.TUPA_COUNTERS)
       ? window.TUPA_COUNTERS
       : [];
   },
 
+  // CONSULTAR FUENTES
   getSources() {
     return Array.isArray(window.TUPA_SOURCES)
       ? window.TUPA_SOURCES
