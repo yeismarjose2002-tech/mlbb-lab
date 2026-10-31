@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUPA — Registro de conocimiento</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.knowledge-page{max-width:1100px;margin:auto;padding:45px 20px}
+.k-hero{padding:35px 0}
+.k-hero h1{font-size:clamp(38px,6vw,65px);margin:12px 0}
+.k-hero h1 em{color:var(--cyan);font-style:normal}
+.k-panel{background:linear-gradient(145deg,#111d2a,#0e1722);border:1px solid var(--line);border-radius:10px;padding:24px;margin-bottom:18px}
+.k-panel h2{font:700 27px 'Barlow Condensed',sans-serif;text-transform:uppercase;margin:0 0 18px}
+.k-form{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.k-field{display:flex;flex-direction:column;gap:7px}
+.k-field.full{grid-column:1/-1}
+.k-field label{font-size:10px;color:var(--cyan);font-weight:800;letter-spacing:1px}
+.k-field input,.k-field select,.k-field textarea{
+width:100%;background:#080f19;color:var(--text);
+border:1px solid var(--line);border-radius:5px;padding:12px;
+font:12px Inter,Arial,sans-serif;outline:none
+}
+.k-field textarea{min-height:90px;resize:vertical}
+.k-field input:focus,.k-field select:focus,.k-field textarea:focus{border-color:var(--cyan)}
+.k-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.k-btn{padding:12px 17px;border:1px solid var(--cyan);border-radius:5px;background:#123039;color:var(--cyan);font-weight:800;font-size:10px;cursor:pointer}
+.k-btn.secondary{border-color:var(--line);background:#0b131d;color:var(--text)}
+.k-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}
+.k-stat{padding:16px;background:#0b131d;border:1px solid var(--line);border-radius:7px}
+.k-stat strong{display:block;font:700 28px 'Barlow Condensed',sans-serif;color:var(--cyan)}
+.k-stat span{font-size:9px;color:var(--muted);letter-spacing:1px}
+.k-record{padding:18px 0;border-bottom:1px solid var(--line)}
+.k-record:last-child{border:0}
+.k-record h3{margin:8px 0;color:var(--text);font-size:15px}
+.k-record p{font-size:12px;color:var(--muted);line-height:1.7}
+.k-tag{display:inline-block;padding:5px 8px;border:1px solid var(--line);border-radius:4px;color:var(--gold);font-size:9px;margin:3px 4px 3px 0}
+.k-empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
+.k-danger{border-color:#a64b4b;color:#ff9999;background:#281719}
+.k-record-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.k-record-actions button{font-size:9px;padding:7px 10px}
+.k-disclaimer{font-size:11px;color:var(--muted);line-height:1.7}
+@media(max-width:650px){
+ .k-form{grid-template-columns:1fr}
+ .k-field.full{grid-column:auto}
+ .k-stats{grid-template-columns:repeat(2,1fr)}
+ .k-panel{padding:17px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+<a class="brand" href="index.html">
+<span class="brand-mark">TP</span>
+<span>TUPA <b>MLBB</b><small>COMPETITIVE INTELLIGENCE</small></span>
+</a>
+<nav>
+<a href="index.html">Inicio</a>
+<a href="tierlist.html">Tier List</a>
+<a href="metaradar.html">Meta Radar</a>
+<a href="counterlab.html">Counter Lab</a>
+<a href="draftlab.html">Draft Lab</a>
+<a href="metodologia.html">Metodología</a>
+</nav>
+</header>
+
+<main class="knowledge-page">
+<section class="k-hero">
+<div class="eyebrow">TUPA · NÚCLEO DE CONOCIMIENTO</div>
+<h1>REGISTRO DE <em>EVIDENCIA.</em></h1>
+<p class="k-disclaimer">Herramienta inicial para documentar afirmaciones estratégicas, sus fuentes y su estado de revisión.</p>
+</section>
+
+<section class="k-panel">
+<h2>01 · Registrar conocimiento</h2>
+<form id="knowledgeForm">
+<div class="k-form">
+<div class="k-field full">
+<label for="claim">AFIRMACIÓN ESTRATÉGICA</label>
+<textarea id="claim" required maxlength="1000" placeholder="Ejemplo: esta combinación facilita iniciar combates cuando..."></textarea>
+</div>
+
+<div class="k-field">
+<label for="category">ÁREA DE CONOCIMIENTO</label>
+<select id="category" required>
+<option value="">Seleccionar área</option>
+<option>Héroes</option>
+<option>Sinergias</option>
+<option>Contadores</option>
+<option>Draft</option>
+<option>Objetos</option>
+<option>Emblemas</option>
+<option>Hechizos</option>
+<option>Rotaciones</option>
+<option>Objetivos</option>
+<option>Estrategia de partida</option>
+</select>
+</div>
+
+<div class="k-field">
+<label for="patch">PARCHE O VERSIÓN</label>
+<input id="patch" maxlength="60" placeholder="Ej. versión 2.xx.x">
+</div>
+
+<div class="k-field">
+<label for="status">ESTADO DEL CONOCIMIENTO</label>
+<select id="status" required>
+<option value="provisional">Provisional</option>
+<option value="partial">Parcial</option>
+<option value="review">En revisión</option>
+<option value="conditional">Condicionado</option>
+<option value="verified">Verificado</option>
+<option value="contradictory">Contradictorio</option>
+<option value="pending">Pendiente</option>
+</select>
+</div>
+
+<div class="k-field">
+<label for="origin">TIPO DE INFORMACIÓN</label>
+<select id="origin" required>
+<option>Fuente oficial</option>
+<option>Fuente especializada</option>
+<option>Observación de partida</option>
+<option>Estadística</option>
+<option>Hipótesis</option>
+<option>Experiencia de jugador</option>
+</select>
+</div>
+
+<div class="k-field full">
+<label for="source">FUENTE O ENLACE DE EVIDENCIA</label>
+<input id="source" type="url" placeholder="https://...">
+</div>
+
+<div class="k-field full">
+<label for="conditions">CONDICIONES Y LIMITACIONES</label>
+<textarea id="conditions" maxlength="1000" placeholder="Rango, composición, posición, fase de partida, muestra u otras condiciones..."></textarea>
+</div>
+
+<div class="k-field full">
+<label for="notes">OBSERVACIONES DEL ANALISTA</label>
+<textarea id="notes" maxlength="1000" placeholder="Qué demuestra la evidencia, qué falta comprobar y qué dudas existen..."></textarea>
+</div>
+</div>
+
+<div class="k-actions">
+<button class="k-btn" type="submit">GUARDAR REGISTRO</button>
+<button class="k-btn secondary" type="reset">LIMPIAR FORMULARIO</button>
+</div>
+</form>
+</section>
+
+<section class="k-panel">
+<h2>02 · Estado de la base</h2>
+<div class="k-stats">
+<div class="k-stat"><strong id="totalCount">0</strong><span>REGISTROS</span></div>
+<div class="k-stat"><strong id="verifiedCount">0</strong><span>VERIFICADOS</span></div>
+<div class="k-stat"><strong id="reviewCount">0</strong><span>EN REVISIÓN</span></div>
+<div class="k-stat"><strong id="provisionalCount">0</strong><span>PROVISIONALES</span></div>
+</div>
+<p class="k-disclaimer">Los estados representan el registro documental. Este prototipo no verifica automáticamente la veracidad de las fuentes ni concede aprobaciones oficiales.</p>
+</section>
+
+<section class="k-panel">
+<h2>03 · Conocimiento registrado</h2>
+<div class="k-actions">
+<button class="k-btn secondary" id="exportBtn" type="button">EXPORTAR JSON</button>
+<button class="k-btn secondary" id="importBtn" type="button">IMPORTAR JSON</button>
+<input id="importFile" type="file" accept=".json,application/json" hidden>
+<button class="k-btn secondary" id="filterAll" type="button">TODOS</button>
+<button class="k-btn secondary" id="filterReview" type="button">EN REVISIÓN</button>
+</div>
+<div id="recordsList" aria-live="polite">
+<div class="k-empty">Todavía no hay registros.</div>
+</div>
+</section>
+</main>
+
+<footer>
+<span>TUPA MLBB</span>
+<span>PROYECTO INDEPENDIENTE · NO AFILIADO A MOONTON</span>
+</footer>
+
+<script>
+(() => {
+"use strict";
+
+const STORAGE_KEY = "tupa_knowledge_v1";
+const form = document.getElementById("knowledgeForm");
+const list = document.getElementById("recordsList");
+const labels = {
+ provisional:"Provisional",
+ partial:"Parcial",
+ review:"En revisión",
+ conditional:"Condicionado",
+ verified:"Verificado",
+ contradictory:"Contradictorio",
+ pending:"Pendiente"
+};
+
+let records = loadRecords();
+let currentFilter = "all";
+
+function loadRecords(){
+ try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  return Array.isArray(saved) ? saved : [];
+ } catch(error) {
+  return [];
+ }
+}
+
+function saveRecords(){
+ localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+}
+
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g, char => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ })[char]);
+}
+
+function updateStats(){
+ document.getElementById("totalCount").textContent = records.length;
+ document.getElementById("verifiedCount").textContent =
+  records.filter(r => r.status === "verified").length;
+ document.getElementById("reviewCount").textContent =
+  records.filter(r => r.status === "review").length;
+ document.getElementById("provisionalCount").textContent =
+  records.filter(r => r.status === "provisional").length;
+}
+
+function renderRecords(){
+ updateStats();
+ const visible = records.filter(r =>
+  currentFilter === "all" || r.status === "review"
+ );
+
+ if(!visible.length){
+  list.innerHTML = '<div class="k-empty">No hay registros en esta categoría.</div>';
+  return;
+ }
+
+ list.innerHTML = visible.map(record => `
+  <article class="k-record">
+   <span class="k-tag">${escapeHTML(record.category)}</span>
+   <span class="k-tag">${escapeHTML(labels[record.status] || record.status)}</span>
+   <span class="k-tag">${escapeHTML(record.patch || "Parche no indicado")}</span>
+   <h3>${escapeHTML(record.claim)}</h3>
+   <p><b>Origen:</b> ${escapeHTML(record.origin)}</p>
+   <p><b>Fuente:</b> ${
+    record.source
+    ? `<a href="${escapeHTML(record.source)}" target="_blank" rel="noopener noreferrer">Consultar evidencia</a>`
+    : "No registrada"
+   }</p>
+   <p><b>Condiciones:</b> ${escapeHTML(record.conditions || "No especificadas")}</p>
+   <p><b>Observaciones:</b> ${escapeHTML(record.notes || "Sin observaciones")}</p>
+   <p><b>Creado:</b> ${escapeHTML(record.createdAt)}</p>
+   <div class="k-record-actions">
+    <button class="k-btn secondary" data-action="review" data-id="${record.id}">ENVIAR A REVISIÓN</button>
+    <button class="k-btn secondary k-danger" data-action="delete" data-id="${record.id}">ELIMINAR</button>
+   </div>
+  </article>
+ `).join("");
+}
+
+form.addEventListener("submit", event => {
+ event.preventDefault();
+
+ const record = {
+  id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+  claim:document.getElementById("claim").value.trim(),
+  category:document.getElementById("category").value,
+  patch:document.getElementById("patch").value.trim(),
+  status:document.getElementById("status").value,
+  origin:document.getElementById("origin").value,
+  source:document.getElementById("source").value.trim(),
+  conditions:document.getElementById("conditions").value.trim(),
+  notes:document.getElementById("notes").value.trim(),
+  createdAt:new Date().toLocaleString("es-CO")
+ };
+
+ if(!record.claim || !record.category) return;
+
+ records.unshift(record);
+ saveRecords();
+ form.reset();
+ currentFilter = "all";
+ renderRecords();
+ alert("Registro guardado en este navegador.");
+});
+
+list.addEventListener("click", event => {
+ const button = event.target.closest("button[data-action]");
+ if(!button) return;
+
+ const id = button.dataset.id;
+ const record = records.find(item => item.id === id);
+ if(!record) return;
+
+ if(button.dataset.action === "review"){
+  record.status = "review";
+  saveRecords();
+  renderRecords();
+ }
+
+ if(button.dataset.action === "delete"){
+  if(!confirm("¿Eliminar este registro de este navegador?")) return;
+  records = records.filter(item => item.id !== id);
+  saveRecords();
+  renderRecords();
+ }
+});
+
+document.getElementById("filterAll").addEventListener("click", () => {
+ currentFilter = "all";
+ renderRecords();
+});
+
+document.getElementById("filterReview").addEventListener("click", () => {
+ currentFilter = "review";
+ renderRecords();
+});
+
+document.getElementById("exportBtn").addEventListener("click", () => {
+ const blob = new Blob([JSON.stringify(records,null,2)], {type:"application/json"});
+ const url = URL.createObjectURL(blob);
+ const link = document.createElement("a");
+ link.href = url;
+ link.download = "tupa-conocimiento.json";
+ link.click();
+ URL.revokeObjectURL(url);
+});
+
+document.getElementById("importBtn").addEventListener("click", () => {
+ document.getElementById("importFile").click();
+});
+
+document.getElementById("importFile").addEventListener("change", async event => {
+ const file = event.target.files[0];
+ if(!file) return;
+
+ try {
+  const imported = JSON.parse(await file.text());
+  if(!Array.isArray(imported)) throw new Error("Formato inválido");
+
+  const valid = imported.filter(item =>
+   item && typeof item.claim === "string" &&
+   typeof item.category === "string" &&
+   typeof item.id === "string"
+  );
+
+  if(!confirm(`Se encontraron ${valid.length} registros válidos. ¿Importarlos?`)) return;
+
+  const ids = new Set(records.map(item => item.id));
+  const unique = valid.filter(item => !ids.has(item.id));
+  records = [...unique, ...records];
+  saveRecords();
+  renderRecords();
+  alert(`Importación completada: ${unique.length} registros nuevos.`);
+ } catch(error) {
+  alert("No se pudo importar. Comprueba que sea un JSON exportado por TUPA.");
+ } finally {
+  event.target.value = "";
+ }
+});
+
+renderRecords();
+})();
+</script>
+</body>
+</html>
