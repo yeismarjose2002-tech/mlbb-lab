@@ -35,14 +35,18 @@
       gap: 18px;
     }
 
-    .draft-team {
+    .draft-team,
+    .hero-selector,
+    .analysis-panel {
       background: var(--panel, #171717);
       border: 1px solid var(--line, #444);
       padding: 20px;
       border-radius: 8px;
     }
 
-    .draft-team h2 {
+    .draft-team h2,
+    .hero-selector h2,
+    .analysis-panel h2 {
       font-family: 'Cinzel', serif;
       margin-top: 0;
     }
@@ -79,16 +83,9 @@
       border-color: var(--gold, #d6a85b);
     }
 
-    .hero-selector {
+    .hero-selector,
+    .analysis-panel {
       margin-top: 25px;
-      background: var(--panel, #171717);
-      border: 1px solid var(--line, #444);
-      padding: 20px;
-      border-radius: 8px;
-    }
-
-    .hero-selector h2 {
-      font-family: 'Cinzel', serif;
     }
 
     .hero-search {
@@ -147,33 +144,98 @@
       color: #111;
     }
 
-    .draft-message {
+    .draft-actions button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .draft-message,
+    .draft-system-status {
       margin-top: 14px;
       color: var(--muted, #aaa);
       font-size: 13px;
       line-height: 1.6;
     }
 
-    .draft-system-status {
-      margin-top: 12px;
+    .draft-system-status,
+    .analysis-status {
       padding: 10px 12px;
       border: 1px solid var(--line, #444);
       border-radius: 5px;
-      color: var(--muted, #aaa);
-      font-size: 12px;
-      line-height: 1.6;
     }
 
-    .draft-system-status.ready {
+    .draft-system-status.ready,
+    .analysis-status.ready {
       border-color: #648b65;
     }
 
-    .draft-system-status.error {
+    .draft-system-status.error,
+    .analysis-status.warning {
       border-color: #a65b5b;
     }
 
+    .analysis-panel[hidden] {
+      display: none;
+    }
+
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .analysis-team {
+      padding: 16px;
+      border: 1px solid var(--line, #444);
+      border-radius: 7px;
+      background: #111;
+      min-width: 0;
+    }
+
+    .analysis-team h3 {
+      font-family: 'Cinzel', serif;
+      margin-top: 0;
+    }
+
+    .analysis-team.blue h3 { color: #79baff; }
+    .analysis-team.red h3 { color: #ed8585; }
+
+    .analysis-team ul {
+      padding-left: 19px;
+      line-height: 1.8;
+      color: var(--muted, #aaa);
+    }
+
+    .analysis-team li {
+      overflow-wrap: anywhere;
+    }
+
+    .analysis-stat {
+      margin: 12px 0;
+      padding: 10px;
+      background: #1b1b1b;
+      border-radius: 5px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .analysis-status {
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .analysis-note {
+      color: var(--muted, #aaa);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+
     @media (max-width: 700px) {
-      .draft-layout {
+      .draft-layout,
+      .analysis-grid {
         grid-template-columns: 1fr;
       }
 
@@ -235,11 +297,17 @@
       <div class="hero-options" id="heroOptions"></div>
 
       <div class="draft-actions">
-        <button onclick="resetDraft()">Reiniciar draft</button>
+        <button onclick="analyzeDraft()">
+          Analizar composición
+        </button>
+
+        <button onclick="resetDraft()">
+          Reiniciar draft
+        </button>
       </div>
 
       <p class="draft-message" id="draftMessage">
-        Selecciona un héroe para comenzar.
+        Selecciona tus héroes para comenzar.
       </p>
 
       <div
@@ -251,21 +319,61 @@
       </div>
     </section>
 
+    <!-- RESULTADOS DEL ANÁLISIS -->
+
+    <section
+      class="analysis-panel"
+      id="analysisPanel"
+      hidden
+      aria-live="polite"
+    >
+      <h2>ANÁLISIS TÁCTICO</h2>
+
+      <p>
+        Evaluación de la información disponible para ambos equipos.
+      </p>
+
+      <div id="analysisGlobalStatus" class="analysis-status"></div>
+
+      <div class="analysis-grid">
+
+        <article class="analysis-team blue">
+          <h3>Equipo azul</h3>
+          <div id="blueAnalysis"></div>
+        </article>
+
+        <article class="analysis-team red">
+          <h3>Equipo rojo</h3>
+          <div id="redAnalysis"></div>
+        </article>
+
+      </div>
+
+      <p class="analysis-note">
+        TUPA diferencia los datos verificados de los parciales
+        y desconocidos. Este informe todavía no representa
+        una predicción de victoria ni una clasificación de poder.
+      </p>
+    </section>
+
   </main>
 
-  <!-- TUPA MLBB: BASES DE DATOS -->
+  <!-- BASES DE DATOS -->
+
   <script src="data/heroes.js"></script>
   <script src="data/sources.js"></script>
   <script src="data/synergies.js"></script>
   <script src="data/counters.js"></script>
 
-  <!-- TUPA MLBB: MOTORES -->
+  <!-- MOTORES -->
+
   <script src="js/draft-engine.js"></script>
   <script src="js/draft-recommender.js"></script>
   <script src="js/draft-analysis.js"></script>
 
   <script>
     // CATÁLOGO TEMPORAL PARA SELECCIÓN MANUAL
+
     const heroes = [
       "Aamon", "Akai", "Aldous", "Alice", "Alpha",
       "Alucard", "Angela", "Argus", "Arlott", "Atlas",
@@ -298,6 +406,8 @@
       red: Array(5).fill(null)
     };
 
+    // DIBUJAR LOS ESPACIOS DE LOS EQUIPOS
+
     function renderDraft() {
       ["blue", "red"].forEach(team => {
         const container = document.getElementById(team + "Slots");
@@ -313,6 +423,8 @@
       renderHeroes();
     }
 
+    // MOSTRAR CATÁLOGO
+
     function renderHeroes() {
       const search = document
         .getElementById("heroSearch")
@@ -327,6 +439,7 @@
         .filter(hero => hero.toLowerCase().includes(search))
         .forEach(hero => {
           const button = document.createElement("button");
+
           button.className = "hero-option";
           button.textContent = hero;
           button.disabled = selected.includes(hero);
@@ -336,6 +449,8 @@
           container.appendChild(button);
         });
     }
+
+    // SELECCIONAR HÉROE
 
     function selectHero(hero) {
       const team = document.getElementById("teamSelect").value;
@@ -353,8 +468,11 @@
         hero + " seleccionado para el equipo " +
         (team === "blue" ? "azul." : "rojo.");
 
+      hideAnalysis();
       renderDraft();
     }
+
+    // REINICIAR
 
     function resetDraft() {
       draft.blue.fill(null);
@@ -363,8 +481,220 @@
       document.getElementById("draftMessage").textContent =
         "Draft reiniciado. Puedes comenzar otra selección.";
 
+      hideAnalysis();
       renderDraft();
     }
+
+    function hideAnalysis() {
+      document.getElementById("analysisPanel").hidden = true;
+      document.getElementById("blueAnalysis").innerHTML = "";
+      document.getElementById("redAnalysis").innerHTML = "";
+    }
+
+    // CREAR ELEMENTOS DE TEXTO DE FORMA SEGURA
+
+    function createTextElement(tag, text, className = "") {
+      const element = document.createElement(tag);
+      element.textContent = text;
+
+      if (className) {
+        element.className = className;
+      }
+
+      return element;
+    }
+
+    // MOSTRAR INFORME DE UN EQUIPO
+
+    function renderTeamAnalysis(containerId, teamData) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      container.appendChild(
+        createTextElement(
+          "p",
+          "Héroes seleccionados: " + teamData.totalSelected
+        )
+      );
+
+      container.appendChild(
+        createTextElement(
+          "p",
+          "Registrados: " + teamData.registeredCount +
+          " | No registrados: " + teamData.unknownCount
+        )
+      );
+
+      container.appendChild(
+        createTextElement(
+          "p",
+          "Verificados: " + teamData.verifiedCount +
+          " | Parciales: " + teamData.partialCount +
+          " | Pendientes: " + teamData.pendingCount
+        )
+      );
+
+      const status = teamData.verificationStatus === "verified"
+        ? "Información verificada."
+        : "Información incompleta. Diagnóstico limitado.";
+
+      container.appendChild(
+        createTextElement("div", status, "analysis-stat")
+      );
+
+      container.appendChild(
+        createTextElement("h4", "Héroes registrados")
+      );
+
+      const heroList = document.createElement("ul");
+
+      teamData.heroes.forEach(hero => {
+        const verification = hero.verification?.status || "pending";
+
+        const role = hero.roles?.primary || "Rol desconocido";
+
+        const item = document.createElement("li");
+
+        item.textContent =
+          hero.name + " — " + role +
+          " — Verificación: " + verification;
+
+        heroList.appendChild(item);
+      });
+
+      container.appendChild(heroList);
+
+      if (teamData.unknownHeroes.length > 0) {
+        container.appendChild(
+          createTextElement("h4", "Héroes sin ficha")
+        );
+
+        const unknownList = document.createElement("ul");
+
+        teamData.unknownHeroes.forEach(hero => {
+          unknownList.appendChild(
+            createTextElement("li", hero)
+          );
+        });
+
+        container.appendChild(unknownList);
+      }
+
+      // INFORMACIÓN DE DAÑO
+
+      container.appendChild(
+        createTextElement("h4", "Tipos de daño registrados")
+      );
+
+      container.appendChild(
+        createTextElement(
+          "p",
+          "Físico: " + teamData.damage.physical +
+          " | Mágico: " + teamData.damage.magical +
+          " | Desconocido: " + teamData.damage.unknown
+        )
+      );
+
+      // ATRIBUTOS
+
+      container.appendChild(
+        createTextElement("h4", "Atributos")
+      );
+
+      const attributeLabels = {
+        mobility: "Movilidad",
+        durability: "Resistencia",
+        crowdControl: "Control de masas",
+        initiation: "Iniciación"
+      };
+
+      const attributeList = document.createElement("ul");
+
+      Object.entries(attributeLabels).forEach(([key, label]) => {
+        const data = teamData.attributes[key];
+
+        const average = data.average === null
+          ? "Sin datos"
+          : data.average + " / 5";
+
+        const item = createTextElement(
+          "li",
+          label + ": " + average +
+          " (" + data.knownCount + " conocidos, " +
+          data.unknownCount + " desconocidos)"
+        );
+
+        attributeList.appendChild(item);
+      });
+
+      container.appendChild(attributeList);
+
+      // DATOS FALTANTES
+
+      if (teamData.missingInformation.length > 0) {
+        container.appendChild(
+          createTextElement("h4", "Información pendiente")
+        );
+
+        const missingList = document.createElement("ul");
+
+        teamData.missingInformation.forEach(hero => {
+          missingList.appendChild(
+            createTextElement(
+              "li",
+              hero.heroName + ": " + hero.missing.join(", ")
+            )
+          );
+        });
+
+        container.appendChild(missingList);
+      }
+    }
+
+    // EJECUTAR ANÁLISIS
+
+    function analyzeDraft() {
+      const panel = document.getElementById("analysisPanel");
+      const globalStatus = document.getElementById("analysisGlobalStatus");
+
+      const analyzer = window.TUPA_DRAFT_ANALYSIS;
+
+      if (!analyzer || typeof analyzer.compareTeams !== "function") {
+        globalStatus.textContent =
+          "No se pudo cargar el analizador estratégico.";
+
+        globalStatus.className = "analysis-status warning";
+        panel.hidden = false;
+        return;
+      }
+
+      const result = analyzer.compareTeams(
+        draft.blue.filter(Boolean),
+        draft.red.filter(Boolean)
+      );
+
+      renderTeamAnalysis("blueAnalysis", result.blue);
+      renderTeamAnalysis("redAnalysis", result.red);
+
+      globalStatus.textContent =
+        result.message + " Estado general: " +
+        (result.comparisonStatus === "verified"
+          ? "verificado."
+          : "parcial.");
+
+      globalStatus.className =
+        "analysis-status " +
+        (result.comparisonStatus === "verified" ? "ready" : "warning");
+
+      panel.hidden = false;
+
+      panel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    // COMPROBAR COMPONENTES
 
     function checkTupaSystem() {
       const statusElement = document.getElementById("systemStatus");
@@ -385,9 +715,11 @@
 
       if (missing.length > 0) {
         statusElement.classList.add("error");
+
         statusElement.textContent =
-          "Hay componentes que no se pudieron cargar: " +
+          "Componentes que no se pudieron cargar: " +
           missing.join(", ");
+
         return;
       }
 
@@ -397,12 +729,18 @@
       const loadedCount = Object.values(databaseStatus)
         .filter(Boolean).length;
 
+      const statistics =
+        window.TUPA_DRAFT_ENGINE.getHeroStatistics();
+
       statusElement.classList.add("ready");
+
       statusElement.textContent =
         "Componentes conectados: " + loadedCount +
-        " de 4 bases de datos. Motor estratégico y módulos cargados. " +
-        "Las recomendaciones todavía no están habilitadas: " +
-        "faltan datos estratégicos verificados.";
+        " de 4 bases de datos. Héroes registrados: " +
+        statistics.total + ". Verificados: " +
+        statistics.verified + ". Parciales: " +
+        statistics.partial + ". Pendientes: " +
+        statistics.pending + ".";
     }
 
     document.getElementById("heroSearch")
