@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TUPA MLBB | Draft Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .draft-container {
+      max-width: 1180px;
+      margin: 35px auto;
+      padding: 20px;
+    }
+
+    .draft-header {
+      margin-bottom: 28px;
+    }
+
+    .draft-header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(34px, 6vw, 58px);
+      color: var(--gold, #d6a85b);
+    }
+
+    .draft-header p {
+      color: var(--muted, #aaa);
+      line-height: 1.7;
+    }
+
+    .draft-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .draft-team {
+      background: var(--panel, #171717);
+      border: 1px solid var(--line, #444);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .draft-team h2 {
+      font-family: 'Cinzel', serif;
+      margin-top: 0;
+    }
+
+    .team-blue h2 { color: #79baff; }
+    .team-red h2 { color: #ed8585; }
+
+    .draft-slots {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .draft-slot {
+      min-height: 75px;
+      padding: 12px;
+      border: 1px dashed var(--line, #555);
+      border-radius: 5px;
+      background: #111;
+      color: var(--muted, #aaa);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+    }
+
+    .draft-slot strong {
+      color: var(--text, #fff);
+    }
+
+    .draft-slot.filled {
+      border-style: solid;
+      border-color: var(--gold, #d6a85b);
+    }
+
+    .hero-selector {
+      margin-top: 25px;
+      background: var(--panel, #171717);
+      border: 1px solid var(--line, #444);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .hero-selector h2 {
+      font-family: 'Cinzel', serif;
+    }
+
+    .hero-search {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 15px;
+      background: #111;
+      color: white;
+      border: 1px solid var(--line, #555);
+      border-radius: 5px;
+    }
+
+    .hero-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+      gap: 9px;
+    }
+
+    .hero-option {
+      padding: 13px 8px;
+      background: #202020;
+      border: 1px solid var(--line, #444);
+      color: var(--text, #fff);
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hero-option:hover {
+      border-color: var(--gold, #d6a85b);
+      color: var(--gold, #d6a85b);
+    }
+
+    .hero-option:disabled {
+      opacity: .35;
+      cursor: not-allowed;
+    }
+
+    .draft-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .draft-actions button {
+      padding: 11px 17px;
+      border: 1px solid var(--gold, #d6a85b);
+      background: transparent;
+      color: var(--gold, #d6a85b);
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .draft-actions button:hover {
+      background: var(--gold, #d6a85b);
+      color: #111;
+    }
+
+    .draft-message {
+      margin-top: 14px;
+      color: var(--muted, #aaa);
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .draft-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .draft-container {
+        padding: 12px;
+      }
+
+      .draft-slots {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="draft-container">
+
+    <header class="draft-header">
+      <span class="eyebrow">TUPA MLBB / HERRAMIENTA TÁCTICA</span>
+      <h1>DRAFT LAB</h1>
+      <p>
+        Simula una selección de héroes, organiza tu composición
+        y estudia las decisiones de ambos equipos.
+      </p>
+    </header>
+
+    <section class="draft-layout">
+
+      <div class="draft-team team-blue">
+        <h2>Equipo azul</h2>
+        <p>Tu equipo</p>
+        <div class="draft-slots" id="blueSlots"></div>
+      </div>
+
+      <div class="draft-team team-red">
+        <h2>Equipo rojo</h2>
+        <p>Equipo rival</p>
+        <div class="draft-slots" id="redSlots"></div>
+      </div>
+
+    </section>
+
+    <section class="hero-selector">
+      <h2>Seleccionar héroe</h2>
+      <p>Elige un equipo y después selecciona un héroe.</p>
+
+      <select class="hero-search" id="teamSelect">
+        <option value="blue">Equipo azul</option>
+        <option value="red">Equipo rojo</option>
+      </select>
+
+      <input
+        class="hero-search"
+        id="heroSearch"
+        type="search"
+        placeholder="Buscar héroe..."
+      >
+
+      <div class="hero-options" id="heroOptions"></div>
+
+      <div class="draft-actions">
+        <button onclick="resetDraft()">Reiniciar draft</button>
+      </div>
+
+      <p class="draft-message" id="draftMessage">
+        Selecciona un héroe para comenzar.
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    const heroes = [
+      "Aamon", "Akai", "Aldous", "Alice", "Alpha",
+      "Alucard", "Angela", "Argus", "Arlott", "Atlas",
+      "Aurora", "Badang", "Balmond", "Bane", "Barats",
+      "Baxia", "Beatrix", "Belerick", "Benedetta", "Brody",
+      "Bruno", "Carmilla", "Cecilion", "Chang'e", "Chou",
+      "Claude", "Clint", "Cyclops", "Diggie", "Dyrroth",
+      "Edith", "Esmeralda", "Estes", "Eudora", "Fanny",
+      "Faramis", "Floryn", "Franco", "Fredrinn", "Freya",
+      "Gatotkaca", "Gloo", "Gord", "Granger", "Grock",
+      "Guinevere", "Gusion", "Hanabi", "Hanzo", "Harith",
+      "Harley", "Hayabusa", "Helcurt", "Hilda", "Hylos",
+      "Irithel", "Ixia", "Jawhead", "Joy", "Julian",
+      "Kadita", "Kagura", "Kaja", "Kalea", "Karina",
+      "Karrie", "Khaleed", "Khufra", "Kimmy", "Lancelot",
+      "Lapu-Lapu", "Layla", "Leomord", "Lesley", "Ling",
+      "Lolita", "Lunox", "Luo Yi", "Lylia", "Martis",
+      "Masha", "Mathilda", "Melissa", "Minotaur", "Minsitthar",
+      "Miya", "Moskov", "Nana", "Natalia", "Nolan",
+      "Novaria", "Obsidia", "Odette", "Paquito", "Pharsa",
+      "Phoveus", "Popol y Kupa", "Rafaela", "Roger", "Ruby",
+      "Saber", "Selena", "Silvanna", "Sun", "Suyou",
+      "Terizla", "Thamuz", "Tigreal", "Uranus", "Vale",
+      "Valentina", "Vexana", "Wanwan", "Xavier", "X.Borg",
+      "Yin", "Yu Zhong", "Yve", "Zhask", "Zhuxin"
+    ];
+
+    const draft = {
+      blue: Array(5).fill(null),
+      red: Array(5).fill(null)
+    };
+
+    function renderDraft() {
+      ["blue", "red"].forEach(team => {
+        const container = document.getElementById(team + "Slots");
+
+        container.innerHTML = draft[team].map((hero, index) => `
+          <div class="draft-slot ${hero ? "filled" : ""}">
+            <span>Selección ${index + 1}</span>
+            <strong>${hero || "Sin seleccionar"}</strong>
+          </div>
+        `).join("");
+      });
+
+      renderHeroes();
+    }
+
+    function renderHeroes() {
+      const search = document
+        .getElementById("heroSearch")
+        .value.toLowerCase();
+
+      const selected = [...draft.blue, ...draft.red];
+      const container = document.getElementById("heroOptions");
+
+      container.innerHTML = "";
+
+      heroes
+        .filter(hero => hero.toLowerCase().includes(search))
+        .forEach(hero => {
+          const button = document.createElement("button");
+          button.className = "hero-option";
+          button.textContent = hero;
+          button.disabled = selected.includes(hero);
+
+          button.addEventListener("click", () => selectHero(hero));
+
+          container.appendChild(button);
+        });
+    }
+
+    function selectHero(hero) {
+      const team = document.getElementById("teamSelect").value;
+      const emptySlot = draft[team].indexOf(null);
+
+      if (emptySlot === -1) {
+        document.getElementById("draftMessage").textContent =
+          "Este equipo ya tiene sus cinco héroes.";
+        return;
+      }
+
+      draft[team][emptySlot] = hero;
+
+      document.getElementById("draftMessage").textContent =
+        hero + " seleccionado para el equipo " +
+        (team === "blue" ? "azul." : "rojo.");
+
+      renderDraft();
+    }
+
+    function resetDraft() {
+      draft.blue.fill(null);
+      draft.red.fill(null);
+
+      document.getElementById("draftMessage").textContent =
+        "Draft reiniciado. Puedes comenzar otra selección.";
+
+      renderDraft();
+    }
+
+    document.getElementById("heroSearch")
+      .addEventListener("input", renderHeroes);
+
+    document.getElementById("teamSelect")
+      .addEventListener("change", renderHeroes);
+
+    renderDraft();
+  </script>
+
+</body>
+</html>
