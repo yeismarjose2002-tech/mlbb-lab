@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TUPA MLBB | Draft Lab</title>
   <link rel="stylesheet" href="styles.css">
+
   <style>
     .draft-container {
       max-width: 1180px;
@@ -150,6 +151,25 @@
       margin-top: 14px;
       color: var(--muted, #aaa);
       font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .draft-system-status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line, #444);
+      border-radius: 5px;
+      color: var(--muted, #aaa);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .draft-system-status.ready {
+      border-color: #648b65;
+    }
+
+    .draft-system-status.error {
+      border-color: #a65b5b;
     }
 
     @media (max-width: 700px) {
@@ -221,11 +241,31 @@
       <p class="draft-message" id="draftMessage">
         Selecciona un héroe para comenzar.
       </p>
+
+      <div
+        class="draft-system-status"
+        id="systemStatus"
+        aria-live="polite"
+      >
+        Comprobando conexión de los componentes TUPA...
+      </div>
     </section>
 
   </main>
 
+  <!-- TUPA MLBB: BASES DE DATOS -->
+  <script src="data/heroes.js"></script>
+  <script src="data/sources.js"></script>
+  <script src="data/synergies.js"></script>
+  <script src="data/counters.js"></script>
+
+  <!-- TUPA MLBB: MOTORES -->
+  <script src="js/draft-engine.js"></script>
+  <script src="js/draft-recommender.js"></script>
+  <script src="js/draft-analysis.js"></script>
+
   <script>
+    // CATÁLOGO TEMPORAL PARA SELECCIÓN MANUAL
     const heroes = [
       "Aamon", "Akai", "Aldous", "Alice", "Alpha",
       "Alucard", "Angela", "Argus", "Arlott", "Atlas",
@@ -326,6 +366,45 @@
       renderDraft();
     }
 
+    function checkTupaSystem() {
+      const statusElement = document.getElementById("systemStatus");
+
+      const requiredComponents = [
+        "TUPA_HEROES",
+        "TUPA_SOURCES",
+        "TUPA_SYNERGIES",
+        "TUPA_COUNTERS",
+        "TUPA_DRAFT_ENGINE",
+        "TUPA_DRAFT_RECOMMENDER",
+        "TUPA_DRAFT_ANALYSIS"
+      ];
+
+      const missing = requiredComponents.filter(
+        name => typeof window[name] === "undefined"
+      );
+
+      if (missing.length > 0) {
+        statusElement.classList.add("error");
+        statusElement.textContent =
+          "Hay componentes que no se pudieron cargar: " +
+          missing.join(", ");
+        return;
+      }
+
+      const databaseStatus =
+        window.TUPA_DRAFT_ENGINE.getDatabaseStatus();
+
+      const loadedCount = Object.values(databaseStatus)
+        .filter(Boolean).length;
+
+      statusElement.classList.add("ready");
+      statusElement.textContent =
+        "Componentes conectados: " + loadedCount +
+        " de 4 bases de datos. Motor estratégico y módulos cargados. " +
+        "Las recomendaciones todavía no están habilitadas: " +
+        "faltan datos estratégicos verificados.";
+    }
+
     document.getElementById("heroSearch")
       .addEventListener("input", renderHeroes);
 
@@ -333,6 +412,7 @@
       .addEventListener("change", renderHeroes);
 
     renderDraft();
+    checkTupaSystem();
   </script>
 
 </body>
