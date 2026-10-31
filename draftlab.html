@@ -103,16 +103,23 @@ button{cursor:pointer}
 .tactical-section h4,.profile-section h4{
   font-size:10px;color:#a5abb5;text-transform:uppercase;letter-spacing:1.4px;margin:0 0 9px
 }
-.counter-column{display:grid;gap:7px}
+.counter-column{display:grid;gap:8px}
 .counter-match{
-  display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 11px;
+  display:flex;flex-direction:column;gap:7px;padding:11px;
   background:#1c2026;border:1px solid #383e48;border-radius:7px;font-size:11px
 }
+.counter-match-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .counter-match strong{color:#eee}
-.counter-match small{color:#b5bbc5;text-align:right}
-.tag-good{border-color:#426c50;color:var(--green)}
-.tag-bad{border-color:#824949;color:#e99b9b}
-.tag-neutral{border-color:#665536;color:#e4bd78}
+.counter-match small{color:#b5bbc5}
+.counter-description{color:#b9bec7;font-size:11px;line-height:1.5}
+.counter-extra{display:flex;flex-wrap:wrap;gap:5px}
+.counter-extra span{
+  padding:4px 7px;border:1px solid #414752;border-radius:5px;
+  color:#aeb5c0;font-size:9px
+}
+.tag-good{border-color:#426c50!important;color:var(--green)!important}
+.tag-bad{border-color:#824949!important;color:#e99b9b!important}
+.tag-neutral{border-color:#665536!important;color:#e4bd78!important}
 .counter-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .hero-detail-header{display:flex;gap:13px;align-items:center;margin:14px 0}
 .hero-portrait{width:78px;height:78px;object-fit:cover;border-radius:9px;background:#222;border:1px solid #444}
@@ -132,12 +139,15 @@ button{cursor:pointer}
 .empty-note{color:#9299a5;font-size:11px}
 .section-title{margin:18px 0 9px;color:#aaa;font-size:11px;letter-spacing:1px;text-transform:uppercase}
 .profile-section{margin-top:15px}
-.diagnostic-line{margin-top:9px;color:#999;font-size:11px}
-.score-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.diagnostic-line{margin-top:9px;color:#999;font-size:11px;line-height:1.5}
+.score-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
 .score-box{background:#111419;border:1px solid var(--line);border-radius:8px;padding:12px;text-align:center}
 .score-box strong{display:block;font-size:22px;color:var(--gold2)}
 .score-box small{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 .counter-source{font-size:10px;color:#858c97;margin-top:12px;line-height:1.5}
+.relation-legend{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.relation-legend span{font-size:10px;padding:6px 9px;border-radius:5px;border:1px solid var(--line)}
+.analysis-subtitle{font-size:11px;color:var(--muted);line-height:1.5;margin:5px 0 12px}
 @media(max-width:700px){
   .draft-layout,.analysis-grid,.counter-grid{grid-template-columns:1fr}
   .draft-container{padding:10px}
@@ -150,6 +160,7 @@ button{cursor:pointer}
   .hero-option img{width:49px;height:49px}
   .stat-grid{grid-template-columns:repeat(3,1fr)}
   .selector-controls{grid-template-columns:1fr;gap:0}
+  .score-strip{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
@@ -211,7 +222,14 @@ button{cursor:pointer}
 <section class="analysis-panel" id="analysisPanel" hidden>
   <span class="overline">Lectura de enfrentamientos</span>
   <h2>ANÁLISIS TÁCTICO</h2>
-  <p class="muted">Cruces entre los diez héroes seleccionados.</p>
+  <p class="muted">Análisis individual de todos los cruces entre los diez héroes seleccionados.</p>
+
+  <div class="relation-legend">
+    <span class="tag-good">Ventaja: tu héroe contrarresta al rival</span>
+    <span class="tag-bad">Riesgo: el rival contrarresta a tu héroe</span>
+    <span class="tag-neutral">Sin relación registrada: dato no disponible</span>
+  </div>
+
   <div id="analysisGlobalStatus" class="analysis-status"></div>
   <div id="scoreStrip" class="score-strip"></div>
 
@@ -249,7 +267,7 @@ button{cursor:pointer}
 "use strict";
 
 /* =========================================
-   ESTADO
+   ESTADO GENERAL
 ========================================= */
 
 let heroes = [];
@@ -274,8 +292,12 @@ const COUNTER_META = window.TUPA_COUNTERS_META || {};
 
 const $ = id => document.getElementById(id);
 
+/* =========================================
+   UTILIDADES
+========================================= */
+
 function normalize(value){
-  return String(value || "")
+  return String(value ?? "")
     .trim()
     .toLowerCase()
     .normalize("NFD")
@@ -291,40 +313,68 @@ function makeElement(tag,text,className){
 }
 
 function getHeroName(hero){
-  return hero?.name || hero?.hero_name || hero?.title || "Héroe";
+  if(typeof hero === "string") return hero.trim();
+
+  return hero?.name ||
+    hero?.hero_name ||
+    hero?.title ||
+    hero?.hero?.name ||
+    "Héroe";
 }
 
 function getHeroSlug(hero){
-  return String(hero?.slug || hero?.id || normalize(getHeroName(hero)));
+  if(typeof hero === "string") return normalize(hero);
+
+  return String(
+    hero?.slug ||
+    hero?.id ||
+    normalize(getHeroName(hero))
+  );
 }
 
 function getReferenceName(value){
   if(value == null) return "";
-  if(typeof value === "string" || typeof value === "number") return String(value).trim();
-  if(typeof value === "object"){
-    return value.name || value.hero_name || value.slug || value.id || value.title ||
-      value.hero?.name || value.hero?.slug || "";
+
+  if(typeof value === "string" || typeof value === "number"){
+    return String(value).trim();
   }
+
+  if(typeof value === "object"){
+    return value.name ||
+      value.hero_name ||
+      value.slug ||
+      value.id ||
+      value.title ||
+      value.hero?.name ||
+      value.hero?.slug ||
+      "";
+  }
+
   return "";
 }
 
 function getHeroImage(hero){
   if(!hero) return "";
+
   const slug = normalize(hero.slug || hero.id || hero.name);
   const filename = IMAGE_OVERRIDES[slug] || slug;
+
   return "./" + encodeURIComponent(filename) + ".webp";
 }
 
 function createHeroImage(hero,className="",alt=""){
   const img = document.createElement("img");
+
   img.className = className;
   img.src = getHeroImage(hero);
   img.alt = alt || getHeroName(hero);
   img.loading = "lazy";
+
   img.onerror = function(){
     this.onerror = null;
     this.style.display = "none";
   };
+
   return img;
 }
 
@@ -338,10 +388,15 @@ function setMessage(message){
 
 function normalizeHeroRecord(hero){
   if(typeof hero === "string"){
-    return {name:hero,slug:normalize(hero),lanes:[]};
+    return {
+      name:hero,
+      slug:normalize(hero),
+      lanes:[]
+    };
   }
 
   const name = getHeroName(hero);
+
   return {
     ...hero,
     name,
@@ -358,30 +413,40 @@ function extractHeroArray(data){
       if(Array.isArray(data[key])) return data[key];
     }
   }
+
   return [];
 }
 
 async function loadCatalog(){
   try{
     const response = await fetch("./hero-tags.json");
-    if(!response.ok) throw new Error("No se encontró hero-tags.json");
+
+    if(!response.ok){
+      throw new Error("No se encontró hero-tags.json");
+    }
 
     const data = await response.json();
     const list = extractHeroArray(data);
 
-    if(!list.length) throw new Error("El catálogo local está vacío");
+    if(!list.length){
+      throw new Error("El catálogo local está vacío");
+    }
 
-    heroes = list.map(normalizeHeroRecord)
+    heroes = list
+      .map(normalizeHeroRecord)
       .filter(hero=>hero.name)
       .sort((a,b)=>a.name.localeCompare(b.name,"es"));
 
     catalogLoaded = true;
     catalogSource = "hero-tags.json";
-    setMessage(heroes.length + " héroes cargados desde el catálogo local.");
-  }catch(error){
-    console.error(error);
 
-    // Alternativa: intenta leer el catálogo que ya exista en heroes.js.
+    setMessage(
+      heroes.length + " héroes cargados desde el catálogo local."
+    );
+
+  }catch(error){
+    console.error("Error cargando hero-tags.json:",error);
+
     const candidates = [
       window.TUPA_HEROES,
       window.MLBB_HEROES,
@@ -392,25 +457,33 @@ async function loadCatalog(){
     const localArray = candidates.find(Array.isArray);
 
     if(localArray?.length){
-      heroes = localArray.map(normalizeHeroRecord)
+      heroes = localArray
+        .map(normalizeHeroRecord)
         .filter(hero=>hero.name)
         .sort((a,b)=>a.name.localeCompare(b.name,"es"));
+
       catalogLoaded = true;
       catalogSource = "data/heroes.js";
+
       setMessage("Catálogo cargado desde data/heroes.js.");
+
     }else{
       heroes = [];
       catalogLoaded = false;
-      setMessage("No se pudo cargar el catálogo local. Revisa hero-tags.json.");
+
+      setMessage(
+        "No se pudo cargar el catálogo local. Revisa hero-tags.json."
+      );
     }
   }
 
+  rebuildHeroLookup();
   renderDraft();
   updateSystemStatus();
 }
 
 /* =========================================
-   RESOLVER HÉROES
+   BUSCADOR DE HÉROES
 ========================================= */
 
 const heroLookup = new Map();
@@ -419,21 +492,27 @@ function rebuildHeroLookup(){
   heroLookup.clear();
 
   heroes.forEach(hero=>{
-    heroLookup.set(normalize(hero.name),hero);
-    heroLookup.set(normalize(hero.slug),hero);
-    heroLookup.set(normalize(hero.id),hero);
+    const name = normalize(hero.name);
+    const slug = normalize(hero.slug);
+    const id = normalize(hero.id);
+
+    if(name) heroLookup.set(name,hero);
+    if(slug) heroLookup.set(slug,hero);
+    if(id) heroLookup.set(id,hero);
   });
 
-  // Alias para nombres que pueden variar en distintas fuentes.
   const aliases = {
     "popolkupa":"popolandkupa",
     "yisunshin":"yisunshin",
-    "yi sun shin":"yisunshin"
+    "yisunsh in":"yisunshin"
   };
 
   Object.entries(aliases).forEach(([alias,target])=>{
     const hero = heroLookup.get(normalize(target));
-    if(hero) heroLookup.set(normalize(alias),hero);
+
+    if(hero){
+      heroLookup.set(normalize(alias),hero);
+    }
   });
 }
 
@@ -447,34 +526,49 @@ function sameHero(a,b){
 }
 
 /* =========================================
-   DRAFT VISUAL
+   RENDERIZADO DEL DRAFT
 ========================================= */
 
 function renderDraft(){
   ["blue","red"].forEach(team=>{
     const container = $(team+"Slots");
+
     container.innerHTML = "";
 
     draft[team].forEach((hero,index)=>{
       const slot = document.createElement("button");
+
       slot.type = "button";
       slot.className = "draft-slot" + (hero ? " filled" : "");
-      slot.appendChild(makeElement("span","P"+(index+1),"slot-position"));
+
+      slot.appendChild(
+        makeElement("span","P"+(index+1),"slot-position")
+      );
 
       if(hero){
         slot.appendChild(createHeroImage(hero));
         slot.appendChild(makeElement("strong",hero.name));
         slot.appendChild(makeElement("span","Quitar","remove-hint"));
+
         slot.title = "Quitar " + hero.name;
-        slot.addEventListener("click",()=>removeHero(team,index));
+
+        slot.addEventListener("click",()=>{
+          removeHero(team,index);
+        });
+
       }else{
         slot.appendChild(makeElement("strong","＋"));
         slot.appendChild(makeElement("span","Vacante"));
+
         slot.title = "Posición vacía";
+
         slot.addEventListener("click",()=>{
           $("teamSelect").value = team;
           $("heroSearch").focus();
-          setMessage("Selecciona un héroe para la posición "+(index+1)+".");
+
+          setMessage(
+            "Selecciona un héroe para la posición "+(index+1)+"."
+          );
         });
       }
 
@@ -487,11 +581,15 @@ function renderDraft(){
 
 function renderHeroes(){
   const query = normalize($("heroSearch").value);
+
   const selected = new Set(
-    [...draft.blue,...draft.red].filter(Boolean).map(hero=>normalize(hero.name))
+    [...draft.blue,...draft.red]
+      .filter(Boolean)
+      .map(hero=>normalize(hero.name))
   );
 
   const container = $("heroOptions");
+
   container.innerHTML = "";
 
   if(!catalogLoaded){
@@ -500,13 +598,24 @@ function renderHeroes(){
   }
 
   const filtered = heroes.filter(hero=>{
-    const lanes = Array.isArray(hero.lanes) ? hero.lanes : [hero.lanes || ""];
-    const searchable = [hero.name,hero.slug,hero.role,hero.specialty,...lanes].join(" ");
+    const lanes = Array.isArray(hero.lanes)
+      ? hero.lanes
+      : [hero.lanes || ""];
+
+    const searchable = [
+      hero.name,
+      hero.slug,
+      hero.role,
+      hero.specialty,
+      ...lanes
+    ].join(" ");
+
     return normalize(searchable).includes(query);
   });
 
   filtered.forEach(hero=>{
     const button = document.createElement("button");
+
     button.type = "button";
     button.className = "hero-option";
     button.disabled = selected.has(normalize(hero.name));
@@ -514,14 +623,26 @@ function renderHeroes(){
     button.appendChild(createHeroImage(hero));
     button.appendChild(makeElement("span",hero.name));
 
-    const lanes = Array.isArray(hero.lanes) ? hero.lanes : [hero.lanes].filter(Boolean);
-    if(lanes.length) button.appendChild(makeElement("small",lanes.join(" / ")));
+    const lanes = Array.isArray(hero.lanes)
+      ? hero.lanes
+      : [hero.lanes].filter(Boolean);
 
-    button.addEventListener("click",()=>selectHero(hero));
+    if(lanes.length){
+      button.appendChild(
+        makeElement("small",lanes.join(" / "))
+      );
+    }
+
+    button.addEventListener("click",()=>{
+      selectHero(hero);
+    });
+
     container.appendChild(button);
   });
 
-  if(!filtered.length) container.textContent = "No se encontraron héroes.";
+  if(!filtered.length){
+    container.textContent = "No se encontraron héroes.";
+  }
 }
 
 function selectHero(hero){
@@ -533,13 +654,23 @@ function selectHero(hero){
     return;
   }
 
-  if([...draft.blue,...draft.red].filter(Boolean).some(item=>sameHero(item,hero))){
+  const alreadySelected = [
+    ...draft.blue,
+    ...draft.red
+  ].filter(Boolean).some(item=>sameHero(item,hero));
+
+  if(alreadySelected){
     setMessage("Ese héroe ya está seleccionado.");
     return;
   }
 
   draft[team][index] = hero;
-  setMessage(hero.name+" añadido al equipo "+(team==="blue"?"azul":"rojo")+".");
+
+  setMessage(
+    hero.name+" añadido al equipo "+
+    (team==="blue"?"azul":"rojo")+"."
+  );
+
   hideAnalysis();
   renderDraft();
   showLocalHeroProfile(hero);
@@ -547,10 +678,13 @@ function selectHero(hero){
 
 function removeHero(team,index){
   const hero = draft[team][index];
+
   if(!hero) return;
 
   draft[team][index] = null;
+
   setMessage(hero.name+" retirado.");
+
   hideAnalysis();
   renderDraft();
 }
@@ -558,11 +692,15 @@ function removeHero(team,index){
 function resetDraft(){
   draft.blue.fill(null);
   draft.red.fill(null);
+
   hideAnalysis();
+
   $("heroDetails").hidden = true;
   $("heroProfile").innerHTML = "";
   $("heroSource").textContent = "";
+
   setMessage("Draft reiniciado.");
+
   renderDraft();
 }
 
@@ -571,36 +709,50 @@ function hideAnalysis(){
 }
 
 /* =========================================
-   FICHA LOCAL
+   FICHA LOCAL DEL HÉROE
 ========================================= */
 
 function showLocalHeroProfile(hero){
   const panel = $("heroDetails");
   const content = $("heroProfile");
+
   panel.hidden = false;
   content.innerHTML = "";
 
   const header = document.createElement("div");
+
   header.className = "hero-detail-header";
   header.appendChild(createHeroImage(hero,"hero-portrait"));
 
   const info = document.createElement("div");
+
   info.appendChild(makeElement("h3",hero.name));
 
   const role = hero.role || hero.lane || "";
   const specialty = hero.specialty || "";
-  const lanes = Array.isArray(hero.lanes) ? hero.lanes.join(" / ") : hero.lanes || "";
 
-  info.appendChild(makeElement("p",[role,specialty,lanes].filter(Boolean).join(" · ") || "Perfil de catálogo local"));
+  const lanes = Array.isArray(hero.lanes)
+    ? hero.lanes.join(" / ")
+    : hero.lanes || "";
+
+  info.appendChild(
+    makeElement(
+      "p",
+      [role,specialty,lanes].filter(Boolean).join(" · ") ||
+      "Perfil de catálogo local"
+    )
+  );
+
   header.appendChild(info);
   content.appendChild(header);
 
   const relationCount = COUNTER_DATA.filter(item=>
-    normalize(item.hero)===normalize(hero.name) ||
-    normalize(item.against)===normalize(hero.name)
+    normalize(getReferenceName(item.hero))===normalize(hero.name) ||
+    normalize(getReferenceName(item.against))===normalize(hero.name)
   ).length;
 
   const stats = document.createElement("div");
+
   stats.className = "stat-grid";
 
   [
@@ -609,9 +761,17 @@ function showLocalHeroProfile(hero){
     ["Ficha","Local"]
   ].forEach(([label,value])=>{
     const box = document.createElement("div");
+
     box.className = "stat-box";
-    box.appendChild(makeElement("strong",String(value)));
-    box.appendChild(makeElement("small",label));
+
+    box.appendChild(
+      makeElement("strong",String(value))
+    );
+
+    box.appendChild(
+      makeElement("small",label)
+    );
+
     stats.appendChild(box);
   });
 
@@ -625,106 +785,333 @@ function showLocalHeroProfile(hero){
 
   profileFields.forEach(([label,value])=>{
     const section = document.createElement("div");
+
     section.className = "profile-section";
     section.appendChild(makeElement("h4",label));
     section.appendChild(makeElement("p",String(value),"muted"));
+
     content.appendChild(section);
   });
 
   $("heroSource").textContent =
-    "Fuente: catálogo local. Los datos de habilidades y estadísticas no se inventan ni se consultan en páginas externas.";
+    "Fuente: catálogo local. Los datos de habilidades y estadísticas "+
+    "no se inventan ni se consultan en páginas externas.";
 }
 
 /* =========================================
-   BASE DE COUNTERS
+   MOTOR DE COUNTERS
 ========================================= */
 
 /*
-  Formato esperado:
-  {
-    hero: "Héroe que recibe el counter",
-    against: "Héroe que lo counterea"
-  }
+  ESTRUCTURA DE LA BASE:
 
-  Si azul tiene a hero y rojo tiene a against:
-  ventaja roja y riesgo azul.
+  hero:
+    Héroe que recibe el counter.
 
-  Si rojo tiene a hero y azul tiene a against:
-  ventaja azul y riesgo rojo.
+  against:
+    Héroe que contrarresta al primero.
+
+  EJEMPLO:
+
+  { hero: "Atlas", against: "Alice" }
+
+  Significa:
+  Alice contrarresta a Atlas.
+
+  Por tanto:
+
+  Azul Atlas / Rojo Alice:
+    Riesgo azul.
+    Ventaja roja.
+
+  Azul Alice / Rojo Atlas:
+    Ventaja azul.
+    Riesgo rojo.
+
+  La función revisa ambas direcciones de cada
+  enfrentamiento sin inventar relaciones.
 */
 
 function getCounterRelation(heroName,counterName){
-  return COUNTER_DATA.find(item=>
-    normalize(item.hero)===normalize(heroName) &&
-    normalize(item.against)===normalize(counterName)
-  ) || null;
+  const targetHero = normalize(getReferenceName(heroName));
+  const targetCounter = normalize(getReferenceName(counterName));
+
+  if(!targetHero || !targetCounter){
+    return null;
+  }
+
+  return COUNTER_DATA.find(item=>{
+    const storedHero = normalize(getReferenceName(item.hero));
+    const storedCounter = normalize(getReferenceName(item.against));
+
+    return storedHero===targetHero &&
+      storedCounter===targetCounter;
+  }) || null;
 }
+
+/*
+  Analiza un equipo desde su propia perspectiva.
+
+  advantages:
+    Nuestro héroe contrarresta al rival.
+
+  risks:
+    El héroe rival contrarresta al nuestro.
+
+  IMPORTANTE:
+  Se revisan todas las combinaciones:
+  5 héroes x 5 héroes = 25 cruces.
+*/
 
 function findTeamCounters(team,enemyTeam){
   const advantages = [];
   const risks = [];
+  const uncovered = [];
+
+  let comparisons = 0;
 
   team.forEach(hero=>{
     enemyTeam.forEach(enemy=>{
-      const relation = getCounterRelation(hero.name,enemy.name);
+      comparisons++;
 
-      if(relation){
+      /*
+        CASO 1:
+        El enemigo es counter de nuestro héroe.
+        Eso representa un riesgo para nuestro equipo.
+      */
+
+      const enemyCounter = getCounterRelation(
+        hero.name,
+        enemy.name
+      );
+
+      if(enemyCounter){
         risks.push({
           hero:hero.name,
           enemy:enemy.name,
-          relation
+          relation:enemyCounter,
+          direction:"enemy-counter"
         });
+      }
 
+      /*
+        CASO 2:
+        Nuestro héroe es counter del enemigo.
+        Eso representa una ventaja para nuestro equipo.
+      */
+
+      const ourCounter = getCounterRelation(
+        enemy.name,
+        hero.name
+      );
+
+      if(ourCounter){
         advantages.push({
-          hero:enemy.name,
-          enemy:hero.name,
-          relation
+          hero:hero.name,
+          enemy:enemy.name,
+          relation:ourCounter,
+          direction:"our-counter"
+        });
+      }
+
+      /*
+        CASO 3:
+        No existe ninguna relación registrada
+        en ninguna de las dos direcciones.
+      */
+
+      if(!enemyCounter && !ourCounter){
+        uncovered.push({
+          hero:hero.name,
+          enemy:enemy.name
         });
       }
     });
   });
 
-  return {advantages,risks};
+  return {
+    advantages,
+    risks,
+    uncovered,
+    comparisons,
+    recorded:advantages.length+risks.length
+  };
 }
 
 /* =========================================
-   PRESENTACIÓN DEL ANÁLISIS
+   INFORMACIÓN DE CADA RELACIÓN
 ========================================= */
 
-function renderTeamSummary(team,container){
-  const chips = document.createElement("div");
-  chips.className = "team-hero-list";
+function getRelationReason(relation){
+  if(!relation) return "";
 
-  team.forEach(hero=>{
-    chips.appendChild(makeElement("span",hero.name,"hero-chip"));
-  });
-
-  container.appendChild(chips);
+  return relation.reason ||
+    relation.description ||
+    relation.explanation ||
+    relation.details ||
+    "";
 }
+
+function getRelationConfidence(relation){
+  if(!relation) return "";
+
+  const value =
+    relation.confidence ??
+    relation.verification?.confidence ??
+    "";
+
+  if(value === "") return "";
+
+  return "Confianza: "+String(value);
+}
+
+function getRelationConditions(relation){
+  if(!relation) return [];
+
+  const conditions = relation.conditions;
+
+  if(Array.isArray(conditions)){
+    return conditions.map(String).filter(Boolean);
+  }
+
+  if(typeof conditions === "string" && conditions.trim()){
+    return [conditions.trim()];
+  }
+
+  return [];
+}
+
+function getRelationWeaknesses(relation){
+  if(!relation) return [];
+
+  const weaknesses = relation.weaknesses;
+
+  if(Array.isArray(weaknesses)){
+    return weaknesses.map(String).filter(Boolean);
+  }
+
+  if(typeof weaknesses === "string" && weaknesses.trim()){
+    return [weaknesses.trim()];
+  }
+
+  return [];
+}
+
+function getRelationVerification(relation){
+  return relation?.verification?.status ||
+    relation?.verificationStatus ||
+    relation?.status ||
+    "";
+}
+
+/* =========================================
+   TARJETA INDIVIDUAL DE CRUCE
+========================================= */
+
+function renderRelationCard(match,kind){
+  const card = document.createElement("div");
+
+  card.className = "counter-match";
+
+  const top = document.createElement("div");
+  top.className = "counter-match-top";
+
+  const title = document.createElement("strong");
+
+  title.textContent = match.hero+" contra "+match.enemy;
+
+  const badge = document.createElement("span");
+
+  badge.className =
+    "tactical-tag "+(kind==="good"?"tag-good":"tag-bad");
+
+  badge.textContent =
+    kind==="good"?"VENTAJA":"RIESGO";
+
+  top.append(title,badge);
+  card.appendChild(top);
+
+  const reason = getRelationReason(match.relation);
+
+  if(reason){
+    card.appendChild(
+      makeElement("p",reason,"counter-description")
+    );
+  }else{
+    card.appendChild(
+      makeElement(
+        "p",
+        "Relación registrada en la base local. Explicación táctica pendiente de verificación.",
+        "counter-description"
+      )
+    );
+  }
+
+  const conditions = getRelationConditions(match.relation);
+  const weaknesses = getRelationWeaknesses(match.relation);
+  const confidence = getRelationConfidence(match.relation);
+  const verification = getRelationVerification(match.relation);
+
+  const extra = document.createElement("div");
+
+  extra.className = "counter-extra";
+
+  if(conditions.length){
+    conditions.forEach(condition=>{
+      const span = makeElement("span","Condición: "+condition);
+      extra.appendChild(span);
+    });
+  }
+
+  if(weaknesses.length){
+    weaknesses.forEach(weakness=>{
+      const span = makeElement("span","Limitación: "+weakness);
+      extra.appendChild(span);
+    });
+  }
+
+  if(confidence){
+    extra.appendChild(makeElement("span",confidence));
+  }
+
+  if(verification){
+    extra.appendChild(
+      makeElement("span","Verificación: "+verification)
+    );
+  }
+
+  if(extra.childElementCount){
+    card.appendChild(extra);
+  }
+
+  return card;
+}
+
+/* =========================================
+   LISTAS DE VENTAJAS Y RIESGOS
+========================================= */
 
 function renderMatchList(container,title,matches,kind){
   const section = document.createElement("div");
+
   section.className = "tactical-section";
   section.appendChild(makeElement("h4",title));
 
   const list = document.createElement("div");
+
   list.className = "counter-column";
 
   if(!matches.length){
-    list.appendChild(makeElement("span","No hay relaciones registradas para estos cruces.","empty-note"));
+    list.appendChild(
+      makeElement(
+        "span",
+        "No hay relaciones registradas para estos cruces.",
+        "empty-note"
+      )
+    );
   }else{
     matches.forEach(match=>{
-      const row = document.createElement("div");
-      row.className = "counter-match";
-
-      row.appendChild(makeElement("strong",match.hero));
-
-      const detail = document.createElement("small");
-      detail.textContent = "contra "+match.enemy;
-      detail.className = kind==="good" ? "tag-good" : "tag-bad";
-
-      row.appendChild(detail);
-      list.appendChild(row);
+      list.appendChild(renderRelationCard(match,kind));
     });
   }
 
@@ -732,55 +1119,147 @@ function renderMatchList(container,title,matches,kind){
   container.appendChild(section);
 }
 
+/* =========================================
+   RESUMEN DE COMPOSICIÓN
+========================================= */
+
+function renderTeamSummary(team,container){
+  const chips = document.createElement("div");
+
+  chips.className = "team-hero-list";
+
+  team.forEach(hero=>{
+    chips.appendChild(
+      makeElement("span",hero.name,"hero-chip")
+    );
+  });
+
+  container.appendChild(chips);
+}
+
+/* =========================================
+   ANÁLISIS DE CADA EQUIPO
+========================================= */
+
 function renderAnalysisTeam(container,team,enemyTeam,results){
   container.innerHTML = "";
+
   renderTeamSummary(team,container);
 
-  renderMatchList(container,"VENTAJAS DETECTADAS",results.advantages,"good");
-  renderMatchList(container,"RIESGOS DETECTADOS",results.risks,"bad");
+  renderMatchList(
+    container,
+    "VENTAJAS DETECTADAS ("+results.advantages.length+")",
+    results.advantages,
+    "good"
+  );
 
-  const known = team.length * enemyTeam.length;
-  const recorded = results.risks.length;
+  renderMatchList(
+    container,
+    "RIESGOS DETECTADOS ("+results.risks.length+")",
+    results.risks,
+    "bad"
+  );
+
+  renderMatchList(
+    container,
+    "CRUCES SIN RELACIÓN REGISTRADA ("+results.uncovered.length+")",
+    results.uncovered.map(match=>({
+      ...match,
+      relation:null
+    })),
+    "neutral"
+  );
+
+  const known = results.comparisons;
+  const recorded = results.recorded;
 
   container.appendChild(
-    makeElement("p",recorded+" relaciones encontradas de "+known+" cruces posibles.","diagnostic-line")
+    makeElement(
+      "p",
+      recorded+" relaciones direccionales encontradas de "+
+      known+" enfrentamientos individuales. "+
+      results.uncovered.length+
+      " enfrentamientos sin relación registrada.",
+      "diagnostic-line"
+    )
   );
 }
 
+/* =========================================
+   RESUMEN GENERAL DE VENTAJAS
+========================================= */
+
 function renderCounterSummary(blueResults,redResults){
   const area = $("counterAnalysis");
+
   area.innerHTML = "";
 
   const blueCard = document.createElement("div");
+
   blueCard.className = "analysis-team";
-  blueCard.appendChild(makeElement("h3","Ventajas del equipo azul","blue"));
-  renderMatchList(blueCard,"CRUCES FAVORABLES",blueResults.advantages,"good");
+  blueCard.appendChild(
+    makeElement("h3","Ventajas del equipo azul","blue")
+  );
+
+  renderMatchList(
+    blueCard,
+    "CRUCES FAVORABLES ("+blueResults.advantages.length+")",
+    blueResults.advantages,
+    "good"
+  );
 
   const redCard = document.createElement("div");
+
   redCard.className = "analysis-team";
-  redCard.appendChild(makeElement("h3","Ventajas del equipo rojo","red"));
-  renderMatchList(redCard,"CRUCES FAVORABLES",redResults.advantages,"good");
+  redCard.appendChild(
+    makeElement("h3","Ventajas del equipo rojo","red")
+  );
+
+  renderMatchList(
+    redCard,
+    "CRUCES FAVORABLES ("+redResults.advantages.length+")",
+    redResults.advantages,
+    "good"
+  );
 
   area.append(blueCard,redCard);
 }
 
+/* =========================================
+   INDICADORES DEL ANÁLISIS
+========================================= */
+
 function renderScore(blueResults,redResults){
   const area = $("scoreStrip");
+
   area.innerHTML = "";
 
   const values = [
-    ["Azul",blueResults.advantages.length,"blue"],
-    ["Rojo",redResults.advantages.length,"red"],
-    ["Cruces detectados",blueResults.advantages.length+redResults.advantages.length,""]
+    ["Ventajas azul",blueResults.advantages.length,"blue"],
+    ["Riesgos azul",blueResults.risks.length,"red"],
+    ["Ventajas rojo",redResults.advantages.length,"red"],
+    [
+      "Cruces direccionales",
+      blueResults.recorded+redResults.recorded,
+      ""
+    ]
   ];
 
   values.forEach(([label,value,team])=>{
     const box = document.createElement("div");
+
     box.className = "score-box";
+
     const strong = makeElement("strong",String(value));
-    if(team) strong.style.color = team==="blue"?"var(--blue)":"var(--red)";
+
+    if(team){
+      strong.style.color =
+        team==="blue"?"var(--blue)":"var(--red)";
+    }
+
     box.appendChild(strong);
     box.appendChild(makeElement("small",label));
+
     area.appendChild(box);
   });
 }
@@ -797,45 +1276,116 @@ function analyzeDraft(){
   const status = $("analysisGlobalStatus");
 
   panel.hidden = false;
+
   $("blueAnalysis").innerHTML = "";
   $("redAnalysis").innerHTML = "";
   $("counterAnalysis").innerHTML = "";
   $("scoreStrip").innerHTML = "";
 
   if(blue.length!==5 || red.length!==5){
-    status.textContent = "Completa los dos equipos con cinco héroes cada uno.";
+    status.textContent =
+      "Completa los dos equipos con cinco héroes cada uno.";
+
     status.className = "analysis-status warning";
-    panel.scrollIntoView({behavior:"smooth",block:"start"});
+
+    panel.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
     return;
   }
+
+  /*
+    IMPORTANTE:
+
+    Cada equipo se analiza desde su propia perspectiva.
+
+    Azul:
+      Ventajas = counters de azul contra rojo.
+      Riesgos = counters de rojo contra azul.
+
+    Rojo:
+      Ventajas = counters de rojo contra azul.
+      Riesgos = counters de azul contra rojo.
+
+    Ambos análisis revisan las 25 combinaciones.
+  */
 
   const blueResults = findTeamCounters(blue,red);
   const redResults = findTeamCounters(red,blue);
 
-  renderAnalysisTeam($("blueAnalysis"),blue,red,blueResults);
-  renderAnalysisTeam($("redAnalysis"),red,blue,redResults);
-  renderCounterSummary(blueResults,redResults);
-  renderScore(blueResults,redResults);
+  renderAnalysisTeam(
+    $("blueAnalysis"),
+    blue,
+    red,
+    blueResults
+  );
 
-  const total = blueResults.advantages.length + redResults.advantages.length;
+  renderAnalysisTeam(
+    $("redAnalysis"),
+    red,
+    blue,
+    redResults
+  );
+
+  renderCounterSummary(
+    blueResults,
+    redResults
+  );
+
+  renderScore(
+    blueResults,
+    redResults
+  );
+
+  const totalDirectional =
+    blueResults.recorded+redResults.recorded;
+
+  const totalComparisons =
+    blueResults.comparisons+redResults.comparisons;
+
   const pending = COUNTER_DATA.filter(item=>
     item.verification?.status==="pending"
   ).length;
 
+  const coverage = totalComparisons
+    ? ((totalDirectional/totalComparisons)*100).toFixed(1)
+    : "0.0";
+
   status.textContent =
-    total+" relaciones encontradas entre los equipos. "+
-    "Base local: "+COUNTER_DATA.length+" registros. "+
+    "Se analizaron "+totalComparisons+
+    " enfrentamientos individuales. "+
+    "Se encontraron "+totalDirectional+
+    " relaciones direccionales registradas. "+
+    "Azul: "+blueResults.advantages.length+
+    " ventajas y "+blueResults.risks.length+
+    " riesgos. "+
+    "Rojo: "+redResults.advantages.length+
+    " ventajas y "+redResults.risks.length+
+    " riesgos. "+
+    "Cobertura de relaciones: "+coverage+"%. "+
     "No se consultaron servicios externos.";
 
-  status.className = "analysis-status "+(total?"ready":"warning");
+  status.className =
+    "analysis-status "+(totalDirectional?"ready":"warning");
 
   $("counterSource").textContent =
     "Fuente: "+(COUNTER_META.source || "data/counters.js")+
-    ". Fecha de referencia: "+(COUNTER_META.referenceDate || "no indicada")+
+    ". Fecha de referencia: "+
+    (COUNTER_META.referenceDate || "no indicada")+
+    ". Registros locales: "+COUNTER_DATA.length+
     ". Registros pendientes de verificación: "+pending+
-    ". Las relaciones son referencias de counter, no porcentajes de victoria.";
+    ". Las relaciones son referencias de counter, no porcentajes "+
+    "de victoria ni garantías de resultado. "+
+    "Un cruce sin relación registrada significa que la base local "+
+    "no contiene información para ese enfrentamiento; no significa "+
+    "que ambos héroes sean equivalentes.";
 
-  panel.scrollIntoView({behavior:"smooth",block:"start"});
+  panel.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
 }
 
 /* =========================================
@@ -848,34 +1398,50 @@ function updateSystemStatus(){
     : "Base de counters vacía";
 
   $("systemStatus").textContent =
-    (catalogLoaded?heroes.length+" héroes":"Catálogo no disponible")+
+    (catalogLoaded
+      ? heroes.length+" héroes"
+      : "Catálogo no disponible")+
     " · "+catalogSource+
     " · "+counterStatus+
     " · Sin API externa";
 
   $("systemStatus").className =
-    "system-status "+(catalogLoaded && COUNTER_DATA.length?"ready":"warning");
+    "system-status "+
+    (catalogLoaded && COUNTER_DATA.length?"ready":"warning");
 }
 
 /* =========================================
    EVENTOS
 ========================================= */
 
-$("heroSearch").addEventListener("input",renderHeroes);
-$("teamSelect").addEventListener("change",renderHeroes);
-$("analyzeButton").addEventListener("click",analyzeDraft);
-$("resetButton").addEventListener("click",resetDraft);
+$("heroSearch").addEventListener(
+  "input",
+  renderHeroes
+);
+
+$("teamSelect").addEventListener(
+  "change",
+  renderHeroes
+);
+
+$("analyzeButton").addEventListener(
+  "click",
+  analyzeDraft
+);
+
+$("resetButton").addEventListener(
+  "click",
+  resetDraft
+);
 
 /* =========================================
    INICIO
 ========================================= */
 
 renderDraft();
-loadCatalog().then(()=>{
-  rebuildHeroLookup();
-  renderHeroes();
-  updateSystemStatus();
-});
+updateSystemStatus();
+loadCatalog();
+
 </script>
 </body>
 </html>
