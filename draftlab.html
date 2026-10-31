@@ -2,800 +2,761 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TUPA MLBB | Draft Lab</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUPA MLBB | Draft Lab</title>
+<link rel="stylesheet" href="styles.css">
 
-  <style>
-    .draft-container {
-      max-width: 1180px;
-      margin: 35px auto;
-      padding: 20px;
-    }
-
-    .draft-header { margin-bottom: 28px; }
-
-    .draft-header h1 {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(34px, 6vw, 58px);
-      color: var(--gold, #d6a85b);
-    }
-
-    .draft-header p {
-      color: var(--muted, #aaa);
-      line-height: 1.7;
-    }
-
-    .draft-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .draft-team,
-    .hero-selector,
-    .analysis-panel {
-      background: var(--panel, #171717);
-      border: 1px solid var(--line, #444);
-      padding: 20px;
-      border-radius: 8px;
-    }
-
-    .draft-team h2,
-    .hero-selector h2,
-    .analysis-panel h2 {
-      font-family: 'Cinzel', serif;
-      margin-top: 0;
-    }
-
-    .team-blue h2 { color: #79baff; }
-    .team-red h2 { color: #ed8585; }
-
-    .draft-slots {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 9px;
-    }
-
-    .draft-slot {
-      min-height: 75px;
-      padding: 12px;
-      border: 1px dashed var(--line, #555);
-      border-radius: 5px;
-      background: #111;
-      color: var(--muted, #aaa);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 6px;
-      font-size: 12px;
-    }
-
-    .draft-slot strong { color: var(--text, #fff); }
-
-    .draft-slot.filled {
-      border-style: solid;
-      border-color: var(--gold, #d6a85b);
-    }
-
-    .hero-selector,
-    .analysis-panel { margin-top: 25px; }
-
-    .hero-search {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0 15px;
-      background: #111;
-      color: white;
-      border: 1px solid var(--line, #555);
-      border-radius: 5px;
-    }
-
-    .hero-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
-      gap: 9px;
-    }
-
-    .hero-option {
-      padding: 13px 8px;
-      background: #202020;
-      border: 1px solid var(--line, #444);
-      color: var(--text, #fff);
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .hero-option:hover {
-      border-color: var(--gold, #d6a85b);
-      color: var(--gold, #d6a85b);
-    }
-
-    .hero-option:disabled {
-      opacity: .35;
-      cursor: not-allowed;
-    }
-
-    .hero-option small {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted, #aaa);
-      font-size: 10px;
-    }
-
-    .draft-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .draft-actions button {
-      padding: 11px 17px;
-      border: 1px solid var(--gold, #d6a85b);
-      background: transparent;
-      color: var(--gold, #d6a85b);
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .draft-actions button:hover {
-      background: var(--gold, #d6a85b);
-      color: #111;
-    }
-
-    .draft-message,
-    .draft-system-status {
-      margin-top: 14px;
-      color: var(--muted, #aaa);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .draft-system-status,
-    .analysis-status {
-      padding: 10px 12px;
-      border: 1px solid var(--line, #444);
-      border-radius: 5px;
-    }
-
-    .draft-system-status.ready,
-    .analysis-status.ready { border-color: #648b65; }
-
-    .draft-system-status.error,
-    .analysis-status.warning { border-color: #a65b5b; }
-
-    .analysis-panel[hidden] { display: none; }
-
-    .analysis-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .analysis-team {
-      padding: 16px;
-      border: 1px solid var(--line, #444);
-      border-radius: 7px;
-      background: #111;
-      min-width: 0;
-    }
-
-    .analysis-team h3 {
-      font-family: 'Cinzel', serif;
-      margin-top: 0;
-    }
-
-    .analysis-team.blue h3 { color: #79baff; }
-    .analysis-team.red h3 { color: #ed8585; }
-
-    .analysis-team ul {
-      padding-left: 19px;
-      line-height: 1.8;
-      color: var(--muted, #aaa);
-    }
-
-    .analysis-team li { overflow-wrap: anywhere; }
-
-    .analysis-stat {
-      margin: 12px 0;
-      padding: 10px;
-      background: #1b1b1b;
-      border-radius: 5px;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .analysis-status {
-      margin-top: 12px;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .analysis-note {
-      color: var(--muted, #aaa);
-      font-size: 12px;
-      line-height: 1.7;
-      margin-top: 16px;
-    }
-
-    @media (max-width: 700px) {
-      .draft-layout,
-      .analysis-grid { grid-template-columns: 1fr; }
-
-      .draft-container { padding: 12px; }
-      .draft-slots { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+<style>
+.draft-container{max-width:1250px;margin:35px auto;padding:20px}
+.draft-header{margin-bottom:25px}
+.draft-header h1{font-family:'Cinzel',serif;font-size:clamp(34px,6vw,58px);color:var(--gold,#d6a85b)}
+.draft-header p,.muted{color:var(--muted,#aaa);line-height:1.6}
+.draft-layout,.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.draft-team,.hero-selector,.analysis-panel,.hero-details{
+background:var(--panel,#171717);border:1px solid var(--line,#444);
+padding:20px;border-radius:8px;min-width:0
+}
+.draft-team h2,.hero-selector h2,.analysis-panel h2,.hero-details h2{font-family:'Cinzel',serif;margin-top:0}
+.team-blue h2,.blue h3{color:#79baff}
+.team-red h2,.red h3{color:#ed8585}
+.draft-slots{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.draft-slot{min-height:70px;padding:12px;border:1px dashed var(--line,#555);border-radius:5px;background:#111;color:#aaa;display:flex;flex-direction:column;gap:6px;font-size:12px}
+.draft-slot strong{color:white}
+.draft-slot.filled{border-style:solid;border-color:var(--gold,#d6a85b)}
+.hero-selector,.analysis-panel,.hero-details{margin-top:22px}
+.hero-search,.team-select{width:100%;padding:12px;margin:8px 0 14px;background:#111;color:white;border:1px solid #555;border-radius:5px}
+.hero-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:9px;max-height:440px;overflow:auto}
+.hero-option{padding:12px 8px;background:#202020;border:1px solid #444;color:white;border-radius:5px;cursor:pointer}
+.hero-option:hover{border-color:var(--gold,#d6a85b);color:var(--gold,#d6a85b)}
+.hero-option:disabled{opacity:.3;cursor:not-allowed}
+.hero-option small{display:block;margin-top:5px;color:#aaa;font-size:10px}
+.draft-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.draft-actions button,.action-button{padding:11px 16px;border:1px solid var(--gold,#d6a85b);background:transparent;color:var(--gold,#d6a85b);border-radius:4px;cursor:pointer}
+.draft-actions button:hover,.action-button:hover{background:var(--gold,#d6a85b);color:#111}
+.draft-message,.system-status{margin-top:13px;color:#aaa;font-size:13px;line-height:1.6}
+.system-status,.analysis-status{padding:11px;border:1px solid #444;border-radius:5px}
+.ready{border-color:#648b65!important}
+.warning{border-color:#a65b5b!important}
+.analysis-panel[hidden],.hero-details[hidden]{display:none}
+.analysis-team{padding:16px;border:1px solid #444;border-radius:7px;background:#111;min-width:0}
+.analysis-team h3{font-family:'Cinzel',serif;margin-top:0}
+.analysis-team ul{padding-left:19px;line-height:1.8;color:#aaa}
+.analysis-team li{overflow-wrap:anywhere}
+.analysis-stat,.api-card{margin:12px 0;padding:12px;background:#1b1b1b;border-radius:5px;font-size:13px;line-height:1.7}
+.api-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.api-card h4{margin:0 0 8px;color:var(--gold,#d6a85b)}
+.api-card p{margin:5px 0;color:#ccc;font-size:13px;line-height:1.6}
+.hero-detail-header{display:flex;gap:15px;align-items:center;margin-bottom:15px}
+.hero-portrait{width:90px;height:90px;object-fit:cover;border-radius:7px;background:#222}
+.hero-detail-header h3{margin:0;color:var(--gold,#d6a85b)}
+.hero-detail-header p{margin:5px 0;color:#aaa;font-size:13px}
+.skill-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.skill-card{padding:12px;background:#202020;border:1px solid #444;border-radius:5px}
+.skill-card strong{display:block;color:#e4bd78;margin-bottom:6px}
+.skill-card p{font-size:12px;line-height:1.6;color:#ccc}
+.counter-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.counter-item{padding:10px;background:#202020;border:1px solid #444;border-radius:5px;font-size:13px}
+.counter-item strong{display:block;color:#e4bd78}
+.source-note{font-size:11px;color:#999;line-height:1.6;margin-top:15px}
+.loading{color:#d6a85b}
+.error-text{color:#ed8585}
+@media(max-width:700px){.draft-layout,.analysis-grid{grid-template-columns:1fr}.draft-container{padding:12px}.draft-slots{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 
 <body>
-  <main class="draft-container">
+<main class="draft-container">
 
-    <header class="draft-header">
-      <span class="eyebrow">TUPA MLBB / HERRAMIENTA TÁCTICA</span>
-      <h1>DRAFT LAB</h1>
-      <p>
-        Simula una selección de héroes, organiza tu composición
-        y estudia las decisiones de ambos equipos.
-      </p>
-    </header>
+<header class="draft-header">
+<span class="eyebrow">TUPA MLBB / HERRAMIENTA TÁCTICA</span>
+<h1>DRAFT LAB</h1>
+<p>Construye composiciones, consulta información de héroes y estudia los counters del rival.</p>
+</header>
 
-    <section class="draft-layout">
-      <div class="draft-team team-blue">
-        <h2>Equipo azul</h2>
-        <p>Tu equipo</p>
-        <div class="draft-slots" id="blueSlots"></div>
-      </div>
+<section class="draft-layout">
+<div class="draft-team team-blue">
+<h2>Equipo azul</h2>
+<p>Tu equipo</p>
+<div class="draft-slots" id="blueSlots"></div>
+</div>
 
-      <div class="draft-team team-red">
-        <h2>Equipo rojo</h2>
-        <p>Equipo rival</p>
-        <div class="draft-slots" id="redSlots"></div>
-      </div>
-    </section>
+<div class="draft-team team-red">
+<h2>Equipo rojo</h2>
+<p>Equipo rival</p>
+<div class="draft-slots" id="redSlots"></div>
+</div>
+</section>
 
-    <section class="hero-selector">
-      <h2>Seleccionar héroe</h2>
-      <p>Elige un equipo y después selecciona un héroe.</p>
+<section class="hero-selector">
+<h2>Seleccionar héroe</h2>
+<p class="muted">Elige el equipo y selecciona hasta cinco héroes.</p>
 
-      <select class="hero-search" id="teamSelect">
-        <option value="blue">Equipo azul</option>
-        <option value="red">Equipo rojo</option>
-      </select>
+<select class="team-select" id="teamSelect">
+<option value="blue">Equipo azul</option>
+<option value="red">Equipo rojo</option>
+</select>
 
-      <input
-        class="hero-search"
-        id="heroSearch"
-        type="search"
-        placeholder="Buscar héroe..."
-        autocomplete="off"
-      >
+<input class="hero-search" id="heroSearch" type="search" placeholder="Buscar héroe..." autocomplete="off">
 
-      <div class="hero-options" id="heroOptions"></div>
+<div class="hero-options" id="heroOptions"></div>
 
-      <div class="draft-actions">
-        <button id="analyzeButton">Analizar composición</button>
-        <button id="resetButton">Reiniciar draft</button>
-      </div>
+<div class="draft-actions">
+<button id="analyzeButton">Analizar composición</button>
+<button id="resetButton">Reiniciar draft</button>
+</div>
 
-      <p class="draft-message" id="draftMessage" aria-live="polite">
-        Cargando catálogo de héroes...
-      </p>
+<p class="draft-message" id="draftMessage" aria-live="polite">Cargando catálogo...</p>
+<div class="system-status" id="systemStatus">Conectando fuentes...</div>
+</section>
 
-      <div class="draft-system-status" id="systemStatus" aria-live="polite">
-        Comprobando componentes TUPA...
-      </div>
-    </section>
+<section class="hero-details" id="heroDetails" hidden>
+<h2>FICHA DEL HÉROE</h2>
+<div id="heroProfile"></div>
+<div class="source-note" id="heroSource"></div>
+</section>
 
-    <section
-      class="analysis-panel"
-      id="analysisPanel"
-      hidden
-      aria-live="polite"
-    >
-      <h2>ANÁLISIS TÁCTICO</h2>
+<section class="analysis-panel" id="analysisPanel" hidden>
+<h2>ANÁLISIS TÁCTICO</h2>
+<p class="muted">Datos de composición y counters obtenidos de las fuentes conectadas.</p>
+<div id="analysisGlobalStatus" class="analysis-status"></div>
 
-      <p>Evaluación de la información disponible para ambos equipos.</p>
+<div class="analysis-grid">
+<article class="analysis-team blue">
+<h3>Equipo azul</h3>
+<div id="blueAnalysis"></div>
+</article>
+<article class="analysis-team red">
+<h3>Equipo rojo</h3>
+<div id="redAnalysis"></div>
+</article>
+</div>
 
-      <div id="analysisGlobalStatus" class="analysis-status"></div>
+<div class="hero-details" style="margin-top:18px">
+<h2>COUNTERS DEL DRAFT</h2>
+<div id="counterAnalysis" class="api-grid"></div>
+</div>
 
-      <div class="analysis-grid">
-        <article class="analysis-team blue">
-          <h3>Equipo azul</h3>
-          <div id="blueAnalysis"></div>
-        </article>
+<p class="source-note">
+Los counters reflejan los datos publicados por la fuente consultada. No constituyen una garantía de victoria.
+</p>
+</section>
 
-        <article class="analysis-team red">
-          <h3>Equipo rojo</h3>
-          <div id="redAnalysis"></div>
-        </article>
-      </div>
+</main>
 
-      <p class="analysis-note">
-        TUPA diferencia los datos verificados de los parciales
-        y desconocidos. Este informe todavía no representa
-        una predicción de victoria ni una clasificación de poder.
-      </p>
-    </section>
+<!-- Bases locales como respaldo -->
+<script src="data/heroes.js"></script>
+<script src="data/sources.js"></script>
+<script src="data/synergies.js"></script>
+<script src="data/counters.js"></script>
+<script src="js/draft-engine.js"></script>
+<script src="js/draft-recommender.js"></script>
+<script src="js/draft-analysis.js"></script>
 
-  </main>
+<script>
+const API_MLBBDEX = "https://mlbbdex.com/api/v1";
+const API_RONE = "https://arena.fastapicloud.dev/api";
 
-  <!-- BASES DE DATOS -->
-  <script src="data/heroes.js"></script>
-  <script src="data/sources.js"></script>
-  <script src="data/synergies.js"></script>
-  <script src="data/counters.js"></script>
+let heroes = [];
+let catalogSource = "local";
+let catalogLoaded = false;
 
-  <!-- MOTORES -->
-  <script src="js/draft-engine.js"></script>
-  <script src="js/draft-recommender.js"></script>
-  <script src="js/draft-analysis.js"></script>
+const draft = {
+  blue: Array(5).fill(null),
+  red: Array(5).fill(null)
+};
 
-  <script>
-    // CATÁLOGO
-    let heroes = [];
-    let catalogLoaded = false;
+const detailCache = new Map();
+const counterCache = new Map();
 
-    const draft = {
-      blue: Array(5).fill(null),
-      red: Array(5).fill(null)
-    };
+function normalize(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+}
 
-    function normalize(value) {
-      if (!value || typeof value !== "string") return "";
+function setMessage(message) {
+  document.getElementById("draftMessage").textContent = message;
+}
 
-      return value
-        .trim()
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]/g, "");
+async function fetchJSON(url) {
+  const response = await fetch(url, {
+    method: "GET",
+    headers: { "Accept": "application/json" }
+  });
+
+  if (!response.ok) {
+    throw new Error("HTTP " + response.status);
+  }
+
+  return response.json();
+}
+
+function extractData(payload) {
+  return payload?.data ?? payload;
+}
+
+/* CARGAR CATÁLOGO: API PRIMERO, ARCHIVO LOCAL COMO RESPALDO */
+async function loadCatalog() {
+  const status = document.getElementById("systemStatus");
+  status.textContent = "Consultando MLBBDex...";
+
+  try {
+    const payload = await fetchJSON(API_MLBBDEX + "/heroes");
+    const data = extractData(payload);
+
+    if (!Array.isArray(data)) {
+      throw new Error("Formato de catálogo no reconocido");
     }
 
-    // CARGAR CATÁLOGO DESDE EL ARCHIVO JSON
-    async function loadHeroCatalog() {
-      const message = document.getElementById("draftMessage");
+    heroes = data.map(hero => ({
+      ...hero,
+      slug: hero.slug || hero.id || normalize(hero.name),
+      name: hero.name || hero.hero_name || "Héroe",
+      lanes: hero.lanes || hero.positions || []
+    }));
 
-      try {
-        const response = await fetch("./hero-tags.json", {
-          cache: "no-cache"
-        });
+    catalogSource = "MLBBdex";
+    catalogLoaded = true;
+    setMessage("Catálogo conectado: " + heroes.length + " héroes.");
+  } catch (apiError) {
+    console.warn("MLBBdex no disponible:", apiError);
 
-        if (!response.ok) {
-          throw new Error("No se pudo encontrar hero-tags.json.");
-        }
+    try {
+      const local = await fetchJSON("./hero-tags.json");
+      const data = local.data;
 
-        const catalog = await response.json();
+      if (!Array.isArray(data)) throw new Error("Catálogo local inválido");
 
-        if (!catalog || !Array.isArray(catalog.data)) {
-          throw new Error("El formato del catálogo no es válido.");
-        }
+      heroes = data;
+      catalogSource = "Catálogo local";
+      catalogLoaded = true;
 
-        const validHeroes = catalog.data.filter(hero =>
-          hero &&
-          typeof hero.slug === "string" &&
-          typeof hero.name === "string"
-        );
+      setMessage("API no disponible. Se está usando el catálogo local.");
+    } catch (localError) {
+      heroes = [];
+      catalogLoaded = false;
+      setMessage("No se pudo cargar el catálogo. Revisa la conexión.");
+    }
+  }
 
-        const uniqueHeroes = new Map();
+  renderDraft();
+  updateSystemStatus();
+}
 
-        validHeroes.forEach(hero => {
-          const id = normalize(hero.slug);
+function renderDraft() {
+  ["blue", "red"].forEach(team => {
+    const container = document.getElementById(team + "Slots");
+    container.innerHTML = "";
 
-          if (id && !uniqueHeroes.has(id)) {
-            uniqueHeroes.set(id, hero);
-          }
-        });
+    draft[team].forEach((hero, index) => {
+      const slot = document.createElement("div");
+      slot.className = "draft-slot" + (hero ? " filled" : "");
 
-        heroes = Array.from(uniqueHeroes.values());
+      const label = document.createElement("span");
+      label.textContent = "Selección " + (index + 1);
 
-        if (heroes.length === 0) {
-          throw new Error("El catálogo no contiene héroes válidos.");
-        }
+      const name = document.createElement("strong");
+      name.textContent = hero ? hero.name : "Sin seleccionar";
 
-        catalogLoaded = true;
-
-        message.textContent =
-          "Catálogo cargado: " + heroes.length +
-          " héroes disponibles.";
-
-        renderHeroes();
-        updateSystemStatus();
-
-      } catch (error) {
-        catalogLoaded = false;
-        heroes = [];
-
-        message.textContent =
-          "Error al cargar el catálogo: " + error.message;
-
-        renderHeroes();
-        updateSystemStatus();
+      if (hero) {
+        slot.title = "Pulsa para quitar a " + hero.name;
+        slot.style.cursor = "pointer";
+        slot.addEventListener("click", () => removeHero(team, index));
       }
+
+      slot.append(label, name);
+      container.appendChild(slot);
+    });
+  });
+
+  renderHeroes();
+}
+
+function renderHeroes() {
+  const query = normalize(document.getElementById("heroSearch").value);
+  const selected = new Set(
+    [...draft.blue, ...draft.red].filter(Boolean).map(hero => normalize(hero.slug))
+  );
+
+  const container = document.getElementById("heroOptions");
+  container.innerHTML = "";
+
+  if (!catalogLoaded) {
+    container.textContent = "Catálogo no disponible.";
+    return;
+  }
+
+  const filtered = heroes.filter(hero => {
+    const text = normalize([
+      hero.name, hero.slug, hero.title,
+      ...(Array.isArray(hero.lanes) ? hero.lanes : [])
+    ].join(" "));
+    return text.includes(query);
+  });
+
+  if (!filtered.length) {
+    container.textContent = "No se encontraron héroes.";
+    return;
+  }
+
+  filtered.forEach(hero => {
+    const button = document.createElement("button");
+    button.className = "hero-option";
+    button.disabled = selected.has(normalize(hero.slug));
+
+    const name = document.createElement("span");
+    name.textContent = hero.name;
+    button.appendChild(name);
+
+    const lanes = Array.isArray(hero.lanes) ? hero.lanes : [];
+    if (lanes.length) {
+      const small = document.createElement("small");
+      small.textContent = lanes.join(" / ");
+      button.appendChild(small);
     }
 
-    // DIBUJAR ESPACIOS DE LOS EQUIPOS
-    function renderDraft() {
-      ["blue", "red"].forEach(team => {
-        const container = document.getElementById(team + "Slots");
-        container.innerHTML = "";
+    button.addEventListener("click", () => selectHero(hero));
+    container.appendChild(button);
+  });
+}
 
-        draft[team].forEach((hero, index) => {
-          const slot = document.createElement("div");
-          slot.className = "draft-slot" + (hero ? " filled" : "");
+function selectHero(hero) {
+  const team = document.getElementById("teamSelect").value;
+  const index = draft[team].indexOf(null);
 
-          const label = document.createElement("span");
-          label.textContent = "Selección " + (index + 1);
+  if (index === -1) {
+    setMessage("Este equipo ya tiene cinco héroes. Pulsa un héroe seleccionado para quitarlo.");
+    return;
+  }
 
-          const name = document.createElement("strong");
-          name.textContent = hero ? hero.name : "Sin seleccionar";
+  const exists = [...draft.blue, ...draft.red]
+    .filter(Boolean)
+    .some(item => normalize(item.slug) === normalize(hero.slug));
 
-          slot.append(label, name);
-          container.appendChild(slot);
-        });
-      });
+  if (exists) return;
 
-      renderHeroes();
-    }
+  draft[team][index] = hero;
+  setMessage(hero.name + " añadido al equipo " + team + ".");
 
-    // MOSTRAR Y BUSCAR HÉROES
-    function renderHeroes() {
-      const search = normalize(
-        document.getElementById("heroSearch").value
+  document.getElementById("analysisPanel").hidden = true;
+  renderDraft();
+  loadHeroProfile(hero);
+}
+
+function removeHero(team, index) {
+  const removed = draft[team][index];
+  draft[team][index] = null;
+
+  setMessage(removed.name + " fue retirado del draft.");
+  document.getElementById("analysisPanel").hidden = true;
+  renderDraft();
+}
+
+function resetDraft() {
+  draft.blue.fill(null);
+  draft.red.fill(null);
+  document.getElementById("analysisPanel").hidden = true;
+  document.getElementById("heroDetails").hidden = true;
+  setMessage("Draft reiniciado.");
+  renderDraft();
+}
+
+/* PERFIL COMPLETO DE HÉROE */
+async function loadHeroProfile(hero) {
+  const panel = document.getElementById("heroDetails");
+  const content = document.getElementById("heroProfile");
+  const source = document.getElementById("heroSource");
+
+  panel.hidden = false;
+  content.innerHTML = '<p class="loading">Consultando ficha del héroe...</p>';
+
+  const slug = hero.slug || normalize(hero.name);
+
+  try {
+    let profile = detailCache.get(slug);
+
+    if (!profile) {
+      const payload = await fetchJSON(
+        API_MLBBDEX + "/heroes/" + encodeURIComponent(slug)
       );
-
-      const selected = new Set([
-        ...draft.blue,
-        ...draft.red
-      ].filter(Boolean).map(hero => hero.slug));
-
-      const container = document.getElementById("heroOptions");
-      container.innerHTML = "";
-
-      if (!catalogLoaded) {
-        const message = document.createElement("p");
-        message.textContent = "El catálogo todavía no está disponible.";
-        container.appendChild(message);
-        return;
-      }
-
-      const filteredHeroes = heroes.filter(hero => {
-        const searchable = [
-          hero.name,
-          hero.slug,
-          hero.title
-        ].map(normalize).join(" ");
-
-        return searchable.includes(search);
-      });
-
-      if (filteredHeroes.length === 0) {
-        const message = document.createElement("p");
-        message.textContent = "No se encontraron héroes.";
-        container.appendChild(message);
-        return;
-      }
-
-      filteredHeroes.forEach(hero => {
-        const button = document.createElement("button");
-        button.className = "hero-option";
-        button.disabled = selected.has(hero.slug);
-
-        const name = document.createElement("span");
-        name.textContent = hero.name;
-        button.appendChild(name);
-
-        if (Array.isArray(hero.lanes) && hero.lanes.length > 0) {
-          const detail = document.createElement("small");
-          detail.textContent = hero.lanes.join(" / ");
-          button.appendChild(detail);
-        }
-
-        button.addEventListener("click", () => selectHero(hero));
-        container.appendChild(button);
-      });
+      profile = extractData(payload);
+      detailCache.set(slug, profile);
     }
 
-    // SELECCIONAR HÉROE
-    function selectHero(hero) {
-      const team = document.getElementById("teamSelect").value;
-      const emptySlot = draft[team].indexOf(null);
+    renderHeroProfile(profile, hero);
+    source.textContent = "Fuente: MLBBDex. Los análisis redactados y los datos de la wiki mantienen sus atribuciones originales.";
+  } catch (error) {
+    console.error(error);
+    content.innerHTML = "";
+    content.appendChild(makeElement(
+      "p",
+      "No se pudo consultar la ficha en línea. El héroe sigue disponible en el draft.",
+      "error-text"
+    ));
+    source.textContent = "Fuente en línea temporalmente no disponible.";
+  }
+}
 
-      if (emptySlot === -1) {
-        document.getElementById("draftMessage").textContent =
-          "Este equipo ya tiene sus cinco héroes.";
-        return;
-      }
+function makeElement(tag, text, className) {
+  const element = document.createElement(tag);
+  element.textContent = text;
+  if (className) element.className = className;
+  return element;
+}
 
-      const alreadySelected = [...draft.blue, ...draft.red]
-        .filter(Boolean)
-        .some(selected => selected.slug === hero.slug);
+function renderHeroProfile(profile, fallbackHero) {
+  const container = document.getElementById("heroProfile");
+  container.innerHTML = "";
 
-      if (alreadySelected) return;
+  const hero = profile?.hero || profile;
+  const name = hero?.name || fallbackHero.name;
+  const portrait = hero?.image || hero?.portrait || hero?.icon || hero?.head;
 
-      draft[team][emptySlot] = hero;
+  const header = document.createElement("div");
+  header.className = "hero-detail-header";
 
-      document.getElementById("draftMessage").textContent =
-        hero.name + " seleccionado para el equipo " +
-        (team === "blue" ? "azul." : "rojo.");
+  if (typeof portrait === "string" && portrait.startsWith("https://")) {
+    const img = document.createElement("img");
+    img.className = "hero-portrait";
+    img.src = portrait;
+    img.alt = name;
+    img.loading = "lazy";
+    header.appendChild(img);
+  }
 
-      hideAnalysis();
-      renderDraft();
-    }
+  const titleBlock = document.createElement("div");
+  titleBlock.appendChild(makeElement("h3", name));
+  titleBlock.appendChild(makeElement(
+    "p",
+    [
+      hero?.title,
+      hero?.role,
+      hero?.lane,
+      hero?.specialty
+    ].filter(Boolean).join(" · ") || "Ficha de héroe"
+  ));
 
-    // REINICIAR DRAFT
-    function resetDraft() {
-      draft.blue.fill(null);
-      draft.red.fill(null);
+  header.appendChild(titleBlock);
+  container.appendChild(header);
 
-      document.getElementById("draftMessage").textContent =
-        "Draft reiniciado. Puedes comenzar otra selección.";
+  const stats = hero?.stats || profile?.stats || {};
+  const statGrid = document.createElement("div");
+  statGrid.className = "api-grid";
 
-      hideAnalysis();
-      renderDraft();
-    }
+  Object.entries(stats).forEach(([key, value]) => {
+    if (value === null || typeof value === "object") return;
 
-    function hideAnalysis() {
-      document.getElementById("analysisPanel").hidden = true;
-      document.getElementById("blueAnalysis").innerHTML = "";
-      document.getElementById("redAnalysis").innerHTML = "";
-    }
+    const card = document.createElement("div");
+    card.className = "api-card";
+    card.appendChild(makeElement("h4", key));
+    card.appendChild(makeElement("p", String(value)));
+    statGrid.appendChild(card);
+  });
 
-    // CREAR ELEMENTOS DE TEXTO
-    function createTextElement(tag, text, className = "") {
-      const element = document.createElement(tag);
-      element.textContent = text;
+  if (statGrid.children.length) {
+    container.appendChild(statGrid);
+  }
 
-      if (className) element.className = className;
+  const skills = hero?.skills || profile?.skills || [];
+  if (Array.isArray(skills) && skills.length) {
+    container.appendChild(makeElement("h3", "Habilidades"));
 
-      return element;
-    }
+    const skillGrid = document.createElement("div");
+    skillGrid.className = "skill-list";
 
-    // MOSTRAR INFORME DE UN EQUIPO
-    function renderTeamAnalysis(containerId, teamData) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
+    skills.forEach((skill, index) => {
+      const card = document.createElement("div");
+      card.className = "skill-card";
 
-      container.appendChild(createTextElement(
-        "p",
-        "Héroes seleccionados: " + teamData.totalSelected
+      card.appendChild(makeElement(
+        "strong",
+        skill.name || skill.title || "Habilidad " + (index + 1)
       ));
 
-      container.appendChild(createTextElement(
+      card.appendChild(makeElement(
         "p",
-        "Registrados: " + teamData.registeredCount +
-        " | No registrados: " + teamData.unknownCount
+        skill.description || skill.desc || skill.detail || "Descripción no disponible."
       ));
 
-      container.appendChild(createTextElement(
-        "p",
-        "Verificados: " + teamData.verifiedCount +
-        " | Parciales: " + teamData.partialCount +
-        " | Pendientes: " + teamData.pendingCount
-      ));
+      skillGrid.appendChild(card);
+    });
 
-      const status = teamData.verificationStatus === "verified"
-        ? "Información verificada."
-        : "Información incompleta. Diagnóstico limitado.";
+    container.appendChild(skillGrid);
+  }
 
-      container.appendChild(
-        createTextElement("div", status, "analysis-stat")
-      );
+  const analysis = hero?.analysis || profile?.analysis;
+  if (analysis) {
+    container.appendChild(makeElement("h3", "Análisis disponible"));
+    container.appendChild(makeElement(
+      "p",
+      typeof analysis === "string" ? analysis : JSON.stringify(analysis, null, 2)
+    ));
+  }
 
-      container.appendChild(
-        createTextElement("h4", "Héroes registrados")
-      );
+  const skins = hero?.skins || profile?.skins;
+  if (Array.isArray(skins) && skins.length) {
+    container.appendChild(makeElement(
+      "p",
+      "Skins registradas: " + skins.length
+    ));
+  }
 
-      const heroList = document.createElement("ul");
+  if (!statGrid.children.length && !skills.length && !analysis) {
+    container.appendChild(makeElement(
+      "p",
+      "La API devolvió el perfil, pero no se reconocieron sus campos de estadísticas o habilidades."
+    ));
 
-      teamData.heroes.forEach(hero => {
-        const verification = hero.verification?.status || "pending";
-        const role = hero.roles?.primary || "Rol desconocido";
+    const details = document.createElement("details");
+    const summary = makeElement("summary", "Ver respuesta completa");
+    const pre = document.createElement("pre");
+    pre.style.whiteSpace = "pre-wrap";
+    pre.style.overflowWrap = "anywhere";
+    pre.textContent = JSON.stringify(profile, null, 2);
+    details.append(summary, pre);
+    container.appendChild(details);
+  }
+}
 
-        heroList.appendChild(createTextElement(
-          "li",
-          hero.name + " — " + role +
-          " — Verificación: " + verification
+/* COUNTERS DE RONE ARENA */
+async function loadHeroCounters(hero) {
+  const slug = hero.slug || normalize(hero.name);
+
+  if (counterCache.has(slug)) {
+    return counterCache.get(slug);
+  }
+
+  const url = API_RONE + "/heroes/" +
+    encodeURIComponent(slug) +
+    "/counters?rank=all&size=10&index=1&lang=es";
+
+  const payload = await fetchJSON(url);
+  const data = extractData(payload);
+
+  counterCache.set(slug, data);
+  return data;
+}
+
+function getCounterRecords(payload) {
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.records)) return payload.records;
+  if (Array.isArray(payload?.data?.records)) return payload.data.records;
+  if (Array.isArray(payload?.data)) return payload.data;
+  return [];
+}
+
+function getCounterName(record) {
+  const data = record?.data || record;
+  const candidates = [
+    data?.main_hero?.data?.name,
+    data?.sub_hero?.data?.name,
+    data?.hero?.name,
+    data?.name,
+    data?.hero_name
+  ];
+
+  const found = candidates.find(value => typeof value === "string" && value);
+  return found || null;
+}
+
+function getCounterRate(record) {
+  const data = record?.data || record;
+  const candidates = [
+    data?.hero_win_rate,
+    data?.main_hero_win_rate,
+    data?.win_rate,
+    data?.increase_win_rate
+  ];
+
+  const value = candidates.find(item => typeof item === "number");
+  return value === undefined ? null : value;
+}
+
+async function renderCountersForTeam(heroesSelected, target) {
+  const container = document.getElementById(target);
+  container.innerHTML = "";
+
+  if (!heroesSelected.length) {
+    container.textContent = "No hay héroes seleccionados.";
+    return;
+  }
+
+  for (const hero of heroesSelected) {
+    const card = document.createElement("div");
+    card.className = "api-card";
+    card.appendChild(makeElement("h4", hero.name));
+    card.appendChild(makeElement("p", "Consultando counters..."));
+    container.appendChild(card);
+
+    try {
+      const payload = await loadHeroCounters(hero);
+      const records = getCounterRecords(payload);
+
+      card.innerHTML = "";
+      card.appendChild(makeElement("h4", "Counters de " + hero.name));
+
+      if (!records.length) {
+        card.appendChild(makeElement(
+          "p",
+          "La fuente no devolvió counters para esta consulta."
         ));
-      });
-
-      container.appendChild(heroList);
-
-      if (teamData.unknownHeroes.length > 0) {
-        container.appendChild(
-          createTextElement("h4", "Héroes sin ficha estratégica")
-        );
-
-        const unknownList = document.createElement("ul");
-
-        teamData.unknownHeroes.forEach(hero => {
-          unknownList.appendChild(createTextElement("li", hero));
-        });
-
-        container.appendChild(unknownList);
+        continue;
       }
 
-      container.appendChild(
-        createTextElement("h4", "Tipos de daño registrados")
-      );
+      const list = document.createElement("div");
+      list.className = "counter-list";
 
-      container.appendChild(createTextElement(
+      records.slice(0, 10).forEach(record => {
+        const name = getCounterName(record);
+        if (!name) return;
+
+        const item = document.createElement("div");
+        item.className = "counter-item";
+        item.appendChild(makeElement("strong", name));
+
+        const rate = getCounterRate(record);
+        if (rate !== null) {
+          const percentage = rate <= 1
+            ? (rate * 100).toFixed(2) + "%"
+            : rate.toFixed(2) + "%";
+
+          item.appendChild(makeElement("span", "Tasa: " + percentage));
+        }
+
+        list.appendChild(item);
+      });
+
+      if (!list.children.length) {
+        const details = document.createElement("details");
+        details.appendChild(makeElement("summary", "Ver datos recibidos"));
+        const pre = document.createElement("pre");
+        pre.style.whiteSpace = "pre-wrap";
+        pre.textContent = JSON.stringify(payload, null, 2);
+        details.appendChild(pre);
+        card.appendChild(details);
+      } else {
+        card.appendChild(list);
+      }
+
+    } catch (error) {
+      card.innerHTML = "";
+      card.appendChild(makeElement("h4", hero.name));
+      card.appendChild(makeElement(
         "p",
-        "Físico: " + teamData.damage.physical +
-        " | Mágico: " + teamData.damage.magical +
-        " | Daño físico desconocido: " +
-        teamData.damage.physicalUnknown +
-        " | Daño mágico desconocido: " +
-        teamData.damage.magicalUnknown
+        "No se pudieron cargar los counters. " + error.message,
+        "error-text"
       ));
-
-      container.appendChild(
-        createTextElement("h4", "Atributos")
-      );
-
-      const attributeLabels = {
-        mobility: "Movilidad",
-        durability: "Resistencia",
-        crowdControl: "Control de masas",
-        initiation: "Iniciación"
-      };
-
-      const attributeList = document.createElement("ul");
-
-      Object.entries(attributeLabels).forEach(([key, label]) => {
-        const data = teamData.attributes[key];
-
-        const average = data.average === null
-          ? "Sin datos"
-          : data.average + " / 5";
-
-        attributeList.appendChild(createTextElement(
-          "li",
-          label + ": " + average +
-          " (" + data.knownCount + " conocidos, " +
-          data.unknownCount + " desconocidos)"
-        ));
-      });
-
-      container.appendChild(attributeList);
-
-      if (teamData.missingInformation.length > 0) {
-        container.appendChild(
-          createTextElement("h4", "Información pendiente")
-        );
-
-        const missingList = document.createElement("ul");
-
-        teamData.missingInformation.forEach(hero => {
-          missingList.appendChild(createTextElement(
-            "li",
-            hero.heroName + ": " + hero.missing.join(", ")
-          ));
-        });
-
-        container.appendChild(missingList);
-      }
     }
+  }
+}
 
-    // EJECUTAR ANÁLISIS
-    function analyzeDraft() {
-      const panel = document.getElementById("analysisPanel");
-      const globalStatus = document.getElementById("analysisGlobalStatus");
-      const analyzer = window.TUPA_DRAFT_ANALYSIS;
+/* RESUMEN DE EQUIPO */
+function renderTeamSummary(team, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
 
-      if (!analyzer || typeof analyzer.compareTeams !== "function") {
-        globalStatus.textContent =
-          "No se pudo cargar el analizador estratégico.";
+  const selected = draft[team].filter(Boolean);
 
-        globalStatus.className = "analysis-status warning";
-        panel.hidden = false;
-        return;
-      }
+  container.appendChild(makeElement(
+    "p",
+    "Héroes seleccionados: " + selected.length + " / 5"
+  ));
 
-      // El catálogo general y las fichas estratégicas
-      // son bases distintas. Solo los héroes con ficha
-      // estratégica entran como registrados en el análisis.
-      const blueIds = draft.blue.filter(Boolean).map(hero => hero.name);
-      const redIds = draft.red.filter(Boolean).map(hero => hero.name);
+  const list = document.createElement("ul");
 
-      const result = analyzer.compareTeams(blueIds, redIds);
+  selected.forEach(hero => {
+    const lanes = Array.isArray(hero.lanes) ? hero.lanes.join(" / ") : "";
+    list.appendChild(makeElement(
+      "li",
+      hero.name + (lanes ? " — " + lanes : "")
+    ));
+  });
 
-      renderTeamAnalysis("blueAnalysis", result.blue);
-      renderTeamAnalysis("redAnalysis", result.red);
+  container.appendChild(list);
 
-      globalStatus.textContent =
-        result.message + " Estado general: " +
-        (result.comparisonStatus === "verified"
-          ? "verificado."
-          : "parcial.");
+  if (selected.length < 5) {
+    container.appendChild(makeElement(
+      "p",
+      "Faltan " + (5 - selected.length) + " selecciones."
+    ));
+  }
+}
 
-      globalStatus.className =
-        "analysis-status " +
-        (result.comparisonStatus === "verified" ? "ready" : "warning");
+/* ANALIZAR DRAFT */
+async function analyzeDraft() {
+  const panel = document.getElementById("analysisPanel");
+  const global = document.getElementById("analysisGlobalStatus");
+  const counterArea = document.getElementById("counterAnalysis");
 
-      panel.hidden = false;
+  const blue = draft.blue.filter(Boolean);
+  const red = draft.red.filter(Boolean);
 
-      panel.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
+  if (blue.length !== 5 || red.length !== 5) {
+    global.textContent = "Completa los cinco héroes de ambos equipos antes de analizar.";
+    global.className = "analysis-status warning";
+    panel.hidden = false;
+    renderTeamSummary("blue", "blueAnalysis");
+    renderTeamSummary("red", "redAnalysis");
+    counterArea.textContent = "Completa ambos equipos para consultar los counters.";
+    return;
+  }
 
-    // ESTADO DEL SISTEMA
-    function updateSystemStatus() {
-      const statusElement = document.getElementById("systemStatus");
-      statusElement.className = "draft-system-status";
+  panel.hidden = false;
+  global.textContent = "Consultando datos de héroes y counters...";
+  global.className = "analysis-status loading";
 
-      const requiredComponents = [
-        "TUPA_HEROES",
-        "TUPA_SOURCES",
-        "TUPA_SYNERGIES",
-        "TUPA_COUNTERS",
-        "TUPA_DRAFT_ENGINE",
-        "TUPA_DRAFT_RECOMMENDER",
-        "TUPA_DRAFT_ANALYSIS"
-      ];
+  renderTeamSummary("blue", "blueAnalysis");
+  renderTeamSummary("red", "redAnalysis");
 
-      const missing = requiredComponents.filter(
-        name => typeof window[name] === "undefined"
-      );
+  counterArea.innerHTML = "";
 
-      if (missing.length > 0) {
-        statusElement.classList.add("error");
-        statusElement.textContent =
-          "Componentes que no se pudieron cargar: " +
-          missing.join(", ");
-        return;
-      }
+  await Promise.all([
+    renderCountersForTeam(blue, "counterAnalysis"),
+    renderCountersForTeam(red, "counterAnalysis")
+  ]);
 
-      const databaseStatus =
-        window.TUPA_DRAFT_ENGINE.getDatabaseStatus();
+  global.textContent =
+    "Consulta finalizada. Catálogo: " + catalogSource +
+    ". Los counters dependen de la disponibilidad y actualización de Rone Arena.";
 
-      const loadedCount = Object.values(databaseStatus)
-        .filter(Boolean).length;
+  global.className = "analysis-status ready";
 
-      const statistics =
-        window.TUPA_DRAFT_ENGINE.getHeroStatistics();
+  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
-      if (!catalogLoaded) {
-        statusElement.classList.add("error");
-        statusElement.textContent =
-          "Motores conectados. No se pudo cargar hero-tags.json.";
-        return;
-      }
+/* ESTADO */
+function updateSystemStatus() {
+  const element = document.getElementById("systemStatus");
+  element.className = "system-status";
 
-      statusElement.classList.add("ready");
+  const engines = [
+    "TUPA_DRAFT_ENGINE",
+    "TUPA_DRAFT_RECOMMENDER",
+    "TUPA_DRAFT_ANALYSIS"
+  ];
 
-      statusElement.textContent =
-        "Catálogo: " + heroes.length + " héroes. " +
-        "Bases estratégicas cargadas: " + loadedCount +
-        " de 4. Fichas estratégicas: " + statistics.total +
-        " | Verificadas: " + statistics.verified +
-        " | Parciales: " + statistics.partial +
-        " | Pendientes: " + statistics.pending + ".";
-    }
+  const loaded = engines.filter(name => window[name]).length;
 
-    // EVENTOS
-    document.getElementById("heroSearch")
-      .addEventListener("input", renderHeroes);
+  element.textContent =
+    "Catálogo: " + (catalogLoaded ? heroes.length : 0) +
+    " héroes | Fuente: " + catalogSource +
+    " | Motores locales: " + loaded + " de 3.";
+  element.classList.add(catalogLoaded ? "ready" : "warning");
+}
 
-    document.getElementById("teamSelect")
-      .addEventListener("change", renderHeroes);
+/* EVENTOS */
+document.getElementById("heroSearch").addEventListener("input", renderHeroes);
+document.getElementById("teamSelect").addEventListener("change", renderHeroes);
+document.getElementById("analyzeButton").addEventListener("click", analyzeDraft);
+document.getElementById("resetButton").addEventListener("click", resetDraft);
 
-    document.getElementById("analyzeButton")
-      .addEventListener("click", analyzeDraft);
-
-    document.getElementById("resetButton")
-      .addEventListener("click", resetDraft);
-
-    // INICIAR
-    renderDraft();
-    updateSystemStatus();
-    loadHeroCatalog();
-  </script>
-
+/* INICIO */
+renderDraft();
+loadCatalog();
+</script>
 </body>
 </html>
