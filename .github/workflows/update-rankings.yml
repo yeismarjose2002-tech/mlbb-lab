@@ -29,6 +29,11 @@ jobs:
           import path from 'node:path';
 
           const url = 'https://mlbbdex.com/api/v1/rankings';
+          const MAX_AGE_DAYS = 3;
+          const MAX_AGE_MS = MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
+
+          console.log('Consultando estadísticas de MLBB Dex...');
+
           const response = await fetch(url);
 
           if (!response.ok) {
@@ -47,6 +52,23 @@ jobs:
             throw new Error('La fecha de medición no es válida.');
           }
 
+          const measurementTime = Date.parse(measuredAt);
+          const age = Date.now() - measurementTime;
+
+          if (age < -5 * 60 * 1000) {
+            throw new Error('La medición tiene una fecha futura. Actualización rechazada.');
+          }
+
+          if (age > MAX_AGE_MS) {
+            const ageDays = (age / (24 * 60 * 60 * 1000)).toFixed(1);
+
+            throw new Error(
+              `Datos obsoletos: la medición tiene ${ageDays} días. ` +
+              `El máximo permitido es ${MAX_AGE_DAYS} días. ` +
+              'Se conservarán los datos anteriores.'
+            );
+          }
+
           const required = [
             'slug', 'name', 'winRate',
             'banRate', 'pickRate', 'lowSample'
@@ -60,7 +82,31 @@ jobs:
                 );
               }
             }
+
+            for (const field of ['winRate', 'banRate', 'pickRate']) {
+              const value = hero[field];
+
+              if (
+                typeof value !== 'number' ||
+                !Number.isFinite(value) ||
+                value < 0 ||
+                value > 100
+              ) {
+                throw new Error(
+                  `${field} inválido en ${hero.name}`
+                );
+              }
+            }
+
+            if (typeof hero.lowSample !== 'boolean') {
+              throw new Error(
+                `lowSample inválido en ${hero.name}`
+              );
+            }
           }
+
+          console.log(`Medición válida: ${measuredAt}`);
+          console.log(`Héroes recibidos: ${heroes.length}`);
 
           const historyDir = 'history';
           fs.mkdirSync(historyDir, { recursive: true });
@@ -109,7 +155,7 @@ jobs:
           );
 
           console.log(`Se actualizaron ${heroes.length} héroes.`);
-          console.log(`Medición: ${measuredAt}`);
+          console.log('Actualización completada correctamente.');
           EOF
 
       - name: Guardar actualización en GitHub
