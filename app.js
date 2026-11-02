@@ -138,6 +138,7 @@ const HERO_IMAGES = {
   "Miya": "miya.webp",
   "Lesley": "lesley.webp",
   "Popol and Kupa": "popol and kupa.webp",
+  "Popol y Kupa": "popol and kupa.webp",
   "Layla": "layla.webp",
   "Irithel": "irithel.webp",
   "Bruno": "bruno.webp",
@@ -171,6 +172,7 @@ function renderTabs() {
     const b = document.createElement('button');
 
     b.className = 'lane-btn' + (lane === activeLane ? ' active' : '');
+
     b.textContent = lane === 'EXP Lane'
       ? 'EXP'
       : lane === 'Mid Lane'
@@ -197,7 +199,10 @@ function renderBoard() {
   let total = 0;
   let visible = 0;
 
-  ['SS', 'S', 'A', 'B', 'C', 'D'].forEach(tier => {
+  // Orden de los rangos de la nueva Tier List
+  const tierOrder = ['S+', 'S', 'A', 'B', 'C'];
+
+  tierOrder.forEach(tier => {
     const heroes = TIER_DATA[activeLane][tier] || [];
 
     total += heroes.length;
@@ -214,7 +219,11 @@ function renderBoard() {
     row.className = 'tier-row';
 
     const label = document.createElement('div');
-    label.className = 'tier-label ' + tier.toLowerCase();
+
+    // S+ utiliza una clase especial para evitar problemas con el símbolo +
+    const tierClass = tier === 'S+' ? 'splus' : tier.toLowerCase();
+
+    label.className = 'tier-label ' + tierClass;
     label.textContent = tier;
 
     const list = document.createElement('div');
@@ -228,6 +237,7 @@ function renderBoard() {
 
       if (imagePath) {
         const img = document.createElement('img');
+
         img.src = imagePath;
         img.alt = name;
         img.className = 'hero-image';
