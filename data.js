@@ -1,44 +1,130 @@
-/* Datos transcritos de MLBB.GG. Edita nombres dentro de cada tier para actualizar la plantilla. */
+/* TUPA MLBB — TIER LIST MANUAL
+   Clasificación proporcionada por TUPA.
+   Última actualización: 2026-11-01
+*/
+
 const TIER_DATA = {
   "Roam": {
-    "SS": ["Belerick", "Gloo", "Estes"],
-    "S": ["Masha", "Sun", "Marcel", "Rafaela", "Floryn", "Carmilla", "Atlas", "Minotaur", "Hilda", "Angela"],
-    "A": ["Minsitthar", "Khufra", "Selena", "Silvanna", "Badang", "Lolita", "Diggie", "Kaja", "Tigreal", "Nana", "Guinevere", "Edith"],
-    "B": ["Natalia", "Akai", "Helcurt", "Kalea", "Johnson", "Hylos"],
-    "C": ["Chou", "Faramis", "Jawhead"],
-    "D": ["Grock", "Arlott", "Chip", "Gatotkaca", "Franco", "Mathilda", "Baxia"]
+    "S+": [
+      "Masha", "Belerick", "Gatotkaca", "Gloo", "Atlas",
+      "Mathilda", "Carmilla", "Kalea", "Marcel", "Minotaur", "Hylos"
+    ],
+    "S": [
+      "Chou", "Badang", "Angela", "Estes", "Kaja", "Hilda",
+      "Khufra", "Khaleed", "Franco", "Tigreal", "Rafaela"
+    ],
+    "A": [
+      "Ruby", "Sun", "Minsitthar", "Akai", "Kadita", "Faramis",
+      "Grock", "Baxia", "Chip", "Lolita", "Floryn", "Guinevere",
+      "Diggie", "Jawhead", "Helcurt", "Arlott"
+    ],
+    "B": [
+      "Valir", "Edith", "Selena", "Natalia", "Silvanna", "Saber"
+    ],
+    "C": [
+      "Johnson"
+    ]
   },
+
   "EXP Lane": {
-    "SS": ["Belerick", "Gloo"],
-    "S": ["Masha", "Sun", "Aulus", "Lukas", "Paquito", "Carmilla", "Atlas", "Minotaur", "Argus", "Hilda", "Alice"],
-    "A": ["Minsitthar", "Silvanna", "Badang", "Barats", "Guinevere", "X.Borg", "Edith", "Benedetta"],
-    "B": ["Aldous", "Sora", "Khaleed", "Thamuz", "Dyrroth", "Terizla", "Cici", "Yu Zhong", "Esmeralda", "Uranus", "Hylos", "Leomord"],
-    "C": ["Ruby", "Chou", "Lapu-Lapu"],
-    "D": ["Phoveus", "Freya", "Martis", "Zilong", "Arlott", "Gatotkaca", "Valentina"]
+    "S+": [
+      "Belerick", "Atlas", "Carmilla", "Minotaur", "Freya",
+      "Yu Zhong", "Barats", "Uranus", "Aulus", "Cici", "Lukas",
+      "Paquito", "Esmeralda", "Alice", "Phoveus", "Sora", "Dyrroth"
+    ],
+    "S": [
+      "Badang", "Hilda", "Khaleed", "Kalea", "Hylos", "Masha",
+      "Gatotkaca", "Lapu-Lapu", "Benedetta", "Thamuz", "Terizla"
+    ],
+    "A": [
+      "Ruby", "Sun", "Minsitthar", "Akai", "Guinevere", "Balmond",
+      "Chou", "Gloo", "Jawhead", "Helcurt", "X.Borg", "Alpha",
+      "Edith", "Arlott", "Fredrinn", "Argus", "Leomord", "Martis",
+      "Valentina", "Aldous", "Yin", "Saber", "Silvanna"
+    ],
+    "B": [
+      "Grock", "Alucard", "Julian", "Baxia", "Bane", "Kaja"
+    ],
+    "C": [
+      "Zilong"
+    ]
   },
+
   "Jungle": {
-    "SS": ["Hirara"],
-    "S": ["Sun", "Aulus", "Saber", "Lukas", "Paquito"],
-    "A": ["Nolan", "Barats", "Ling", "Hanzo", "Cyclops", "Gusion", "Guinevere"],
-    "B": ["Akai", "X.Borg", "Natalia", "Aamon", "Yi Sun-shin", "Suyou", "Aldous", "Dyrroth", "Karina", "Julian", "Bane", "Thamuz", "Fredrinn", "Helcurt", "Harley", "Hayabusa", "Alpha", "Yin"],
-    "C": ["Leomord", "Uranus", "Alucard", "Roger"],
-    "D": ["Balmond", "Martis", "Zilong", "Joy", "Baxia", "Lancelot", "Fanny"]
+    "S+": [
+      "Aulus", "Paquito", "Alice", "Guinevere", "Lukas",
+      "Nolan", "Suyou", "Hirara", "Fanny", "Harley"
+    ],
+    "S": [
+      "Benedetta", "Balmond", "Barats", "Leomord", "Fredrinn",
+      "Alpha", "Saber", "Ling", "Hayabusa", "Yi Sun-shin", "Joy"
+    ],
+    "A": [
+      "Sun", "Akai", "Jawhead", "Helcurt", "Uranus", "Lancelot",
+      "Baxia", "Thamuz", "Masha", "Freya", "X.Borg", "Dyrroth",
+      "Esmeralda", "Argus", "Martis", "Yin", "Silvanna",
+      "Carmilla", "Karina", "Hanzo", "Alucard", "Julian",
+      "Roger", "Bane", "Harith", "Gusion", "Aamon"
+    ],
+    "B": [
+      "Aldous", "Hylos", "Granger", "Popol y Kupa",
+      "Selena", "Natalia", "Lunox", "Cyclops"
+    ],
+    "C": [
+      "Zilong"
+    ]
   },
+
   "Mid Lane": {
-    "SS": ["Eudora"],
-    "S": ["Rafaela", "Valir", "Zetian", "Alice"],
-    "A": ["Novaria", "Selena", "Gord", "Kadita", "Zhask", "Vexana", "Cyclops", "Nana", "Kagura"],
-    "B": ["Cecilion", "Vale", "Harley", "Lylia", "Kimmy", "Yve"],
-    "C": ["Aurora", "Odette", "Chang'e", "Xavier", "Faramis", "Zhuxin"],
-    "D": ["Lunox", "Luo Yi", "Pharsa", "Valentina"]
+    "S+": [
+      "Kimmy", "Lylia", "Yve", "Zhuxin", "Zetian",
+      "Eudora", "Pharsa", "Valentina", "Selena", "Rafaela"
+    ],
+    "S": [
+      "Vexana", "Xavier", "Novaria", "Lunox", "Kagura",
+      "Cecilion", "Luo Yi", "Gord", "Valir", "Kadita", "Estes"
+    ],
+    "A": [
+      "Gusion", "Nana", "Zhask", "Alice", "Angela", "Harley",
+      "Odette", "Vale", "Mathilda", "Chang'e", "Bane",
+      "Harith", "Aurora", "Faramis"
+    ],
+    "B": [
+      "Cyclops", "Diggie", "Joy"
+    ],
+    "C": [
+      "Julian"
+    ]
   },
+
   "Gold Lane": {
-    "SS": ["Obsidia"],
-    "S": ["Aulus", "Paquito", "Hanabi", "Miya"],
-    "A": ["Lesley", "Popol and Kupa", "Layla", "Irithel", "Bruno"],
-    "B": ["Brody", "Yi Sun-shin", "Sora", "Bane", "Clint", "Ixia", "Moskov", "Cici", "Natan", "Claude", "Beatrix", "Kimmy", "Karrie"],
-    "C": [],
-    "D": ["Freya", "Wanwan", "Melissa", "Granger", "Harith"]
+    "S+": [
+      "Obsidia", "Claude", "Cici", "Freya", "Brody",
+      "Moskov", "Harith", "Clint", "Kimmy"
+    ],
+    "S": [
+      "Aulus", "Bruno", "Beatrix", "Granger", "Chou",
+      "Esmeralda", "Lesley", "Paquito", "Karrie", "Miya"
+    ],
+    "A": [
+      "Chang'e", "Lunox", "Ixia", "Mathilda", "Masha",
+      "Irithel", "Ruby", "Wanwan", "Lukas", "Hanabi",
+      "Sora", "Natan", "Sun", "Roger", "Lapu-Lapu",
+      "Minsitthar", "X.Borg"
+    ],
+    "B": [
+      "Bane", "Layla"
+    ],
+    "C": [
+      "Popol y Kupa"
+    ]
   }
 };
-const SOURCE_DATES = {"Roam":"2026-10-28","EXP Lane":"2026-10-28","Jungle":"2026-10-29","Mid Lane":"2026-10-28","Gold Lane":"2026-10-28"};
+
+const SOURCE_DATES = {
+  "Roam": "2026-11-01",
+  "EXP Lane": "2026-11-01",
+  "Jungle": "2026-11-01",
+  "Mid Lane": "2026-11-01",
+  "Gold Lane": "2026-11-01"
+};
