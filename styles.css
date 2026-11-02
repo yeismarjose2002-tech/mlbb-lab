@@ -1465,3 +1465,15 @@ footer a:hover {
     padding: 9px 11px;
   }
 }
+/* =====================================
+   TIER S+ — RANGO ESPECIAL
+===================================== */
+
+.tier-label.splus {
+  background: linear-gradient(135deg, #f5d77a, #b88632);
+  color: #21180a;
+  border: 1px solid #ffe6a0;
+  font-weight: 900;
+  text-shadow: none;
+  box-shadow: 0 0 12px rgba(218, 170, 67, 0.25);
+}
