@@ -1,0 +1,1343 @@
+{
+  "data": {
+    "measuredAt": "2026-11-16T12:12:34.249Z",
+    "heroes": [
+      {
+        "slug": "masha",
+        "name": "Masha",
+        "tier": "S+",
+        "winRate": 58.31,
+        "banRate": 41.24,
+        "pickRate": 0.47,
+        "score": 68.62,
+        "lowSample": false
+      },
+      {
+        "slug": "marcel",
+        "name": "Marcel",
+        "tier": "S+",
+        "winRate": 57.37,
+        "banRate": 42.56,
+        "pickRate": 0.28,
+        "score": 68.01,
+        "lowSample": true
+      },
+      {
+        "slug": "hirara",
+        "name": "Hirara",
+        "tier": "S+",
+        "winRate": 49.86,
+        "banRate": 67.16,
+        "pickRate": 0.61,
+        "score": 66.65,
+        "lowSample": false
+      },
+      {
+        "slug": "obsidia",
+        "name": "Obsidia",
+        "tier": "S+",
+        "winRate": 53.13,
+        "banRate": 52.51,
+        "pickRate": 2.07,
+        "score": 66.26,
+        "lowSample": false
+      },
+      {
+        "slug": "belerick",
+        "name": "Belerick",
+        "tier": "S+",
+        "winRate": 51.77,
+        "banRate": 55.97,
+        "pickRate": 1.64,
+        "score": 65.76,
+        "lowSample": false
+      },
+      {
+        "slug": "sun",
+        "name": "Sun",
+        "tier": "S+",
+        "winRate": 54,
+        "banRate": 42.89,
+        "pickRate": 1.71,
+        "score": 64.72,
+        "lowSample": false
+      },
+      {
+        "slug": "estes",
+        "name": "Estes",
+        "tier": "S+",
+        "winRate": 52.83,
+        "banRate": 46.82,
+        "pickRate": 0.61,
+        "score": 64.54,
+        "lowSample": false
+      },
+      {
+        "slug": "gloo",
+        "name": "Gloo",
+        "tier": "S+",
+        "winRate": 51.56,
+        "banRate": 41.59,
+        "pickRate": 0.7,
+        "score": 61.96,
+        "lowSample": false
+      },
+      {
+        "slug": "eudora",
+        "name": "Eudora",
+        "tier": "S+",
+        "winRate": 50.18,
+        "banRate": 43.17,
+        "pickRate": 1.66,
+        "score": 60.97,
+        "lowSample": false
+      },
+      {
+        "slug": "carmilla",
+        "name": "Carmilla",
+        "tier": "S+",
+        "winRate": 53.09,
+        "banRate": 22.7,
+        "pickRate": 1.27,
+        "score": 58.77,
+        "lowSample": false
+      },
+      {
+        "slug": "aulus",
+        "name": "Aulus",
+        "tier": "S+",
+        "winRate": 52.94,
+        "banRate": 21.38,
+        "pickRate": 0.66,
+        "score": 58.29,
+        "lowSample": false
+      },
+      {
+        "slug": "lukas",
+        "name": "Lukas",
+        "tier": "S+",
+        "winRate": 50.86,
+        "banRate": 28.2,
+        "pickRate": 0.78,
+        "score": 57.91,
+        "lowSample": false
+      },
+      {
+        "slug": "saber",
+        "name": "Saber",
+        "tier": "S+",
+        "winRate": 51.43,
+        "banRate": 25.46,
+        "pickRate": 0.99,
+        "score": 57.8,
+        "lowSample": false
+      },
+      {
+        "slug": "floryn",
+        "name": "Floryn",
+        "tier": "S+",
+        "winRate": 54.08,
+        "banRate": 13.37,
+        "pickRate": 0.99,
+        "score": 57.42,
+        "lowSample": false
+      },
+      {
+        "slug": "argus",
+        "name": "Argus",
+        "tier": "S+",
+        "winRate": 56.85,
+        "banRate": 1.03,
+        "pickRate": 0.52,
+        "score": 57.11,
+        "lowSample": false
+      },
+      {
+        "slug": "rafaela",
+        "name": "Rafaela",
+        "tier": "S+",
+        "winRate": 54.24,
+        "banRate": 10.4,
+        "pickRate": 0.76,
+        "score": 56.84,
+        "lowSample": false
+      },
+      {
+        "slug": "minotaur",
+        "name": "Minotaur",
+        "tier": "S",
+        "winRate": 53.86,
+        "banRate": 8.28,
+        "pickRate": 1.02,
+        "score": 55.93,
+        "lowSample": false
+      },
+      {
+        "slug": "diggie",
+        "name": "Diggie",
+        "tier": "S",
+        "winRate": 54.85,
+        "banRate": 3.76,
+        "pickRate": 0.2,
+        "score": 55.79,
+        "lowSample": true
+      },
+      {
+        "slug": "nolan",
+        "name": "Nolan",
+        "tier": "S",
+        "winRate": 49.74,
+        "banRate": 23,
+        "pickRate": 2.49,
+        "score": 55.49,
+        "lowSample": false
+      },
+      {
+        "slug": "khufra",
+        "name": "Khufra",
+        "tier": "S",
+        "winRate": 54.64,
+        "banRate": 2.18,
+        "pickRate": 0.36,
+        "score": 55.19,
+        "lowSample": false
+      },
+      {
+        "slug": "hilda",
+        "name": "Hilda",
+        "tier": "S",
+        "winRate": 51.35,
+        "banRate": 13.95,
+        "pickRate": 0.55,
+        "score": 54.84,
+        "lowSample": false
+      },
+      {
+        "slug": "valir",
+        "name": "Valir",
+        "tier": "S",
+        "winRate": 53.77,
+        "banRate": 4.13,
+        "pickRate": 1.16,
+        "score": 54.8,
+        "lowSample": false
+      },
+      {
+        "slug": "kaja",
+        "name": "Kaja",
+        "tier": "S",
+        "winRate": 49.9,
+        "banRate": 19.46,
+        "pickRate": 0.67,
+        "score": 54.77,
+        "lowSample": false
+      },
+      {
+        "slug": "bruno",
+        "name": "Bruno",
+        "tier": "S",
+        "winRate": 54.08,
+        "banRate": 0.4,
+        "pickRate": 0.67,
+        "score": 54.18,
+        "lowSample": false
+      },
+      {
+        "slug": "hanabi",
+        "name": "Hanabi",
+        "tier": "S",
+        "winRate": 52.79,
+        "banRate": 4.12,
+        "pickRate": 2.35,
+        "score": 53.82,
+        "lowSample": false
+      },
+      {
+        "slug": "minsitthar",
+        "name": "Minsitthar",
+        "tier": "S",
+        "winRate": 52.88,
+        "banRate": 3.51,
+        "pickRate": 0.57,
+        "score": 53.76,
+        "lowSample": false
+      },
+      {
+        "slug": "edith",
+        "name": "Edith",
+        "tier": "S",
+        "winRate": 53.68,
+        "banRate": 0.12,
+        "pickRate": 0.27,
+        "score": 53.71,
+        "lowSample": true
+      },
+      {
+        "slug": "alice",
+        "name": "Alice",
+        "tier": "S",
+        "winRate": 50.27,
+        "banRate": 13.63,
+        "pickRate": 0.9,
+        "score": 53.68,
+        "lowSample": false
+      },
+      {
+        "slug": "xavier",
+        "name": "Xavier",
+        "tier": "S",
+        "winRate": 53.36,
+        "banRate": 0.89,
+        "pickRate": 1.15,
+        "score": 53.58,
+        "lowSample": false
+      },
+      {
+        "slug": "lolita",
+        "name": "Lolita",
+        "tier": "S",
+        "winRate": 53.36,
+        "banRate": 0.21,
+        "pickRate": 0.07,
+        "score": 53.41,
+        "lowSample": true
+      },
+      {
+        "slug": "aldous",
+        "name": "Aldous",
+        "tier": "S",
+        "winRate": 53.1,
+        "banRate": 0.72,
+        "pickRate": 0.52,
+        "score": 53.28,
+        "lowSample": false
+      },
+      {
+        "slug": "paquito",
+        "name": "Paquito",
+        "tier": "S",
+        "winRate": 49.81,
+        "banRate": 13.86,
+        "pickRate": 1.17,
+        "score": 53.28,
+        "lowSample": false
+      },
+      {
+        "slug": "irithel",
+        "name": "Irithel",
+        "tier": "S",
+        "winRate": 53.12,
+        "banRate": 0.27,
+        "pickRate": 0.41,
+        "score": 53.19,
+        "lowSample": false
+      },
+      {
+        "slug": "angela",
+        "name": "Angela",
+        "tier": "S",
+        "winRate": 49.95,
+        "banRate": 12.32,
+        "pickRate": 1.78,
+        "score": 53.03,
+        "lowSample": false
+      },
+      {
+        "slug": "kalea",
+        "name": "Kalea",
+        "tier": "A",
+        "winRate": 50.67,
+        "banRate": 8.32,
+        "pickRate": 0.72,
+        "score": 52.75,
+        "lowSample": false
+      },
+      {
+        "slug": "zhask",
+        "name": "Zhask",
+        "tier": "A",
+        "winRate": 52.57,
+        "banRate": 0.42,
+        "pickRate": 0.32,
+        "score": 52.68,
+        "lowSample": false
+      },
+      {
+        "slug": "freya",
+        "name": "Freya",
+        "tier": "A",
+        "winRate": 50.26,
+        "banRate": 9.32,
+        "pickRate": 1.24,
+        "score": 52.59,
+        "lowSample": false
+      },
+      {
+        "slug": "lunox",
+        "name": "Lunox",
+        "tier": "A",
+        "winRate": 52.14,
+        "banRate": 1.48,
+        "pickRate": 0.62,
+        "score": 52.51,
+        "lowSample": false
+      },
+      {
+        "slug": "gord",
+        "name": "Gord",
+        "tier": "A",
+        "winRate": 52.34,
+        "banRate": 0.54,
+        "pickRate": 0.55,
+        "score": 52.48,
+        "lowSample": false
+      },
+      {
+        "slug": "ling",
+        "name": "Ling",
+        "tier": "A",
+        "winRate": 52.22,
+        "banRate": 0.61,
+        "pickRate": 0.64,
+        "score": 52.37,
+        "lowSample": false
+      },
+      {
+        "slug": "barats",
+        "name": "Barats",
+        "tier": "A",
+        "winRate": 51.63,
+        "banRate": 2.86,
+        "pickRate": 0.67,
+        "score": 52.35,
+        "lowSample": false
+      },
+      {
+        "slug": "cyclops",
+        "name": "Cyclops",
+        "tier": "A",
+        "winRate": 51.88,
+        "banRate": 1.62,
+        "pickRate": 0.89,
+        "score": 52.29,
+        "lowSample": false
+      },
+      {
+        "slug": "silvanna",
+        "name": "Silvanna",
+        "tier": "A",
+        "winRate": 51.49,
+        "banRate": 2.18,
+        "pickRate": 0.96,
+        "score": 52.04,
+        "lowSample": false
+      },
+      {
+        "slug": "benedetta",
+        "name": "Benedetta",
+        "tier": "A",
+        "winRate": 51.92,
+        "banRate": 0.4,
+        "pickRate": 0.44,
+        "score": 52.02,
+        "lowSample": false
+      },
+      {
+        "slug": "yve",
+        "name": "Yve",
+        "tier": "A",
+        "winRate": 52,
+        "banRate": 0.05,
+        "pickRate": 0.06,
+        "score": 52.01,
+        "lowSample": true
+      },
+      {
+        "slug": "melissa",
+        "name": "Melissa",
+        "tier": "A",
+        "winRate": 51.7,
+        "banRate": 1.14,
+        "pickRate": 0.51,
+        "score": 51.99,
+        "lowSample": false
+      },
+      {
+        "slug": "zetian",
+        "name": "Zetian",
+        "tier": "A",
+        "winRate": 50.75,
+        "banRate": 4.68,
+        "pickRate": 1.56,
+        "score": 51.92,
+        "lowSample": false
+      },
+      {
+        "slug": "atlas",
+        "name": "Atlas",
+        "tier": "A",
+        "winRate": 49.65,
+        "banRate": 9.04,
+        "pickRate": 0.88,
+        "score": 51.91,
+        "lowSample": false
+      },
+      {
+        "slug": "fredrinn",
+        "name": "Fredrinn",
+        "tier": "A",
+        "winRate": 51.4,
+        "banRate": 1.57,
+        "pickRate": 0.39,
+        "score": 51.79,
+        "lowSample": false
+      },
+      {
+        "slug": "guinevere",
+        "name": "Guinevere",
+        "tier": "A",
+        "winRate": 51.25,
+        "banRate": 1.77,
+        "pickRate": 0.79,
+        "score": 51.69,
+        "lowSample": false
+      },
+      {
+        "slug": "bane",
+        "name": "Bane",
+        "tier": "A",
+        "winRate": 51.59,
+        "banRate": 0.19,
+        "pickRate": 0.29,
+        "score": 51.64,
+        "lowSample": true
+      },
+      {
+        "slug": "natalia",
+        "name": "Natalia",
+        "tier": "A",
+        "winRate": 51.08,
+        "banRate": 2.17,
+        "pickRate": 0.31,
+        "score": 51.62,
+        "lowSample": false
+      },
+      {
+        "slug": "kadita",
+        "name": "Kadita",
+        "tier": "A",
+        "winRate": 50.8,
+        "banRate": 2.81,
+        "pickRate": 0.79,
+        "score": 51.5,
+        "lowSample": false
+      },
+      {
+        "slug": "natan",
+        "name": "Natan",
+        "tier": "A",
+        "winRate": 51.31,
+        "banRate": 0.12,
+        "pickRate": 0.31,
+        "score": 51.34,
+        "lowSample": false
+      },
+      {
+        "slug": "badang",
+        "name": "Badang",
+        "tier": "A",
+        "winRate": 50.38,
+        "banRate": 3.59,
+        "pickRate": 1.36,
+        "score": 51.28,
+        "lowSample": false
+      },
+      {
+        "slug": "hanzo",
+        "name": "Hanzo",
+        "tier": "A",
+        "winRate": 49.96,
+        "banRate": 4.73,
+        "pickRate": 0.32,
+        "score": 51.14,
+        "lowSample": false
+      },
+      {
+        "slug": "aamon",
+        "name": "Aamon",
+        "tier": "A",
+        "winRate": 50.36,
+        "banRate": 2.52,
+        "pickRate": 0.62,
+        "score": 50.99,
+        "lowSample": false
+      },
+      {
+        "slug": "miya",
+        "name": "Miya",
+        "tier": "A",
+        "winRate": 49.87,
+        "banRate": 4.17,
+        "pickRate": 2.1,
+        "score": 50.91,
+        "lowSample": false
+      },
+      {
+        "slug": "terizla",
+        "name": "Terizla",
+        "tier": "A",
+        "winRate": 50.8,
+        "banRate": 0.2,
+        "pickRate": 0.37,
+        "score": 50.85,
+        "lowSample": false
+      },
+      {
+        "slug": "akai",
+        "name": "Akai",
+        "tier": "A",
+        "winRate": 50.48,
+        "banRate": 1.1,
+        "pickRate": 0.32,
+        "score": 50.76,
+        "lowSample": false
+      },
+      {
+        "slug": "faramis",
+        "name": "Faramis",
+        "tier": "A",
+        "winRate": 50.63,
+        "banRate": 0.37,
+        "pickRate": 0.1,
+        "score": 50.72,
+        "lowSample": true
+      },
+      {
+        "slug": "cecilion",
+        "name": "Cecilion",
+        "tier": "A",
+        "winRate": 50.67,
+        "banRate": 0.17,
+        "pickRate": 0.64,
+        "score": 50.71,
+        "lowSample": false
+      },
+      {
+        "slug": "sora",
+        "name": "Sora",
+        "tier": "A",
+        "winRate": 49.49,
+        "banRate": 4.52,
+        "pickRate": 0.7,
+        "score": 50.62,
+        "lowSample": false
+      },
+      {
+        "slug": "ixia",
+        "name": "Ixia",
+        "tier": "A",
+        "winRate": 50.41,
+        "banRate": 0.82,
+        "pickRate": 0.75,
+        "score": 50.61,
+        "lowSample": false
+      },
+      {
+        "slug": "x-borg",
+        "name": "X.Borg",
+        "tier": "A",
+        "winRate": 50.12,
+        "banRate": 1.92,
+        "pickRate": 0.55,
+        "score": 50.6,
+        "lowSample": false
+      },
+      {
+        "slug": "kagura",
+        "name": "Kagura",
+        "tier": "A",
+        "winRate": 50.18,
+        "banRate": 1.4,
+        "pickRate": 0.89,
+        "score": 50.53,
+        "lowSample": false
+      },
+      {
+        "slug": "lesley",
+        "name": "Lesley",
+        "tier": "B",
+        "winRate": 48.24,
+        "banRate": 8.75,
+        "pickRate": 1.88,
+        "score": 50.43,
+        "lowSample": false
+      },
+      {
+        "slug": "karina",
+        "name": "Karina",
+        "tier": "B",
+        "winRate": 49.05,
+        "banRate": 5.28,
+        "pickRate": 0.91,
+        "score": 50.37,
+        "lowSample": false
+      },
+      {
+        "slug": "brody",
+        "name": "Brody",
+        "tier": "B",
+        "winRate": 50,
+        "banRate": 1.33,
+        "pickRate": 0.78,
+        "score": 50.33,
+        "lowSample": false
+      },
+      {
+        "slug": "johnson",
+        "name": "Johnson",
+        "tier": "B",
+        "winRate": 49.84,
+        "banRate": 1.91,
+        "pickRate": 0.7,
+        "score": 50.32,
+        "lowSample": false
+      },
+      {
+        "slug": "clint",
+        "name": "Clint",
+        "tier": "B",
+        "winRate": 50.12,
+        "banRate": 0.64,
+        "pickRate": 0.74,
+        "score": 50.28,
+        "lowSample": false
+      },
+      {
+        "slug": "beatrix",
+        "name": "Beatrix",
+        "tier": "B",
+        "winRate": 50.13,
+        "banRate": 0.43,
+        "pickRate": 0.64,
+        "score": 50.24,
+        "lowSample": false
+      },
+      {
+        "slug": "layla",
+        "name": "Layla",
+        "tier": "B",
+        "winRate": 49.73,
+        "banRate": 1.88,
+        "pickRate": 1.77,
+        "score": 50.2,
+        "lowSample": false
+      },
+      {
+        "slug": "novaria",
+        "name": "Novaria",
+        "tier": "B",
+        "winRate": 49.28,
+        "banRate": 3.65,
+        "pickRate": 1.09,
+        "score": 50.19,
+        "lowSample": false
+      },
+      {
+        "slug": "moskov",
+        "name": "Moskov",
+        "tier": "B",
+        "winRate": 50.05,
+        "banRate": 0.28,
+        "pickRate": 0.89,
+        "score": 50.12,
+        "lowSample": false
+      },
+      {
+        "slug": "vale",
+        "name": "Vale",
+        "tier": "B",
+        "winRate": 50.04,
+        "banRate": 0.2,
+        "pickRate": 0.48,
+        "score": 50.09,
+        "lowSample": false
+      },
+      {
+        "slug": "yin",
+        "name": "Yin",
+        "tier": "B",
+        "winRate": 49.62,
+        "banRate": 1.73,
+        "pickRate": 0.51,
+        "score": 50.05,
+        "lowSample": false
+      },
+      {
+        "slug": "khaleed",
+        "name": "Khaleed",
+        "tier": "B",
+        "winRate": 50.01,
+        "banRate": 0.1,
+        "pickRate": 0.13,
+        "score": 50.04,
+        "lowSample": true
+      },
+      {
+        "slug": "julian",
+        "name": "Julian",
+        "tier": "B",
+        "winRate": 49.82,
+        "banRate": 0.78,
+        "pickRate": 0.67,
+        "score": 50.02,
+        "lowSample": false
+      },
+      {
+        "slug": "leomord",
+        "name": "Leomord",
+        "tier": "B",
+        "winRate": 49.82,
+        "banRate": 0.69,
+        "pickRate": 0.32,
+        "score": 49.99,
+        "lowSample": false
+      },
+      {
+        "slug": "odette",
+        "name": "Odette",
+        "tier": "B",
+        "winRate": 49.92,
+        "banRate": 0.28,
+        "pickRate": 0.55,
+        "score": 49.99,
+        "lowSample": false
+      },
+      {
+        "slug": "suyou",
+        "name": "Suyou",
+        "tier": "B",
+        "winRate": 49.52,
+        "banRate": 1.7,
+        "pickRate": 1.2,
+        "score": 49.95,
+        "lowSample": false
+      },
+      {
+        "slug": "selena",
+        "name": "Selena",
+        "tier": "B",
+        "winRate": 48.55,
+        "banRate": 4.82,
+        "pickRate": 1.24,
+        "score": 49.76,
+        "lowSample": false
+      },
+      {
+        "slug": "cici",
+        "name": "Cici",
+        "tier": "B",
+        "winRate": 49.31,
+        "banRate": 1.34,
+        "pickRate": 0.76,
+        "score": 49.65,
+        "lowSample": false
+      },
+      {
+        "slug": "vexana",
+        "name": "Vexana",
+        "tier": "B",
+        "winRate": 49.35,
+        "banRate": 1.17,
+        "pickRate": 1.58,
+        "score": 49.64,
+        "lowSample": false
+      },
+      {
+        "slug": "uranus",
+        "name": "Uranus",
+        "tier": "B",
+        "winRate": 49.47,
+        "banRate": 0.34,
+        "pickRate": 0.29,
+        "score": 49.56,
+        "lowSample": true
+      },
+      {
+        "slug": "yi-sun-shin",
+        "name": "Yi Sun-shin",
+        "tier": "B",
+        "winRate": 49.04,
+        "banRate": 2.09,
+        "pickRate": 0.87,
+        "score": 49.56,
+        "lowSample": false
+      },
+      {
+        "slug": "dyrroth",
+        "name": "Dyrroth",
+        "tier": "B",
+        "winRate": 49.12,
+        "banRate": 1.72,
+        "pickRate": 1.61,
+        "score": 49.55,
+        "lowSample": false
+      },
+      {
+        "slug": "popol-and-kupa",
+        "name": "Popol and Kupa",
+        "tier": "B",
+        "winRate": 48.77,
+        "banRate": 2.72,
+        "pickRate": 0.59,
+        "score": 49.45,
+        "lowSample": false
+      },
+      {
+        "slug": "alucard",
+        "name": "Alucard",
+        "tier": "B",
+        "winRate": 49.36,
+        "banRate": 0.32,
+        "pickRate": 0.48,
+        "score": 49.44,
+        "lowSample": false
+      },
+      {
+        "slug": "gusion",
+        "name": "Gusion",
+        "tier": "B",
+        "winRate": 48.61,
+        "banRate": 3.09,
+        "pickRate": 1.23,
+        "score": 49.38,
+        "lowSample": false
+      },
+      {
+        "slug": "alpha",
+        "name": "Alpha",
+        "tier": "B",
+        "winRate": 49.18,
+        "banRate": 0.76,
+        "pickRate": 1.39,
+        "score": 49.37,
+        "lowSample": false
+      },
+      {
+        "slug": "harley",
+        "name": "Harley",
+        "tier": "B",
+        "winRate": 48.57,
+        "banRate": 3.05,
+        "pickRate": 0.79,
+        "score": 49.33,
+        "lowSample": false
+      },
+      {
+        "slug": "karrie",
+        "name": "Karrie",
+        "tier": "B",
+        "winRate": 49.09,
+        "banRate": 0.97,
+        "pickRate": 0.59,
+        "score": 49.33,
+        "lowSample": false
+      },
+      {
+        "slug": "thamuz",
+        "name": "Thamuz",
+        "tier": "B",
+        "winRate": 48.91,
+        "banRate": 1.63,
+        "pickRate": 0.8,
+        "score": 49.32,
+        "lowSample": false
+      },
+      {
+        "slug": "ruby",
+        "name": "Ruby",
+        "tier": "B",
+        "winRate": 49.05,
+        "banRate": 0.33,
+        "pickRate": 0.32,
+        "score": 49.13,
+        "lowSample": false
+      },
+      {
+        "slug": "lylia",
+        "name": "Lylia",
+        "tier": "B",
+        "winRate": 48.97,
+        "banRate": 0.42,
+        "pickRate": 0.48,
+        "score": 49.08,
+        "lowSample": false
+      },
+      {
+        "slug": "helcurt",
+        "name": "Helcurt",
+        "tier": "B",
+        "winRate": 47.88,
+        "banRate": 4.7,
+        "pickRate": 0.61,
+        "score": 49.06,
+        "lowSample": false
+      },
+      {
+        "slug": "claude",
+        "name": "Claude",
+        "tier": "B",
+        "winRate": 48.91,
+        "banRate": 0.23,
+        "pickRate": 0.78,
+        "score": 48.97,
+        "lowSample": false
+      },
+      {
+        "slug": "yu-zhong",
+        "name": "Yu Zhong",
+        "tier": "B",
+        "winRate": 48.77,
+        "banRate": 0.78,
+        "pickRate": 0.68,
+        "score": 48.97,
+        "lowSample": false
+      },
+      {
+        "slug": "phoveus",
+        "name": "Phoveus",
+        "tier": "B",
+        "winRate": 48.62,
+        "banRate": 0.95,
+        "pickRate": 0.28,
+        "score": 48.86,
+        "lowSample": true
+      },
+      {
+        "slug": "aurora",
+        "name": "Aurora",
+        "tier": "B",
+        "winRate": 48.72,
+        "banRate": 0.39,
+        "pickRate": 0.64,
+        "score": 48.82,
+        "lowSample": false
+      },
+      {
+        "slug": "zhuxin",
+        "name": "Zhuxin",
+        "tier": "B",
+        "winRate": 48.58,
+        "banRate": 0.48,
+        "pickRate": 0.29,
+        "score": 48.7,
+        "lowSample": true
+      },
+      {
+        "slug": "joy",
+        "name": "Joy",
+        "tier": "B",
+        "winRate": 48.58,
+        "banRate": 0.18,
+        "pickRate": 0.14,
+        "score": 48.63,
+        "lowSample": true
+      },
+      {
+        "slug": "hylos",
+        "name": "Hylos",
+        "tier": "B",
+        "winRate": 48.52,
+        "banRate": 0.25,
+        "pickRate": 0.26,
+        "score": 48.58,
+        "lowSample": true
+      },
+      {
+        "slug": "hayabusa",
+        "name": "Hayabusa",
+        "tier": "B",
+        "winRate": 48.16,
+        "banRate": 1.54,
+        "pickRate": 0.69,
+        "score": 48.54,
+        "lowSample": false
+      },
+      {
+        "slug": "kimmy",
+        "name": "Kimmy",
+        "tier": "B",
+        "winRate": 48.15,
+        "banRate": 0.74,
+        "pickRate": 0.85,
+        "score": 48.34,
+        "lowSample": false
+      },
+      {
+        "slug": "chang-e",
+        "name": "Chang'e",
+        "tier": "B",
+        "winRate": 48.22,
+        "banRate": 0.31,
+        "pickRate": 0.57,
+        "score": 48.3,
+        "lowSample": false
+      },
+      {
+        "slug": "roger",
+        "name": "Roger",
+        "tier": "B",
+        "winRate": 48.25,
+        "banRate": 0.1,
+        "pickRate": 0.27,
+        "score": 48.28,
+        "lowSample": true
+      },
+      {
+        "slug": "nana",
+        "name": "Nana",
+        "tier": "B",
+        "winRate": 47.22,
+        "banRate": 3.61,
+        "pickRate": 1.58,
+        "score": 48.12,
+        "lowSample": false
+      },
+      {
+        "slug": "chip",
+        "name": "Chip",
+        "tier": "C",
+        "winRate": 47.85,
+        "banRate": 0.22,
+        "pickRate": 0.04,
+        "score": 47.91,
+        "lowSample": true
+      },
+      {
+        "slug": "jawhead",
+        "name": "Jawhead",
+        "tier": "C",
+        "winRate": 47.79,
+        "banRate": 0.36,
+        "pickRate": 0.33,
+        "score": 47.88,
+        "lowSample": false
+      },
+      {
+        "slug": "lapu-lapu",
+        "name": "Lapu-Lapu",
+        "tier": "C",
+        "winRate": 47.77,
+        "banRate": 0.3,
+        "pickRate": 0.34,
+        "score": 47.85,
+        "lowSample": false
+      },
+      {
+        "slug": "arlott",
+        "name": "Arlott",
+        "tier": "C",
+        "winRate": 47.52,
+        "banRate": 0.67,
+        "pickRate": 0.51,
+        "score": 47.69,
+        "lowSample": false
+      },
+      {
+        "slug": "harith",
+        "name": "Harith",
+        "tier": "C",
+        "winRate": 47.66,
+        "banRate": 0.06,
+        "pickRate": 0.15,
+        "score": 47.68,
+        "lowSample": true
+      },
+      {
+        "slug": "esmeralda",
+        "name": "Esmeralda",
+        "tier": "C",
+        "winRate": 47.1,
+        "banRate": 2.24,
+        "pickRate": 0.81,
+        "score": 47.66,
+        "lowSample": false
+      },
+      {
+        "slug": "martis",
+        "name": "Martis",
+        "tier": "C",
+        "winRate": 47.37,
+        "banRate": 0.45,
+        "pickRate": 0.65,
+        "score": 47.48,
+        "lowSample": false
+      },
+      {
+        "slug": "tigreal",
+        "name": "Tigreal",
+        "tier": "C",
+        "winRate": 45.52,
+        "banRate": 7.77,
+        "pickRate": 2.03,
+        "score": 47.46,
+        "lowSample": false
+      },
+      {
+        "slug": "wanwan",
+        "name": "Wanwan",
+        "tier": "C",
+        "winRate": 47.38,
+        "banRate": 0.14,
+        "pickRate": 0.14,
+        "score": 47.42,
+        "lowSample": true
+      },
+      {
+        "slug": "pharsa",
+        "name": "Pharsa",
+        "tier": "C",
+        "winRate": 47.11,
+        "banRate": 0.19,
+        "pickRate": 0.3,
+        "score": 47.16,
+        "lowSample": false
+      },
+      {
+        "slug": "grock",
+        "name": "Grock",
+        "tier": "C",
+        "winRate": 46.76,
+        "banRate": 0.74,
+        "pickRate": 0.34,
+        "score": 46.95,
+        "lowSample": false
+      },
+      {
+        "slug": "luo-yi",
+        "name": "Luo Yi",
+        "tier": "C",
+        "winRate": 46.85,
+        "banRate": 0.08,
+        "pickRate": 0.19,
+        "score": 46.87,
+        "lowSample": true
+      },
+      {
+        "slug": "balmond",
+        "name": "Balmond",
+        "tier": "C",
+        "winRate": 46.59,
+        "banRate": 0.4,
+        "pickRate": 0.6,
+        "score": 46.69,
+        "lowSample": false
+      },
+      {
+        "slug": "zilong",
+        "name": "Zilong",
+        "tier": "C",
+        "winRate": 46.46,
+        "banRate": 0.52,
+        "pickRate": 0.72,
+        "score": 46.59,
+        "lowSample": false
+      },
+      {
+        "slug": "baxia",
+        "name": "Baxia",
+        "tier": "C",
+        "winRate": 45.87,
+        "banRate": 0.1,
+        "pickRate": 0.05,
+        "score": 45.9,
+        "lowSample": true
+      },
+      {
+        "slug": "gatotkaca",
+        "name": "Gatotkaca",
+        "tier": "C",
+        "winRate": 45.75,
+        "banRate": 0.33,
+        "pickRate": 0.58,
+        "score": 45.83,
+        "lowSample": false
+      },
+      {
+        "slug": "chou",
+        "name": "Chou",
+        "tier": "C",
+        "winRate": 45.02,
+        "banRate": 3.09,
+        "pickRate": 1,
+        "score": 45.79,
+        "lowSample": false
+      },
+      {
+        "slug": "valentina",
+        "name": "Valentina",
+        "tier": "C",
+        "winRate": 44.33,
+        "banRate": 0.12,
+        "pickRate": 0.13,
+        "score": 44.36,
+        "lowSample": true
+      },
+      {
+        "slug": "mathilda",
+        "name": "Mathilda",
+        "tier": "C",
+        "winRate": 44.19,
+        "banRate": 0.19,
+        "pickRate": 0.14,
+        "score": 44.24,
+        "lowSample": true
+      },
+      {
+        "slug": "fanny",
+        "name": "Fanny",
+        "tier": "C",
+        "winRate": 42.8,
+        "banRate": 2.02,
+        "pickRate": 0.63,
+        "score": 43.31,
+        "lowSample": false
+      },
+      {
+        "slug": "granger",
+        "name": "Granger",
+        "tier": "C",
+        "winRate": 42.65,
+        "banRate": 1.7,
+        "pickRate": 1.32,
+        "score": 43.08,
+        "lowSample": false
+      },
+      {
+        "slug": "lancelot",
+        "name": "Lancelot",
+        "tier": "C",
+        "winRate": 42.95,
+        "banRate": 0.49,
+        "pickRate": 0.47,
+        "score": 43.07,
+        "lowSample": false
+      },
+      {
+        "slug": "franco",
+        "name": "Franco",
+        "tier": "C",
+        "winRate": 41.92,
+        "banRate": 3.12,
+        "pickRate": 0.92,
+        "score": 42.7,
+        "lowSample": false
+      }
+    ]
+  },
+  "total": 133,
+  "source": {
+    "name": "Mobile Legends Wiki",
+    "url": "https://mobilelegends.fandom.com",
+    "license": "CC BY-SA"
+  }
+}
